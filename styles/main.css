@@ -1,0 +1,362 @@
+@import url('reset.css');
+
+/* ========================== */
+/* 🔹 CSS Variables for Easy Customization */
+/* ========================== */
+:root {
+    --resume-primary: #4A4E69;
+    --resume-secondary: #9A8C98;
+    --resume-background: #F2E9E4;
+    --resume-text: #22223B;
+    --resume-accent: #C9ADA7;
+    --resume-button: #22223B;
+    --resume-button-hover: #4A4E69;
+
+    --portfolio-primary: #2D3142;
+    --portfolio-secondary: #BFC0C0;
+    --portfolio-background: #F7F7F7;
+    --portfolio-text: #1B1B1B;
+    --portfolio-accent: #EF8354;
+    --portfolio-button: #1B1B1B;
+    --portfolio-button-hover: #4A4E69;
+
+    --font-primary: 'Roboto', sans-serif;
+}
+
+/* ========================== */
+/* 🔹 Portfolio Page Styles   */
+/* ========================== */
+
+/* Welcome to my portfolio heading*/
+#portfolio-page h1 {
+    font-size: 2em; 
+    font-weight: bold;
+}
+
+#portfolio-page {
+    font-family: var(--font-primary);
+    background-color: var(--portfolio-background);
+    color: var(--portfolio-text);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+/* 🔹 Navigation (Portfolio Only) */
+#portfolio-page nav {
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+    background-color: var(--portfolio-primary);
+    padding: 1.5em;
+    border-radius: 0.5em;
+}
+
+#portfolio-page nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 0.5em;
+    transition: color 0.3s ease-in-out;
+}
+
+#portfolio-page nav a:hover {
+    color: var(--portfolio-accent);
+}
+
+/* 🔹 About Me Section */
+#portfolio-page #about h2 {
+    font-size: 1.5em; 
+    font-weight: bold;
+}
+#portfolio-page .about-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2em;
+    max-width: 50em;
+    margin: 3em auto;
+    text-align: left;
+}
+
+#portfolio-page .about-container img {
+    width: 8em;
+    height: 8em;
+    border-radius: 50%;
+    display: block;
+    border: 0.3em solid var(--portfolio-text);
+    box-shadow: 0 0 1em rgba(0, 0, 0, 0.1);
+}
+
+#portfolio-page .about-container p {
+    font-size: 1.2em;
+    line-height: 1.5;
+    max-width: 30em;
+}
+
+/* 🔹 Skills Table */
+#portfolio-page #skills h2 {
+    font-size: 2em; 
+    font-weight: bold;
+    margin-bottom: 0.8em;
+}
+#portfolio-page #skills table {
+    width: 90%;
+    max-width: 40em;
+    margin: auto;
+    border-collapse: collapse;
+    font-size: 1.1em;
+}
+
+#portfolio-page #skills th {
+    background-color: var(--portfolio-primary);
+    color: white;
+    padding: 1em;
+    text-align: left;
+}
+
+#portfolio-page #skills td {
+    padding: 1em;
+    border-bottom: 0.1em solid var(--portfolio-secondary);
+}
+
+/* 🔹 Contact Section */
+#portfolio-page #contact {
+    background: var(--portfolio-secondary);
+    padding: 2em;
+    border-radius: 1em;
+    max-width: 40em;
+    margin: auto;
+    box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
+}
+
+#portfolio-page #contact form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2em;
+    align-items: center;
+}
+
+#portfolio-page #contact input,
+#portfolio-page #contact textarea {
+    width: 100%;
+    max-width: 35em;
+    padding: 1em;
+    border-radius: 0.5em;
+    border: none;
+    background: white;
+    font-size: 1em;
+    outline: none;
+}
+
+#portfolio-page #contact button {
+    background: var(--portfolio-primary);
+    color: white;
+    padding: 1em 2em;
+    border-radius: 0.5em;
+    border: none;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+#portfolio-page #contact button:hover {
+    background: var(--portfolio-button-hover);
+}
+
+/* 🔹 Footer */
+#portfolio-page footer {
+    background: var(--portfolio-primary);
+    color: white;
+    padding: 1.5em;
+    text-align: center;
+    margin-top: 2em;
+}
+
+/* ========================== */
+/* 🔹 Resume Page Styles      */
+/* ========================== */
+#resume-page {
+    font-family: var(--font-primary);
+    background-color: var(--resume-background);
+    color: var(--resume-text);
+    text-align: center;
+}
+
+/* 🔹 Hero Section */
+#resume-page .hero {
+    background: var(--resume-primary);
+    color: white;
+    padding: 3em 1.5em;
+    text-align: center;
+    position: relative;
+}
+
+#resume-page .hero h1 {
+    font-size: 2.2em;
+    margin-bottom: 0.5em;
+    animation: fadeIn 1s ease-in-out;
+}
+
+#resume-page .hero p {
+    font-size: 1.1em;
+    margin-bottom: 1.5em;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+#resume-page .hero .btn {
+    background: var(--resume-button);
+    color: white;
+    padding: 0.8em 1.5em;
+    text-decoration: none;
+    border-radius: 0.5em;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+#resume-page .hero .btn:hover {
+    background: var(--resume-button-hover);
+    transform: scale(1.05);
+}
+
+/* 🔹 Profile Image */
+#resume-page .hero img {
+    width: 8em;
+    height: auto;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 1em;
+    border: 0.15em solid var(--resume-text);
+    animation: fadeIn 2s ease-in-out;
+}
+
+/* 🔹 Section Titles */
+#resume-page h2 {
+    font-size: 1.8em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--resume-primary);
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.5em;
+    border-bottom: 0.15em solid var(--resume-accent);
+    display: inline-block;
+    position: relative;
+    animation: slideIn 1s ease-in-out;
+}
+
+/* 🔹 Work & Education Sections */
+#resume-page .job, 
+#resume-page .degree {
+    background: white;
+    padding: 1.2em;
+    margin: 1em auto;
+    border-radius: 0.5em;
+    box-shadow: 0 0 0.8em rgba(0, 0, 0, 0.1);
+    text-align: left;
+    max-width: 40em;
+    transition: transform 0.3s ease-in-out;
+}
+
+#resume-page .job:hover, 
+#resume-page .degree:hover {
+    transform: translateY(-0.3em);
+}
+
+#resume-page .job h3, 
+#resume-page .degree h3 {
+    margin-bottom: 0.3em;
+    color: var(--resume-primary);
+    font-size: 1.3em;
+}
+
+/* 🔹 Skills Section */
+#resume-page .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2em;
+    max-width: 40em;
+    margin: 1.5em auto;
+}
+
+#resume-page .skills-grid div {
+    background: var(--resume-accent);
+    padding: 1em;
+    border-radius: 0.5em;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1em;
+    text-align: center;
+    min-height: 3em;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+#resume-page .skills-grid div:hover {
+    background: var(--resume-primary);
+    transform: scale(1.05);
+}
+
+/* 🔹 Contact Section */
+#resume-page #contact p {
+    font-size: 1.2em;
+    margin-bottom: 0.5em;
+    animation: fadeIn 2s ease-in-out;
+}
+
+/* 🔹 Footer */
+#resume-page footer {
+    background: var(--resume-primary);
+    color: white;
+    padding: 1.2em;
+    margin-top: 2em;
+    animation: fadeIn 2s ease-in-out;
+}
+
+#resume-page footer a {
+    color: var(--resume-accent);
+    text-decoration: none;
+}
+
+#resume-page footer a:hover {
+    text-decoration: underline;
+}
+
+/* 🔹 Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-1em); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+/* 🔹 Download Resume Button */
+#resume-page .download-btn {
+    display: inline-block;
+    background: var(--resume-primary);
+    color: white;
+    padding: 1em 1.5em;
+    border-radius: 0.5em;
+    font-size: 1.1em;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+    font-weight: bold;
+    margin-top: 1em;
+}
+
+#resume-page .download-btn:hover {
+    background: var(--resume-button-hover);
+    transform: scale(1.05);
+}
+@media (max-width: 768px) {
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-container {
+        flex-direction: column;
+        text-align: center;
+    }
+}
