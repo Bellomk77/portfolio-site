@@ -25,10 +25,10 @@ function MessageBubble({ msg }: { msg: Message }) {
   if (msg.role === 'user') {
     return (
       <div className="flex gap-3 justify-end">
-        <div className="max-w-[75%] bg-ng-600/20 border border-ng-800/60 rounded-2xl rounded-tr-sm px-4 py-3 text-sm text-gray-100 leading-relaxed whitespace-pre-wrap">
+        <div className="max-w-[75%] bg-ng-600/20 border border-ng-300/60 rounded-2xl rounded-tr-sm px-4 py-3 text-sm text-gray-100 leading-relaxed whitespace-pre-wrap">
           {msg.content}
         </div>
-        <div className="w-8 h-8 rounded-full bg-ng-600/30 border border-ng-800 flex items-center justify-center flex-shrink-0 mt-0.5">
+        <div className="w-8 h-8 rounded-full bg-ng-600/30 border border-ng-300 flex items-center justify-center flex-shrink-0 mt-0.5">
           <User className="w-4 h-4 text-ng-400" />
         </div>
       </div>
@@ -37,11 +37,11 @@ function MessageBubble({ msg }: { msg: Message }) {
 
   return (
     <div className="flex gap-3">
-      <div className="w-8 h-8 rounded-full bg-purple-600/20 border border-purple-800/60 flex items-center justify-center flex-shrink-0 mt-0.5">
+      <div className="w-8 h-8 rounded-full bg-purple-600/20 border border-purple-300/60 flex items-center justify-center flex-shrink-0 mt-0.5">
         <Brain className="w-4 h-4 text-purple-400" />
       </div>
       <div className="max-w-[80%] group">
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl rounded-tl-sm px-5 py-4 text-sm text-gray-200 leading-relaxed">
+        <div className="bg-gray-50 border border-gray-200 rounded-2xl rounded-tl-sm px-5 py-4 text-sm text-gray-200 leading-relaxed">
           {msg.loading ? (
             <div className="flex items-center gap-2 text-gray-500">
               <div className="flex gap-1">
@@ -57,7 +57,7 @@ function MessageBubble({ msg }: { msg: Message }) {
         </div>
         {!msg.loading && (
           <div className="flex items-center gap-2 mt-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-            <button onClick={copyText} className="flex items-center gap-1.5 text-xs text-gray-600 hover:text-gray-400 transition-colors px-2 py-1 rounded hover:bg-gray-800">
+            <button onClick={copyText} className="flex items-center gap-1.5 text-xs text-gray-600 hover:text-gray-500 transition-colors px-2 py-1 rounded hover:bg-gray-100">
               {copied ? <><ThumbsUp className="w-3 h-3 text-ng-400" />Copied!</> : <><Copy className="w-3 h-3" />Copy</>}
             </button>
             <span className="text-gray-700 text-xs">{msg.timestamp.toLocaleTimeString('en-NG', { hour: '2-digit', minute: '2-digit' })}</span>
@@ -70,10 +70,10 @@ function MessageBubble({ msg }: { msg: Message }) {
 
 function formatMarkdown(text: string): string {
   return text
-    .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
-    .replace(/`(.*?)`/g, '<code class="bg-gray-800 text-ng-300 px-1 py-0.5 rounded text-xs font-mono">$1</code>')
-    .replace(/^### (.*)/gm, '<div class="text-white font-semibold text-base mt-3 mb-1">$1</div>')
-    .replace(/^## (.*)/gm,  '<div class="text-white font-bold text-lg mt-4 mb-2">$1</div>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900">$1</strong>')
+    .replace(/`(.*?)`/g, '<code class="bg-gray-100 text-ng-300 px-1 py-0.5 rounded text-xs font-mono">$1</code>')
+    .replace(/^### (.*)/gm, '<div class="text-gray-900 font-semibold text-base mt-3 mb-1">$1</div>')
+    .replace(/^## (.*)/gm,  '<div class="text-gray-900 font-bold text-lg mt-4 mb-2">$1</div>')
     .replace(/^- (.*)/gm,   '<div class="flex items-start gap-2 my-0.5"><span class="text-ng-500 mt-1.5 text-xs">●</span><span>$1</span></div>')
     .replace(/\n\n/g, '<br/><br/>')
 }
@@ -165,25 +165,25 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-950">
+    <div className="flex min-h-screen bg-white">
       <Sidebar />
 
       <main className="flex-1 ml-64 flex flex-col h-screen">
         {/* Header */}
-        <header className="flex-shrink-0 bg-gray-950/90 backdrop-blur border-b border-gray-800 px-8 py-4 flex items-center justify-between">
+        <header className="flex-shrink-0 bg-white/90 backdrop-blur border-b border-gray-200 px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-purple-600/20 border border-purple-800/50 rounded-xl flex items-center justify-center">
+            <div className="w-9 h-9 bg-purple-600/20 border border-purple-300/50 rounded-xl flex items-center justify-center">
               <Brain className="w-5 h-5 text-purple-400" />
             </div>
             <div>
-              <h1 className="text-lg font-bold text-white flex items-center gap-2">
+              <h1 className="text-lg font-bold text-gray-900 flex items-center gap-2">
                 TaxPadi AI Advisor
-                <span className="text-xs bg-ng-950/60 text-ng-400 border border-ng-800/50 px-2 py-0.5 rounded-full">Finance Act 2024</span>
+                <span className="text-xs bg-ng-50 text-ng-400 border border-ng-300 px-2 py-0.5 rounded-full">Finance Act 2024</span>
               </h1>
               <p className="text-gray-500 text-xs">Trained on CITA, PITA, VATA, Finance Acts, FIRS Circulars</p>
             </div>
           </div>
-          <button onClick={clearChat} className="flex items-center gap-2 text-gray-500 hover:text-gray-300 text-sm px-3 py-2 rounded-lg hover:bg-gray-800 transition-all">
+          <button onClick={clearChat} className="flex items-center gap-2 text-gray-500 hover:text-gray-700 text-sm px-3 py-2 rounded-lg hover:bg-gray-100 transition-all">
             <RefreshCw className="w-4 h-4" />
             Clear Chat
           </button>
@@ -207,7 +207,7 @@ export default function ChatPage() {
                 <button
                   key={q}
                   onClick={() => sendMessage(q)}
-                  className="text-xs bg-gray-900 border border-gray-800 text-gray-300 hover:text-white hover:border-gray-600 px-3 py-2 rounded-xl transition-all"
+                  className="text-xs bg-gray-50 border border-gray-200 text-gray-700 hover:text-gray-900 hover:border-gray-400 px-3 py-2 rounded-xl transition-all"
                 >
                   {q}
                 </button>
@@ -217,8 +217,8 @@ export default function ChatPage() {
         )}
 
         {/* Input */}
-        <div className="flex-shrink-0 border-t border-gray-800 px-8 py-4">
-          <div className="flex gap-3 items-end bg-gray-900 border border-gray-800 rounded-2xl p-3 focus-within:border-ng-700 transition-all">
+        <div className="flex-shrink-0 border-t border-gray-200 px-8 py-4">
+          <div className="flex gap-3 items-end bg-gray-50 border border-gray-200 rounded-2xl p-3 focus-within:border-ng-700 transition-all">
             <textarea
               ref={textareaRef}
               value={input}
@@ -226,7 +226,7 @@ export default function ChatPage() {
               onKeyDown={handleKeyDown}
               rows={1}
               placeholder="Ask anything about Nigerian tax law — CIT, VAT, PAYE, WHT, FIRS deadlines..."
-              className="flex-1 bg-transparent text-white text-sm resize-none focus:outline-none placeholder:text-gray-600 max-h-32 leading-relaxed"
+              className="flex-1 bg-transparent text-gray-900 text-sm resize-none focus:outline-none placeholder:text-gray-600 max-h-32 leading-relaxed"
               style={{ scrollbarWidth: 'none' }}
               disabled={loading}
             />
@@ -236,8 +236,8 @@ export default function ChatPage() {
               className={cn(
                 'w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all',
                 input.trim() && !loading
-                  ? 'bg-ng-600 hover:bg-ng-500 text-white shadow-lg shadow-ng-600/30'
-                  : 'bg-gray-800 text-gray-600 cursor-not-allowed'
+                  ? 'bg-ng-600 hover:bg-ng-500 text-gray-900 shadow-lg shadow-ng-600/30'
+                  : 'bg-gray-100 text-gray-600 cursor-not-allowed'
               )}
             >
               {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}

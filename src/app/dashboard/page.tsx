@@ -22,7 +22,7 @@ const KPI_CARDS = [
     change:   '+12.3%',
     up:       true,
     icon:     DollarSign,
-    color:    'bg-blue-950/60 border-blue-900 text-blue-400',
+    color:    'bg-blue-50 border-blue-300 text-blue-400',
     subLabel: 'vs ₦5.11M last month',
   },
   {
@@ -31,7 +31,7 @@ const KPI_CARDS = [
     change:   '+₦1.2M',
     up:       true,
     icon:     Zap,
-    color:    'bg-ng-950/60 border-ng-900 text-ng-400',
+    color:    'bg-ng-50 border-ng-300 text-ng-400',
     subLabel: 'in unclaimed capital allowances',
   },
   {
@@ -40,7 +40,7 @@ const KPI_CARDS = [
     change:   '+34',
     up:       true,
     icon:     FileText,
-    color:    'bg-purple-950/60 border-purple-900 text-purple-400',
+    color:    'bg-purple-50 border-purple-300 text-purple-400',
     subLabel: 'this month (3 pending)',
   },
   {
@@ -49,7 +49,7 @@ const KPI_CARDS = [
     change:   '+5pts',
     up:       true,
     icon:     Shield,
-    color:    'bg-orange-950/60 border-orange-900 text-orange-400',
+    color:    'bg-orange-50 border-orange-300 text-orange-400',
     subLabel: 'Grade B — Good standing',
   },
 ]
@@ -73,17 +73,17 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   if (!active || !payload?.length) return null
   const total = payload.reduce((s: number, p: any) => s + p.value, 0)
   return (
-    <div className="bg-gray-900 border border-gray-700 rounded-xl p-3 text-xs shadow-xl">
-      <div className="font-semibold text-white mb-2">{label}</div>
+    <div className="bg-gray-50 border border-gray-300 rounded-xl p-3 text-xs shadow-xl">
+      <div className="font-semibold text-gray-900 mb-2">{label}</div>
       {payload.map((p: any) => (
         <div key={p.dataKey} className="flex justify-between gap-6 py-0.5">
           <span style={{ color: p.color }}>{p.dataKey}</span>
-          <span className="text-white font-medium">₦{p.value.toFixed(2)}M</span>
+          <span className="text-gray-900 font-medium">₦{p.value.toFixed(2)}M</span>
         </div>
       ))}
-      <div className="border-t border-gray-700 mt-2 pt-2 flex justify-between">
-        <span className="text-gray-400">Total</span>
-        <span className="text-white font-bold">₦{total.toFixed(2)}M</span>
+      <div className="border-t border-gray-300 mt-2 pt-2 flex justify-between">
+        <span className="text-gray-500">Total</span>
+        <span className="text-gray-900 font-bold">₦{total.toFixed(2)}M</span>
       </div>
     </div>
   )
@@ -99,7 +99,7 @@ function HealthScoreRing({ score }: { score: number }) {
   return (
     <div className="relative inline-flex items-center justify-center">
       <svg width="130" height="130" className="-rotate-90">
-        <circle cx="65" cy="65" r={r} fill="none" stroke="#1f2937" strokeWidth="10" />
+        <circle cx="65" cy="65" r={r} fill="none" stroke="#e5e7eb" strokeWidth="10" />
         <circle
           cx="65" cy="65" r={r} fill="none"
           stroke={color} strokeWidth="10"
@@ -109,8 +109,8 @@ function HealthScoreRing({ score }: { score: number }) {
         />
       </svg>
       <div className="absolute text-center">
-        <div className="text-3xl font-extrabold text-white">{score}</div>
-        <div className="text-xs text-gray-400">Grade {grade}</div>
+        <div className="text-3xl font-extrabold text-gray-900">{score}</div>
+        <div className="text-xs text-gray-500">Grade {grade}</div>
       </div>
     </div>
   )
@@ -128,31 +128,31 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-950">
+    <div className="flex min-h-screen bg-white">
       <Sidebar />
 
       <main className="flex-1 ml-64 min-h-screen">
         {/* Top bar */}
-        <header className="sticky top-0 z-30 bg-gray-950/90 backdrop-blur border-b border-gray-800 px-8 py-4 flex items-center justify-between">
+        <header className="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-gray-200 px-8 py-4 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-white">Dashboard</h1>
+            <h1 className="text-xl font-bold text-gray-900">Dashboard</h1>
             <p className="text-gray-500 text-sm">Zenith Holdings Ltd • FY 2025 • June 2025</p>
           </div>
           <div className="flex items-center gap-3">
             <button
               onClick={handleRefresh}
-              className="flex items-center gap-2 text-gray-400 hover:text-white text-sm px-3 py-2 rounded-lg hover:bg-gray-800 transition-all"
+              className="flex items-center gap-2 text-gray-500 hover:text-gray-900 text-sm px-3 py-2 rounded-lg hover:bg-gray-100 transition-all"
             >
               <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
               Refresh
             </button>
-            <button className="relative p-2 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors">
+            <button className="relative p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-gray-900 transition-colors">
               <Bell className="w-5 h-5" />
               <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
             </button>
             <Link
               href="/upload"
-              className="flex items-center gap-2 bg-ng-600 hover:bg-ng-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all"
+              className="flex items-center gap-2 bg-ng-600 hover:bg-ng-500 text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all"
             >
               <Upload className="w-4 h-4" />
               Upload Docs
@@ -163,7 +163,7 @@ export default function DashboardPage() {
         <div className="p-8 space-y-6">
 
           {/* Alert banner */}
-          <div className="bg-orange-950/40 border border-orange-800/60 rounded-xl px-5 py-3.5 flex items-center justify-between gap-4">
+          <div className="bg-orange-50 border border-orange-300/60 rounded-xl px-5 py-3.5 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <AlertCircle className="w-4.5 h-4.5 text-orange-400 flex-shrink-0" />
               <span className="text-orange-200 text-sm">
@@ -178,7 +178,7 @@ export default function DashboardPage() {
           {/* KPI Cards */}
           <div className="grid grid-cols-4 gap-4">
             {KPI_CARDS.map((card, i) => (
-              <div key={i} className={`rounded-xl p-5 bg-gray-900 border border-gray-800`}>
+              <div key={i} className={`rounded-xl p-5 bg-gray-50 border border-gray-200`}>
                 <div className="flex items-start justify-between mb-4">
                   <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${card.color}`}>
                     <card.icon className="w-4.5 h-4.5" />
@@ -188,7 +188,7 @@ export default function DashboardPage() {
                     {card.change}
                   </div>
                 </div>
-                <div className="text-2xl font-bold text-white mb-0.5">{card.value}</div>
+                <div className="text-2xl font-bold text-gray-900 mb-0.5">{card.value}</div>
                 <div className="text-gray-500 text-xs font-medium">{card.label}</div>
                 <div className="text-gray-600 text-xs mt-0.5">{card.subLabel}</div>
               </div>
@@ -198,17 +198,17 @@ export default function DashboardPage() {
           {/* Charts + Health Score */}
           <div className="grid grid-cols-3 gap-5">
             {/* Monthly Tax Chart */}
-            <div className="col-span-2 bg-gray-900 rounded-2xl p-6 border border-gray-800">
+            <div className="col-span-2 bg-gray-50 rounded-2xl p-6 border border-gray-200">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h3 className="text-white font-semibold">Monthly Tax Liability</h3>
+                  <h3 className="text-gray-900 font-semibold">Monthly Tax Liability</h3>
                   <p className="text-gray-500 text-xs mt-0.5">Jan – Jun 2025 (₦ millions)</p>
                 </div>
-                <span className="text-xs text-gray-500 bg-gray-800 px-2 py-1 rounded-lg">2025</span>
+                <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-lg">2025</span>
               </div>
               <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={chartData} barSize={10} barGap={2}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" vertical={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
                   <XAxis dataKey="month" tick={{ fill: '#6b7280', fontSize: 11 }} axisLine={false} tickLine={false} />
                   <YAxis tick={{ fill: '#6b7280', fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={v => `₦${v}M`} />
                   <Tooltip content={<CustomTooltip />} />
@@ -222,8 +222,8 @@ export default function DashboardPage() {
             </div>
 
             {/* Tax Health Score */}
-            <div className="bg-gray-900 rounded-2xl p-6 border border-gray-800 flex flex-col items-center justify-center">
-              <h3 className="text-white font-semibold mb-1">Tax Health Score</h3>
+            <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200 flex flex-col items-center justify-center">
+              <h3 className="text-gray-900 font-semibold mb-1">Tax Health Score</h3>
               <p className="text-gray-500 text-xs mb-6">Updated today</p>
               <HealthScoreRing score={87} />
               <div className="mt-6 w-full space-y-2">
@@ -234,10 +234,10 @@ export default function DashboardPage() {
                 ].map(item => (
                   <div key={item.label}>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-gray-400">{item.label}</span>
-                      <span className="text-white font-medium">{item.val}%</span>
+                      <span className="text-gray-500">{item.label}</span>
+                      <span className="text-gray-900 font-medium">{item.val}%</span>
                     </div>
-                    <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                    <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
                       <div
                         className="h-full bg-ng-600 rounded-full transition-all duration-700"
                         style={{ width: `${item.val}%` }}
@@ -255,28 +255,28 @@ export default function DashboardPage() {
           {/* Deadlines + Quick Actions */}
           <div className="grid grid-cols-3 gap-5">
             {/* Upcoming Deadlines */}
-            <div className="col-span-2 bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden">
-              <div className="px-6 py-4 border-b border-gray-800 flex items-center justify-between">
+            <div className="col-span-2 bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden">
+              <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
                 <div>
-                  <h3 className="text-white font-semibold">Upcoming FIRS Deadlines</h3>
+                  <h3 className="text-gray-900 font-semibold">Upcoming FIRS Deadlines</h3>
                   <p className="text-gray-500 text-xs mt-0.5">Next 90 days</p>
                 </div>
                 <Link href="/compliance" className="text-ng-400 hover:text-ng-300 text-xs flex items-center gap-1">
                   View All <ChevronRight className="w-3 h-3" />
                 </Link>
               </div>
-              <div className="divide-y divide-gray-800">
+              <div className="divide-y divide-gray-200">
                 {UPCOMING_DEADLINES_2025.map(d => {
                   const days     = getDaysUntil(d.dueDate)
                   const urgency  = d.status === 'filed' ? 'ok' : days < 0 ? 'overdue' : days <= 3 ? 'urgent' : days <= 7 ? 'warning' : 'ok'
                   const colors   = urgencyColors(urgency)
                   return (
-                    <div key={d.id} className="px-6 py-4 flex items-center gap-4 hover:bg-gray-800/30 transition-colors">
+                    <div key={d.id} className="px-6 py-4 flex items-center gap-4 hover:bg-gray-100/30 transition-colors">
                       <span className={`text-xs font-bold px-2 py-0.5 rounded-md border ${taxTypeBadge(d.taxType)} flex-shrink-0`}>
                         {d.taxType}
                       </span>
                       <div className="flex-1 min-w-0">
-                        <div className="text-white text-sm font-medium truncate">{d.description}</div>
+                        <div className="text-gray-900 text-sm font-medium truncate">{d.description}</div>
                         <div className="text-gray-500 text-xs mt-0.5 flex items-center gap-2">
                           <Clock className="w-3 h-3" />
                           {d.dueDate.toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' })}
@@ -284,7 +284,7 @@ export default function DashboardPage() {
                         </div>
                       </div>
                       <div className="text-right flex-shrink-0">
-                        <div className="text-white text-sm font-semibold">
+                        <div className="text-gray-900 text-sm font-semibold">
                           {d.amount ? formatCurrency(d.amount) : '—'}
                         </div>
                         <div className={`text-xs font-medium mt-0.5 ${colors.text}`}>
@@ -300,14 +300,14 @@ export default function DashboardPage() {
             {/* Quick Actions + Updates */}
             <div className="space-y-5">
               {/* Quick Actions */}
-              <div className="bg-gray-900 rounded-2xl border border-gray-800 p-5">
-                <h3 className="text-white font-semibold mb-4">Quick Actions</h3>
+              <div className="bg-gray-50 rounded-2xl border border-gray-200 p-5">
+                <h3 className="text-gray-900 font-semibold mb-4">Quick Actions</h3>
                 <div className="grid grid-cols-2 gap-2">
                   {QUICK_ACTIONS.map(({ label, href, icon: Icon, color }) => (
                     <Link
                       key={href}
                       href={href}
-                      className={`${color} text-white rounded-xl p-3.5 text-xs font-medium flex flex-col items-center gap-2 text-center transition-all shadow-md`}
+                      className={`${color} text-gray-900 rounded-xl p-3.5 text-xs font-medium flex flex-col items-center gap-2 text-center transition-all shadow-md`}
                     >
                       <Icon className="w-5 h-5" />
                       {label}
@@ -317,9 +317,9 @@ export default function DashboardPage() {
               </div>
 
               {/* Tax Law Flash */}
-              <div className="bg-gray-900 rounded-2xl border border-gray-800 p-5">
+              <div className="bg-gray-50 rounded-2xl border border-gray-200 p-5">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-white font-semibold">Tax Law Flash</h3>
+                  <h3 className="text-gray-900 font-semibold">Tax Law Flash</h3>
                   <div className="flex items-center gap-1.5">
                     <div className="w-1.5 h-1.5 rounded-full bg-ng-500 animate-pulse" />
                     <span className="text-gray-500 text-xs">Live</span>
@@ -328,7 +328,7 @@ export default function DashboardPage() {
                 <div className="space-y-3">
                   {FINANCE_ACT_UPDATES.slice(0, 3).map((u, i) => (
                     <div key={i} className="border-l-2 border-ng-700 pl-3">
-                      <div className="text-white text-xs font-medium leading-snug">{u.title}</div>
+                      <div className="text-gray-900 text-xs font-medium leading-snug">{u.title}</div>
                       <div className="text-gray-500 text-xs mt-0.5">{u.effectiveDate}</div>
                     </div>
                   ))}
