@@ -3,91 +3,612 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mohammed Bello Ibrahim - Portfolio</title>
+    <title>Mohammed Bello Ibrahim | Data Analytics & CS</title>
+    <meta name="description" content="Third-year CS student at Trent University specializing in Data Analytics. Python, SQL, ML, Tableau, Power BI.">
 
-
-    <!-- Main Styles -->
-    <link rel="stylesheet" href="styles/main.css">
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/portfolio.css">
 </head>
-<body id="portfolio-page">
-    
-    <!-- Header Section -->
-    <header class="portfolio-header">
-        <h1>Welcome to My Portfolio</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="resume.html">Resume</a></li>
+<body>
+
+    <!-- ═══ NAVBAR ═══ -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">MBI</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#education">Education</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-        </nav>
-    </header>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
 
-    <!-- About Me Section -->
-    <section id="about">
-        <h2>About Me</h2>
-        <div class="about-container">
-            <img src="images/profile.jpg" alt="Mohammed Bello Ibrahim">
-            <p>Hello! My name is Mohammed Ibrahim, i am passionate Computer Science student and aspiring Software Developer. 
-               Welcome to my portfolio where you can explore my journey, skills, and projects.</p>
+    <!-- ═══ HERO ═══ -->
+    <section id="home" class="hero">
+        <div class="hero-bg">
+            <div class="hero-grid-overlay"></div>
+            <div class="hero-particles" id="particles"></div>
+            <div class="hero-glow glow-1"></div>
+            <div class="hero-glow glow-2"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-pulse"></span>
+                Open to Work &mdash; Fall 2026
+            </div>
+            <h1 class="hero-name">
+                Mohammed<br>
+                <span class="name-highlight">Bello Ibrahim</span>
+            </h1>
+            <div class="hero-typed-wrap">
+                <span class="typed-text" id="typedText"></span><span class="typed-cursor">|</span>
+            </div>
+            <p class="hero-desc">Third-year CS student at Trent University specializing in Data Analytics. I transform raw datasets into stakeholder-ready insights using Python, SQL, ML, and BI tools.</p>
+            <div class="hero-cta">
+                <a href="#projects" class="btn-primary">View My Work <i class="fas fa-arrow-right"></i></a>
+                <a href="#contact" class="btn-outline">Get In Touch</a>
+            </div>
+            <div class="hero-socials">
+                <a href="https://www.linkedin.com/in/mohammed-bello-ibrahim-7521b62a2" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="mailto:ibrahimbello218@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/bellomk77" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+        <div class="hero-scroll-hint">
+            <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+            <span>Scroll to explore</span>
         </div>
     </section>
 
-    <!-- Skills Table -->
-    <section id="skills">
-        <h2>Skills & Expertise</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Skill</th>
-                    <th>Experience Level</th>
-                    <th>Tools Used</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Web Development</td>
-                    <td>Advanced</td>
-                    <td>HTML, CSS, JavaScript</td>
-                </tr>
-                <tr>
-                    <td>Backend Development</td>
-                    <td>Intermediate</td>
-                    <td>Node.js, MySQL</td>
-                </tr>
-                <tr>
-                    <td>Software Development</td>
-                    <td>Intermediate</td>
-                    <td>Java, Python, C#</td>
-                </tr>
-            </tbody>
-        </table>
+    <!-- ═══ ABOUT ═══ -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="section-label-wrap reveal">
+                <span class="section-label">About Me</span>
+            </div>
+            <h2 class="section-title reveal">Driven by Data,<br><span class="gradient-text">Guided by Curiosity</span></h2>
+
+            <div class="about-grid">
+                <div class="about-visual reveal">
+                    <div class="about-img-wrap">
+                        <img src="images/profile.jpg" alt="Mohammed Bello Ibrahim" class="about-img">
+                        <div class="img-ring ring-a"></div>
+                        <div class="img-ring ring-b"></div>
+                        <div class="img-badge">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Dean's Honour Roll</span>
+                        </div>
+                    </div>
+                    <div class="about-stats">
+                        <div class="stat-card">
+                            <span class="stat-num" data-target="3.7">0</span>
+                            <span class="stat-label">GPA / 4.0</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-num">2+</span>
+                            <span class="stat-label">Projects</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-num">4+</span>
+                            <span class="stat-label">Awards</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-num">5</span>
+                            <span class="stat-label">Months Extern</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-text-col reveal">
+                    <p class="about-p">I'm a <strong>third-year Computer Science student</strong> at Trent University specializing in <strong>Data Analytics</strong>. I work with Python (Pandas, NumPy, Scikit-learn), SQL, Tableau, and Power BI to clean, analyze, and visualize data across end-to-end workflows &mdash; from raw datasets to stakeholder-ready insights.</p>
+                    <p class="about-p">I have hands-on experience building and evaluating machine learning models including <strong>Logistic Regression, Random Forest, and XGBoost</strong>, and translating results into clear business recommendations for non-technical audiences.</p>
+                    <p class="about-p">Through academic projects, independent work, and industry externships with <strong>Beats by Dre via Extern</strong>, I've developed strong foundations in data cleaning, exploratory data analysis, feature engineering, and dashboard reporting.</p>
+                    <p class="about-p">I'm actively seeking <strong>internship and co-op opportunities</strong> in data analytics, business intelligence, and data-driven roles for Fall 2026 and beyond.</p>
+
+                    <div class="about-highlights">
+                        <div class="highlight-row">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Trent University &mdash; B.Sc. Honours, CS · Data Analytics</span>
+                        </div>
+                        <div class="highlight-row">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Peterborough, Ontario, Canada</span>
+                        </div>
+                        <div class="highlight-row">
+                            <i class="fas fa-headphones"></i>
+                            <span>Data Analyst Extern &mdash; Beats by Dre (via Extern)</span>
+                        </div>
+                        <div class="highlight-row">
+                            <i class="fas fa-trophy"></i>
+                            <span>Dean's Honour Roll 2026 &middot; Team Player of the Year 2026</span>
+                        </div>
+                    </div>
+                    <div class="about-actions">
+                        <a href="#contact" class="btn-primary">Let's Connect <i class="fas fa-arrow-right"></i></a>
+                        <a href="resume.html" class="btn-ghost">View Resume</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <h2>Contact Me</h2>
-        <form>
-            <label for="name">Name:</label>
-            <input type="text" id="name" required>
+    <!-- ═══ SKILLS ═══ -->
+    <section id="skills" class="section section-alt">
+        <div class="container">
+            <div class="section-label-wrap centered reveal">
+                <span class="section-label">Technical Arsenal</span>
+            </div>
+            <h2 class="section-title centered reveal">Skills &amp; <span class="gradient-text">Tools</span></h2>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" required>
-
-            <label for="message">Message:</label>
-            <textarea id="message" rows="5" required></textarea>
-
-            <button type="submit">Send</button>
-        </form>
+            <div class="skills-grid">
+                <div class="skill-cat reveal">
+                    <div class="skill-cat-icon"><i class="fas fa-code"></i></div>
+                    <h3>Programming &amp; Data</h3>
+                    <div class="skill-tags">
+                        <span class="tag accent">Python</span>
+                        <span class="tag accent">SQL</span>
+                        <span class="tag accent">Pandas</span>
+                        <span class="tag accent">NumPy</span>
+                        <span class="tag accent">Scikit-learn</span>
+                        <span class="tag">Java</span>
+                        <span class="tag">C#</span>
+                        <span class="tag">HTML / CSS</span>
+                        <span class="tag">JavaScript</span>
+                    </div>
+                </div>
+                <div class="skill-cat reveal">
+                    <div class="skill-cat-icon purple"><i class="fas fa-brain"></i></div>
+                    <h3>Machine Learning</h3>
+                    <div class="skill-tags">
+                        <span class="tag purple-tag">XGBoost</span>
+                        <span class="tag purple-tag">Random Forest</span>
+                        <span class="tag purple-tag">Logistic Regression</span>
+                        <span class="tag">Feature Engineering</span>
+                        <span class="tag">EDA</span>
+                        <span class="tag">Model Evaluation</span>
+                        <span class="tag">Data Cleaning</span>
+                    </div>
+                </div>
+                <div class="skill-cat reveal">
+                    <div class="skill-cat-icon teal"><i class="fas fa-chart-bar"></i></div>
+                    <h3>Visualization &amp; BI</h3>
+                    <div class="skill-tags">
+                        <span class="tag teal-tag">Tableau</span>
+                        <span class="tag teal-tag">Power BI</span>
+                        <span class="tag teal-tag">Seaborn</span>
+                        <span class="tag teal-tag">Matplotlib</span>
+                        <span class="tag">Google Sheets</span>
+                        <span class="tag">Gamma</span>
+                        <span class="tag">Dashboard Design</span>
+                    </div>
+                </div>
+                <div class="skill-cat reveal">
+                    <div class="skill-cat-icon gold"><i class="fas fa-tools"></i></div>
+                    <h3>Tools &amp; Research</h3>
+                    <div class="skill-tags">
+                        <span class="tag gold-tag">Google Forms</span>
+                        <span class="tag gold-tag">ManyChat</span>
+                        <span class="tag">Perplexity AI</span>
+                        <span class="tag">ChatGPT</span>
+                        <span class="tag">Replit</span>
+                        <span class="tag">StarRez</span>
+                        <span class="tag">Survey Design</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>© 2025 Mohammed Bello Ibrahim. All Rights Reserved.</p>
+    <!-- ═══ EXPERIENCE ═══ -->
+    <section id="experience" class="section">
+        <div class="container">
+            <div class="section-label-wrap reveal">
+                <span class="section-label">Career Journey</span>
+            </div>
+            <h2 class="section-title reveal">Work <span class="gradient-text">Experience</span></h2>
+
+            <div class="timeline">
+
+                <div class="tl-item reveal">
+                    <div class="tl-connector">
+                        <div class="tl-dot current"></div>
+                        <div class="tl-line"></div>
+                    </div>
+                    <div class="tl-card">
+                        <div class="tl-card-top">
+                            <div class="tl-company-wrap">
+                                <div class="tl-company-icon"><i class="fas fa-headphones"></i></div>
+                                <div>
+                                    <h3 class="tl-role">Data Analyst Extern &mdash; Beats by Dre</h3>
+                                    <span class="tl-company">Extern &middot; Remote</span>
+                                </div>
+                            </div>
+                            <span class="tl-badge-current">Current</span>
+                        </div>
+                        <div class="tl-meta">
+                            <span class="tl-date"><i class="fas fa-calendar-alt"></i> May 2026 &ndash; Present</span>
+                            <span class="tl-type">Qualitative &amp; Quantitative Insights</span>
+                        </div>
+                        <ul class="tl-bullets">
+                            <li>Applying qualitative and quantitative research frameworks to analyze consumer data and uncover actionable insights for a leading global audio brand</li>
+                            <li>Leveraging AI-assisted analysis tools to accelerate research workflows and deliver data-driven recommendations to stakeholders</li>
+                            <li>Developing end-to-end research design proficiency including data collection, analysis, and insight communication</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tl-item reveal">
+                    <div class="tl-connector">
+                        <div class="tl-dot"></div>
+                        <div class="tl-line"></div>
+                    </div>
+                    <div class="tl-card">
+                        <div class="tl-card-top">
+                            <div class="tl-company-wrap">
+                                <div class="tl-company-icon"><i class="fas fa-headphones"></i></div>
+                                <div>
+                                    <h3 class="tl-role">Data Analyst Extern &mdash; Beats by Dre</h3>
+                                    <span class="tl-company">Extern &middot; Remote</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tl-meta">
+                            <span class="tl-date"><i class="fas fa-calendar-alt"></i> Feb 2026 &ndash; Apr 2026</span>
+                            <span class="tl-type">Consumer Behavior &amp; Market Analysis</span>
+                        </div>
+                        <ul class="tl-bullets">
+                            <li>Used AI tools (Perplexity, ChatGPT, Replit) to conduct pain-point analysis and built an AI-powered Pain-Point Radar Chart identifying key customer frustrations</li>
+                            <li>Designed and administered a consumer insights survey via Google Forms and ManyChat, gathering data on Gen Z audio device behaviors and preferences</li>
+                            <li>Conducted structured quantitative and qualitative analysis in Google Sheets using AI-driven techniques to surface actionable consumer insights</li>
+                            <li>Synthesized all research findings into a stakeholder presentation and data dashboard built with Gamma and Claude, delivered as a recorded video presentation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tl-item reveal">
+                    <div class="tl-connector">
+                        <div class="tl-dot"></div>
+                        <div class="tl-line"></div>
+                    </div>
+                    <div class="tl-card">
+                        <div class="tl-card-top">
+                            <div class="tl-company-wrap">
+                                <div class="tl-company-icon"><i class="fas fa-university"></i></div>
+                                <div>
+                                    <h3 class="tl-role">Service Centre Assistant</h3>
+                                    <span class="tl-company">Trent University &middot; Peterborough, ON</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tl-meta">
+                            <span class="tl-date"><i class="fas fa-calendar-alt"></i> Oct 2024 &ndash; Apr 2025</span>
+                        </div>
+                        <ul class="tl-bullets">
+                            <li>Responded to student inquiries, managed key inventory, and facilitated Move-In/Out events</li>
+                            <li>Maintained accurate records in StarRez student housing management system</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tl-item reveal">
+                    <div class="tl-connector">
+                        <div class="tl-dot"></div>
+                    </div>
+                    <div class="tl-card">
+                        <div class="tl-card-top">
+                            <div class="tl-company-wrap">
+                                <div class="tl-company-icon"><i class="fas fa-campground"></i></div>
+                                <div>
+                                    <h3 class="tl-role">Camp Counselor</h3>
+                                    <span class="tl-company">Camp Winston &middot; Gravenhurst, ON</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tl-meta">
+                            <span class="tl-date"><i class="fas fa-calendar-alt"></i> Jun 2024 &ndash; Aug 2024</span>
+                        </div>
+                        <ul class="tl-bullets">
+                            <li>Provided support for children with neurological disorders, ensuring safety and engagement in recreational and therapeutic activities</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Volunteer -->
+            <div class="sub-section-header reveal">
+                <span class="section-label">Community Impact</span>
+                <h3 class="sub-section-title">Volunteer <span class="gradient-text">Experience</span></h3>
+            </div>
+            <div class="volunteer-grid">
+                <div class="volunteer-card reveal">
+                    <div class="vol-icon"><i class="fas fa-globe-americas"></i></div>
+                    <h4>International Orientation Leader</h4>
+                    <span class="vol-org">Trent University &middot; Mar 2024 &ndash; Present</span>
+                    <p>Facilitated orientation events for new international students and provided resources for their transition to Trent University.</p>
+                </div>
+                <div class="volunteer-card reveal">
+                    <div class="vol-icon"><i class="fas fa-handshake"></i></div>
+                    <h4>Global Ambassador</h4>
+                    <span class="vol-org">Trent University &middot; May 2024 &ndash; Present</span>
+                    <p>Guided new international students, addressed cultural challenges, and encouraged engagement in university activities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ PROJECTS ═══ -->
+    <section id="projects" class="section section-alt">
+        <div class="container">
+            <div class="section-label-wrap centered reveal">
+                <span class="section-label">Featured Work</span>
+            </div>
+            <h2 class="section-title centered reveal">My <span class="gradient-text">Projects</span></h2>
+
+            <div class="projects-grid">
+
+                <div class="project-card reveal">
+                    <div class="project-card-inner">
+                        <div class="project-top">
+                            <div class="project-icon-wrap ml-color">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-type-badge">Machine Learning</span>
+                                <span class="project-date">Jan &ndash; Feb 2026</span>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Customer Churn Prediction</h3>
+                        <p class="project-desc">Built an end-to-end churn prediction pipeline using a real-world telecom dataset. Performed data cleaning, exploratory data analysis, and feature engineering, then trained and compared three ML models to identify key churn drivers and support customer retention strategy.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-val">80.7%</span>
+                                <span class="metric-label">Logistic Reg.</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">79%</span>
+                                <span class="metric-label">Random Forest</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">79%</span>
+                                <span class="metric-label">XGBoost</span>
+                            </div>
+                        </div>
+                        <div class="project-tags">
+                            <span>Python</span>
+                            <span>Pandas</span>
+                            <span>Scikit-learn</span>
+                            <span>XGBoost</span>
+                            <span>Seaborn</span>
+                            <span>Matplotlib</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="https://github.com/bellomk77/customer-churn-prediction" target="_blank" rel="noopener" class="project-btn">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-card-inner">
+                        <div class="project-top">
+                            <div class="project-icon-wrap bi-color">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-type-badge bi-badge">Business Intelligence</span>
+                                <span class="project-date">Nov &ndash; Dec 2025</span>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Sales Performance Dashboard</h3>
+                        <p class="project-desc">Interactive Tableau dashboard from the Superstore dataset analyzing revenue, profit, and order trends across U.S. regions and categories. Designed for executive-level decision-making with KPI tiles, geo mapping, and comparative profitability analysis.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-val">$2.29M</span>
+                                <span class="metric-label">Total Sales</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">$286K</span>
+                                <span class="metric-label">Total Profit</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">37.8K</span>
+                                <span class="metric-label">Orders</span>
+                            </div>
+                        </div>
+                        <div class="project-tags">
+                            <span>Tableau</span>
+                            <span>Data Visualization</span>
+                            <span>Business Intelligence</span>
+                            <span>Sales Analytics</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="#" class="project-btn bi-btn">
+                                <i class="fas fa-external-link-alt"></i> View Dashboard
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ EDUCATION ═══ -->
+    <section id="education" class="section">
+        <div class="container">
+            <div class="section-label-wrap reveal">
+                <span class="section-label">Academic Background</span>
+            </div>
+            <h2 class="section-title reveal"><span class="gradient-text">Education</span> &amp; Awards</h2>
+
+            <div class="edu-grid">
+                <div class="edu-card featured reveal">
+                    <div class="edu-icon-wrap"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="edu-body">
+                        <h3>Bachelor of Science (Honours)</h3>
+                        <p class="edu-major">Computer Science &mdash; Data Analytics Specialization</p>
+                        <p class="edu-school"><i class="fas fa-university"></i> Trent University &middot; Peterborough, ON</p>
+                        <p class="edu-dates">2023 &ndash; 2027 (Expected)</p>
+                        <div class="edu-chips">
+                            <span class="edu-chip"><i class="fas fa-star"></i> GPA: 3.7 / 4.0</span>
+                            <span class="edu-chip"><i class="fas fa-award"></i> Dean's Honour Roll 2026</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="edu-card reveal">
+                    <div class="edu-icon-wrap secondary"><i class="fas fa-school"></i></div>
+                    <div class="edu-body">
+                        <h3>Southern Ontario Collegiate</h3>
+                        <p class="edu-dates">Dec 2022 &ndash; Jun 2023 &middot; Hamilton, ON</p>
+                    </div>
+                </div>
+                <div class="edu-card reveal">
+                    <div class="edu-icon-wrap secondary"><i class="fas fa-school"></i></div>
+                    <div class="edu-body">
+                        <h3>Capital Science Academy</h3>
+                        <p class="edu-dates">Sep 2016 &ndash; Aug 2022 &middot; Abuja, Nigeria</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="awards-wrap">
+                <div class="sub-section-header reveal" style="margin-top: 3.5rem;">
+                    <span class="section-label">Recognition</span>
+                    <h3 class="sub-section-title">Honors <span class="gradient-text">&amp; Awards</span></h3>
+                </div>
+                <div class="awards-grid">
+                    <div class="award-card reveal">
+                        <div class="award-icon"><i class="fas fa-trophy"></i></div>
+                        <h4>Dean's Honour Roll</h4>
+                        <span class="award-source">Trent University &middot; May 2026</span>
+                        <p>Recognized for exceptional academic achievement.</p>
+                    </div>
+                    <div class="award-card reveal">
+                        <div class="award-icon"><i class="fas fa-users"></i></div>
+                        <h4>Team Player of the Year 2026</h4>
+                        <span class="award-source">Trent University Student Housing &middot; Apr 2026</span>
+                        <p>Recognized for exemplifying teamwork, support, and consistent commitment to fellow teammates.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ CONTACT ═══ -->
+    <section id="contact" class="section section-alt">
+        <div class="container">
+            <div class="section-label-wrap centered reveal">
+                <span class="section-label">Get In Touch</span>
+            </div>
+            <h2 class="section-title centered reveal">Let's Work <span class="gradient-text">Together</span></h2>
+            <p class="section-subtitle centered reveal">Open to data analytics internship and co-op opportunities for Fall 2026. I'd love to hear from you.</p>
+
+            <div class="contact-grid">
+                <div class="contact-info reveal">
+                    <div class="contact-item">
+                        <div class="contact-icon-wrap"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <span class="contact-label">Email</span>
+                            <a href="mailto:ibrahimbello218@gmail.com">ibrahimbello218@gmail.com</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon-wrap linkedin"><i class="fab fa-linkedin-in"></i></div>
+                        <div>
+                            <span class="contact-label">LinkedIn</span>
+                            <a href="https://www.linkedin.com/in/mohammed-bello-ibrahim-7521b62a2" target="_blank" rel="noopener">Mohammed Bello Ibrahim</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon-wrap github"><i class="fab fa-github"></i></div>
+                        <div>
+                            <span class="contact-label">GitHub</span>
+                            <a href="https://github.com/bellomk77" target="_blank" rel="noopener">bellomk77</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon-wrap location"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <span class="contact-label">Location</span>
+                            <span>Peterborough, Ontario, Canada</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon-wrap status"><i class="fas fa-briefcase"></i></div>
+                        <div>
+                            <span class="contact-label">Status</span>
+                            <span class="status-pill"><span class="status-dot"></span>Open to Work &middot; Fall 2026</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="contact-form reveal" id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cname">Full Name</label>
+                            <input type="text" id="cname" placeholder="Your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cemail">Email</label>
+                            <input type="email" id="cemail" placeholder="your@email.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="csubject">Subject</label>
+                        <input type="text" id="csubject" placeholder="Internship opportunity, collaboration...">
+                    </div>
+                    <div class="form-group">
+                        <label for="cmessage">Message</label>
+                        <textarea id="cmessage" rows="5" placeholder="Tell me about the opportunity or how I can help..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary full-w" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <span class="footer-logo">MBI</span>
+                    <p class="footer-name">Mohammed Bello Ibrahim</p>
+                    <p class="footer-tagline">Data Analytics &middot; Computer Science &middot; Machine Learning</p>
+                </div>
+                <nav class="footer-nav">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#experience">Experience</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+                <div class="footer-socials">
+                    <a href="https://www.linkedin.com/in/mohammed-bello-ibrahim-7521b62a2" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="mailto:ibrahimbello218@gmail.com"><i class="fas fa-envelope"></i></a>
+                    <a href="https://github.com/bellomk77" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Mohammed Bello Ibrahim. All Rights Reserved.</p>
+                <a href="#home" class="back-to-top"><i class="fas fa-chevron-up"></i></a>
+            </div>
+        </div>
     </footer>
 
+    <script src="scripts/portfolio.js"></script>
 </body>
 </html>
