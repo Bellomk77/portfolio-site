@@ -10,11 +10,11 @@ import { formatCurrency, formatCurrencyFull } from '@/lib/utils'
 import { MONTHLY_TAX_DATA } from '@/lib/nigerian-tax-data'
 
 const REPORT_TYPES = [
-  { id: 'monthly_summary', label: 'Monthly Tax Summary', icon: Calendar, desc: 'VAT, PAYE & WHT overview for a selected month', color: 'text-blue-400 bg-blue-950/40 border-blue-900' },
-  { id: 'annual_cit',      label: 'Annual CIT Return',  icon: FileBarChart2, desc: 'Company Income Tax computation with workings', color: 'text-ng-400 bg-ng-950/40 border-ng-900' },
-  { id: 'vat_return',      label: 'VAT Return (Form 002)', icon: FileText, desc: 'Monthly VAT return ready for FIRS submission', color: 'text-purple-400 bg-purple-950/40 border-purple-900' },
-  { id: 'audit_package',   label: 'Audit Evidence Package', icon: Shield, desc: 'Full documentation for FIRS audit defence', color: 'text-orange-400 bg-orange-950/40 border-orange-900' },
-  { id: 'tax_savings',     label: 'Tax Savings Report', icon: TrendingUp, desc: 'AI-identified optimisation opportunities', color: 'text-yellow-400 bg-yellow-950/40 border-yellow-900' },
+  { id: 'monthly_summary', label: 'Monthly Tax Summary', icon: Calendar, desc: 'VAT, PAYE & WHT overview for a selected month', color: 'text-blue-400 bg-blue-50 border-blue-300' },
+  { id: 'annual_cit',      label: 'Annual CIT Return',  icon: FileBarChart2, desc: 'Company Income Tax computation with workings', color: 'text-ng-400 bg-ng-50 border-ng-300' },
+  { id: 'vat_return',      label: 'VAT Return (Form 002)', icon: FileText, desc: 'Monthly VAT return ready for FIRS submission', color: 'text-purple-400 bg-purple-50 border-purple-300' },
+  { id: 'audit_package',   label: 'Audit Evidence Package', icon: Shield, desc: 'Full documentation for FIRS audit defence', color: 'text-orange-400 bg-orange-50 border-orange-300' },
+  { id: 'tax_savings',     label: 'Tax Savings Report', icon: TrendingUp, desc: 'AI-identified optimisation opportunities', color: 'text-yellow-400 bg-yellow-50 border-yellow-300' },
 ]
 
 const PIE_DATA = [
@@ -50,22 +50,22 @@ export default function ReportsPage() {
   }
 
   const saveColor = (s: string) =>
-    s === 'action'   ? 'bg-ng-950/60 text-ng-400 border-ng-800' :
-    s === 'reviewed' ? 'bg-blue-950/60 text-blue-400 border-blue-800' :
-    s === 'pending'  ? 'bg-yellow-950/60 text-yellow-400 border-yellow-800' :
-    'bg-gray-900 text-gray-400 border-gray-700'
+    s === 'action'   ? 'bg-ng-50 text-ng-400 border-ng-300' :
+    s === 'reviewed' ? 'bg-blue-50 text-blue-400 border-blue-300' :
+    s === 'pending'  ? 'bg-yellow-50 text-yellow-400 border-yellow-300' :
+    'bg-gray-50 text-gray-500 border-gray-300'
 
   return (
-    <div className="flex min-h-screen bg-gray-950">
+    <div className="flex min-h-screen bg-white">
       <Sidebar />
       <main className="flex-1 ml-64 min-h-screen">
-        <header className="sticky top-0 z-30 bg-gray-950/90 backdrop-blur border-b border-gray-800 px-8 py-4 flex items-center justify-between">
+        <header className="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-gray-200 px-8 py-4 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-white">Reports & Filing</h1>
+            <h1 className="text-xl font-bold text-gray-900">Reports & Filing</h1>
             <p className="text-gray-500 text-sm">Generate FIRS-compliant reports and tax analysis</p>
           </div>
           <div className="flex items-center gap-2">
-            <button className="flex items-center gap-2 border border-gray-700 text-gray-300 hover:text-white px-4 py-2 rounded-lg text-sm transition-all hover:bg-gray-800">
+            <button className="flex items-center gap-2 border border-gray-300 text-gray-700 hover:text-gray-900 px-4 py-2 rounded-lg text-sm transition-all hover:bg-gray-100">
               <Filter className="w-4 h-4" />Period: FY 2025
             </button>
           </div>
@@ -81,11 +81,11 @@ export default function ReportsPage() {
                 className={`rounded-xl p-4 border text-left transition-all ${
                   selectedReport === rt.id
                     ? rt.color + ' shadow-lg'
-                    : 'bg-gray-900 border-gray-800 text-gray-400 hover:border-gray-600'
+                    : 'bg-gray-50 border-gray-200 text-gray-500 hover:border-gray-400'
                 }`}
               >
                 <rt.icon className={`w-5 h-5 mb-2 ${selectedReport === rt.id ? '' : 'text-gray-500'}`} />
-                <div className={`text-sm font-semibold mb-0.5 ${selectedReport === rt.id ? 'text-white' : 'text-white'}`}>{rt.label}</div>
+                <div className={`text-sm font-semibold mb-0.5 ${selectedReport === rt.id ? 'text-gray-900' : 'text-gray-900'}`}>{rt.label}</div>
                 <div className="text-xs leading-snug opacity-70">{rt.desc}</div>
               </button>
             ))}
@@ -96,7 +96,7 @@ export default function ReportsPage() {
             <button
               onClick={generateReport}
               disabled={generating}
-              className="flex items-center gap-2 bg-ng-600 hover:bg-ng-500 text-white px-6 py-3 rounded-xl font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 bg-ng-600 hover:bg-ng-500 text-gray-900 px-6 py-3 rounded-xl font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {generating ? (
                 <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Generating Report…</>
@@ -106,13 +106,13 @@ export default function ReportsPage() {
             </button>
             {generated && (
               <>
-                <button className="flex items-center gap-2 border border-gray-700 text-gray-300 hover:text-white px-4 py-3 rounded-xl text-sm transition-all hover:bg-gray-800">
+                <button className="flex items-center gap-2 border border-gray-300 text-gray-700 hover:text-gray-900 px-4 py-3 rounded-xl text-sm transition-all hover:bg-gray-100">
                   <Eye className="w-4 h-4" />Preview
                 </button>
-                <button className="flex items-center gap-2 border border-gray-700 text-gray-300 hover:text-white px-4 py-3 rounded-xl text-sm transition-all hover:bg-gray-800">
+                <button className="flex items-center gap-2 border border-gray-300 text-gray-700 hover:text-gray-900 px-4 py-3 rounded-xl text-sm transition-all hover:bg-gray-100">
                   <Download className="w-4 h-4" />Download PDF
                 </button>
-                <button className="flex items-center gap-2 border border-gray-700 text-gray-300 hover:text-white px-4 py-3 rounded-xl text-sm transition-all hover:bg-gray-800">
+                <button className="flex items-center gap-2 border border-gray-300 text-gray-700 hover:text-gray-900 px-4 py-3 rounded-xl text-sm transition-all hover:bg-gray-100">
                   <Printer className="w-4 h-4" />Print
                 </button>
               </>
@@ -122,17 +122,17 @@ export default function ReportsPage() {
           {/* Annual summary charts */}
           <div className="grid grid-cols-3 gap-5">
             {/* Bar chart */}
-            <div className="col-span-2 bg-gray-900 border border-gray-800 rounded-2xl p-6">
-              <h3 className="text-white font-semibold mb-1">Monthly Tax Payments — FY 2025</h3>
+            <div className="col-span-2 bg-gray-50 border border-gray-200 rounded-2xl p-6">
+              <h3 className="text-gray-900 font-semibold mb-1">Monthly Tax Payments — FY 2025</h3>
               <p className="text-gray-500 text-xs mb-5">January through June 2025 (₦ millions)</p>
               <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={chartData} barSize={10} barGap={2}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" vertical={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
                   <XAxis dataKey="month" tick={{ fill: '#6b7280', fontSize: 11 }} axisLine={false} tickLine={false} />
                   <YAxis tick={{ fill: '#6b7280', fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={v => `₦${v}M`} />
                   <Tooltip
-                    contentStyle={{ backgroundColor: '#111827', border: '1px solid #374151', borderRadius: '12px', fontSize: '12px' }}
-                    labelStyle={{ color: '#fff' }}
+                    contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e7eb', borderRadius: '12px', fontSize: '12px' }}
+                    labelStyle={{ color: '#111827' }}
                     formatter={(v: number) => [`₦${v.toFixed(2)}M`, '']}
                   />
                   <Bar dataKey="VAT"  fill="#7c3aed" radius={[3,3,0,0]} />
@@ -144,8 +144,8 @@ export default function ReportsPage() {
             </div>
 
             {/* Pie chart */}
-            <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-              <h3 className="text-white font-semibold mb-1">Tax Liability Split</h3>
+            <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6">
+              <h3 className="text-gray-900 font-semibold mb-1">Tax Liability Split</h3>
               <p className="text-gray-500 text-xs mb-4">H1 2025 — Total: {formatCurrency(TOTAL_TAX)}</p>
               <ResponsiveContainer width="100%" height={160}>
                 <PieChart>
@@ -153,7 +153,7 @@ export default function ReportsPage() {
                     {PIE_DATA.map((entry, i) => <Cell key={i} fill={entry.fill} />)}
                   </Pie>
                   <Tooltip
-                    contentStyle={{ backgroundColor: '#111827', border: '1px solid #374151', borderRadius: '12px', fontSize: '12px' }}
+                    contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e7eb', borderRadius: '12px', fontSize: '12px' }}
                     formatter={(v: number) => [formatCurrency(v), '']}
                   />
                 </PieChart>
@@ -163,9 +163,9 @@ export default function ReportsPage() {
                   <div key={d.name} className="flex items-center justify-between text-xs">
                     <div className="flex items-center gap-2">
                       <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: d.fill }} />
-                      <span className="text-gray-400">{d.name}</span>
+                      <span className="text-gray-500">{d.name}</span>
                     </div>
-                    <span className="text-white font-medium">{formatCurrency(d.value)}</span>
+                    <span className="text-gray-900 font-medium">{formatCurrency(d.value)}</span>
                   </div>
                 ))}
               </div>
@@ -173,29 +173,29 @@ export default function ReportsPage() {
           </div>
 
           {/* Tax savings opportunities */}
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-800 flex items-center justify-between">
+          <div className="bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
               <div>
-                <h3 className="text-white font-semibold">AI-Identified Tax Savings Opportunities</h3>
+                <h3 className="text-gray-900 font-semibold">AI-Identified Tax Savings Opportunities</h3>
                 <p className="text-gray-500 text-xs mt-0.5">
                   Total potential savings: <span className="text-ng-400 font-bold">{formatCurrencyFull(SAVINGS_FOUND.reduce((s, d) => s + d.saving, 0))}</span>
                 </p>
               </div>
-              <span className="text-xs bg-ng-950/60 text-ng-400 border border-ng-800/50 px-2.5 py-1 rounded-full">AI Report</span>
+              <span className="text-xs bg-ng-50 text-ng-400 border border-ng-300 px-2.5 py-1 rounded-full">AI Report</span>
             </div>
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-800">
+                <tr className="border-b border-gray-200">
                   {['Opportunity', 'Potential Saving', 'Legal Basis', 'Status'].map(h => (
                     <th key={h} className="text-left text-gray-500 text-xs font-semibold uppercase tracking-wide px-6 py-3">{h}</th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-800/50">
+              <tbody className="divide-y divide-gray-200">
                 {SAVINGS_FOUND.map((row, i) => (
-                  <tr key={i} className="hover:bg-gray-800/20 transition-colors">
+                  <tr key={i} className="hover:bg-gray-100/70 transition-colors">
                     <td className="px-6 py-4">
-                      <div className="text-white text-sm font-medium">{row.type}</div>
+                      <div className="text-gray-900 text-sm font-medium">{row.type}</div>
                     </td>
                     <td className="px-6 py-4">
                       <div className={`text-sm font-bold ${row.saving > 0 ? 'text-ng-400' : 'text-gray-500'}`}>
@@ -217,11 +217,11 @@ export default function ReportsPage() {
           </div>
 
           {/* Recent reports */}
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-800">
-              <h3 className="text-white font-semibold">Generated Reports Archive</h3>
+          <div className="bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-200">
+              <h3 className="text-gray-900 font-semibold">Generated Reports Archive</h3>
             </div>
-            <div className="divide-y divide-gray-800/50">
+            <div className="divide-y divide-gray-200">
               {[
                 { name: 'May 2025 VAT Return (Form 002)',      date: '22 Jun 2025', size: '284 KB', status: 'submitted' },
                 { name: 'May 2025 Monthly Tax Summary',        date: '01 Jun 2025', size: '156 KB', status: 'ready' },
@@ -229,23 +229,23 @@ export default function ReportsPage() {
                 { name: 'FY 2024 CIT Return Computation',      date: '28 Mar 2025', size: '1.2 MB', status: 'filed' },
                 { name: 'FY 2024 Audit Evidence Package',      date: '28 Mar 2025', size: '8.4 MB', status: 'filed' },
               ].map((r, i) => (
-                <div key={i} className="flex items-center justify-between px-6 py-4 hover:bg-gray-800/20 transition-colors">
+                <div key={i} className="flex items-center justify-between px-6 py-4 hover:bg-gray-100/70 transition-colors">
                   <div className="flex items-center gap-3">
                     <FileText className="w-4 h-4 text-gray-500" />
                     <div>
-                      <div className="text-white text-sm">{r.name}</div>
+                      <div className="text-gray-900 text-sm">{r.name}</div>
                       <div className="text-gray-500 text-xs mt-0.5">{r.date} • {r.size}</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className={`text-xs px-2 py-0.5 rounded-md border ${
                       r.status === 'submitted' || r.status === 'filed'
-                        ? 'bg-ng-950/60 text-ng-400 border-ng-800'
-                        : 'bg-gray-800 text-gray-400 border-gray-700'
+                        ? 'bg-ng-50 text-ng-400 border-ng-300'
+                        : 'bg-gray-100 text-gray-500 border-gray-300'
                     }`}>
                       {r.status === 'submitted' ? '✓ Submitted to FIRS' : r.status === 'filed' ? '✓ Filed' : 'Ready'}
                     </span>
-                    <button className="text-gray-500 hover:text-white transition-colors">
+                    <button className="text-gray-500 hover:text-gray-900 transition-colors">
                       <Download className="w-4 h-4" />
                     </button>
                   </div>

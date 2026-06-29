@@ -14,7 +14,7 @@ function InputField({ label, value, onChange, prefix = '₦', hint }: {
 }) {
   return (
     <div>
-      <label className="block text-sm text-gray-400 mb-1.5 font-medium">{label}</label>
+      <label className="block text-sm text-gray-500 mb-1.5 font-medium">{label}</label>
       <div className="relative">
         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">{prefix}</span>
         <input
@@ -22,7 +22,7 @@ function InputField({ label, value, onChange, prefix = '₦', hint }: {
           inputMode="numeric"
           value={value}
           onChange={e => onChange(e.target.value.replace(/[^0-9.]/g, ''))}
-          className="w-full bg-gray-800 border border-gray-700 rounded-xl pl-8 pr-4 py-3 text-white text-sm focus:outline-none focus:border-ng-600 focus:ring-1 focus:ring-ng-600/50 transition-all"
+          className="w-full bg-gray-100 border border-gray-300 rounded-xl pl-8 pr-4 py-3 text-gray-900 text-sm focus:outline-none focus:border-ng-600 focus:ring-1 focus:ring-ng-600/50 transition-all"
           placeholder="0"
         />
       </div>
@@ -35,13 +35,13 @@ function Toggle({ label, checked, onChange, description }: { label: string; chec
   return (
     <label className="flex items-start gap-3 cursor-pointer group">
       <div
-        className={cn('w-10 h-5 rounded-full relative transition-all mt-0.5 flex-shrink-0', checked ? 'bg-ng-600' : 'bg-gray-700')}
+        className={cn('w-10 h-5 rounded-full relative transition-all mt-0.5 flex-shrink-0', checked ? 'bg-ng-600' : 'bg-gray-200')}
         onClick={() => onChange(!checked)}
       >
         <div className={cn('w-4 h-4 rounded-full bg-white absolute top-0.5 transition-all', checked ? 'left-5.5 left-[22px]' : 'left-0.5')} />
       </div>
       <div>
-        <div className="text-sm text-gray-300 font-medium group-hover:text-white transition-colors">{label}</div>
+        <div className="text-sm text-gray-700 font-medium group-hover:text-gray-900 transition-colors">{label}</div>
         {description && <div className="text-xs text-gray-600 mt-0.5">{description}</div>}
       </div>
     </label>
@@ -50,11 +50,11 @@ function Toggle({ label, checked, onChange, description }: { label: string; chec
 
 function ResultRow({ label, amount, isTotal, isDeduction, indent }: { label: string; amount: number; isTotal?: boolean; isDeduction?: boolean; indent?: boolean }) {
   return (
-    <div className={cn('flex items-center justify-between py-2.5', isTotal ? 'border-t border-gray-700 mt-1 pt-3.5' : 'border-b border-gray-800/50', indent && 'pl-3')}>
-      <span className={cn('text-sm', isTotal ? 'text-white font-bold' : isDeduction ? 'text-red-400' : 'text-gray-300')}>
+    <div className={cn('flex items-center justify-between py-2.5', isTotal ? 'border-t border-gray-300 mt-1 pt-3.5' : 'border-b border-gray-200', indent && 'pl-3')}>
+      <span className={cn('text-sm', isTotal ? 'text-gray-900 font-bold' : isDeduction ? 'text-red-400' : 'text-gray-700')}>
         {isDeduction && '– '}{label}
       </span>
-      <span className={cn('text-sm font-semibold', isTotal ? 'text-white text-base' : isDeduction ? 'text-red-400' : 'text-white')}>
+      <span className={cn('text-sm font-semibold', isTotal ? 'text-gray-900 text-base' : isDeduction ? 'text-red-400' : 'text-gray-900')}>
         {formatCurrencyFull(Math.abs(amount))}
       </span>
     </div>
@@ -85,16 +85,16 @@ function CITCalculator() {
   return (
     <div className="grid md:grid-cols-2 gap-6">
       <div className="space-y-4">
-        <div className="bg-blue-950/30 border border-blue-900/50 rounded-xl p-4 text-sm text-blue-300">
+        <div className="bg-blue-950/30 border border-blue-300/50 rounded-xl p-4 text-sm text-blue-300">
           <strong>CIT Rates 2024:</strong> 0% (turnover ≤₦25M) · 20% (₦25M–₦100M) · 30% (&gt;₦100M)
           <br /><span className="text-blue-400/70 text-xs mt-1 block">Education Tax: 2.5% added on assessable profit (all sizes)</span>
         </div>
 
         {size && (
           <div className={cn('rounded-xl px-4 py-3 text-sm font-medium flex items-center gap-2',
-            size === 'small'  ? 'bg-ng-950/60 text-ng-400 border border-ng-900' :
-            size === 'medium' ? 'bg-yellow-950/60 text-yellow-400 border border-yellow-900' :
-            'bg-red-950/60 text-red-400 border border-red-900'
+            size === 'small'  ? 'bg-ng-50 text-ng-400 border border-ng-300' :
+            size === 'medium' ? 'bg-yellow-50 text-yellow-400 border border-yellow-300' :
+            'bg-red-50 text-red-400 border border-red-300'
           )}>
             <CheckCircle className="w-4 h-4" />
             {size === 'small'  ? 'Small company — CIT exempt! (Turnover ≤₦25M)' :
@@ -110,8 +110,8 @@ function CITCalculator() {
         <InputField label="Investment Allowances (₦)" value={investmentAllow} onChange={setInvestmentAllow} hint="Additional relief for qualifying investments" />
       </div>
 
-      <div className="bg-gray-900/60 rounded-2xl border border-gray-800 p-6">
-        <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+      <div className="bg-gray-50/60 rounded-2xl border border-gray-200 p-6">
+        <h3 className="text-gray-900 font-semibold mb-4 flex items-center gap-2">
           <Calculator className="w-4 h-4 text-ng-400" />
           CIT Calculation Breakdown
         </h3>
@@ -123,16 +123,16 @@ function CITCalculator() {
               ))}
             </div>
             <div className="mt-4 grid grid-cols-2 gap-3">
-              <div className="bg-gray-800/60 rounded-xl p-3 text-center">
+              <div className="bg-gray-100/60 rounded-xl p-3 text-center">
                 <div className="text-gray-500 text-xs">Effective Rate</div>
-                <div className="text-white font-bold text-xl mt-0.5">{(result.effectiveRate * 100).toFixed(1)}%</div>
+                <div className="text-gray-900 font-bold text-xl mt-0.5">{(result.effectiveRate * 100).toFixed(1)}%</div>
               </div>
-              <div className="bg-gray-800/60 rounded-xl p-3 text-center">
+              <div className="bg-gray-100/60 rounded-xl p-3 text-center">
                 <div className="text-gray-500 text-xs">Filing Deadline</div>
-                <div className="text-white font-bold text-sm mt-0.5">6 months after FYE</div>
+                <div className="text-gray-900 font-bold text-sm mt-0.5">6 months after FYE</div>
               </div>
             </div>
-            <div className="mt-3 bg-ng-950/40 border border-ng-900/50 rounded-xl p-3 text-xs text-ng-300">
+            <div className="mt-3 bg-ng-50 border border-ng-300/50 rounded-xl p-3 text-xs text-ng-300">
               <strong>Note:</strong> Also remember Education Tax ({formatCurrencyFull(result.educationTax)}) is filed on the same form (ETF Form) with your CIT return.
             </div>
           </>
@@ -162,7 +162,7 @@ function VATCalculator() {
   return (
     <div className="grid md:grid-cols-2 gap-6">
       <div className="space-y-4">
-        <div className="bg-purple-950/30 border border-purple-900/50 rounded-xl p-4 text-sm text-purple-300">
+        <div className="bg-purple-950/30 border border-purple-300/50 rounded-xl p-4 text-sm text-purple-300">
           <strong>VAT Rate: 7.5%</strong> (Finance Act 2020) • Monthly return due <strong>21st of following month</strong>
           <br /><span className="text-purple-400/70 text-xs mt-1 block">Use Form 002. Late filing: ₦5,000 penalty + 5% of tax due per month.</span>
         </div>
@@ -171,18 +171,18 @@ function VATCalculator() {
         <InputField label="VAT-Exempt Sales (₦)" value={exemptSales} onChange={setExemptSales} hint="Sales not subject to VAT (basic foods, medicines, etc.)" />
         <InputField label="VAT Credit Brought Forward (₦)" value={creditBfwd} onChange={setCreditBfwd} hint="Excess input VAT from previous month" />
 
-        <div className="bg-gray-900/60 rounded-xl border border-gray-800 p-4">
-          <div className="text-gray-400 text-xs font-medium mb-2">Common VAT-Exempt Items (VATA Schedule)</div>
+        <div className="bg-gray-50/60 rounded-xl border border-gray-200 p-4">
+          <div className="text-gray-500 text-xs font-medium mb-2">Common VAT-Exempt Items (VATA Schedule)</div>
           <div className="flex flex-wrap gap-1.5">
             {VAT_EXEMPT_ITEMS.slice(0, 6).map(item => (
-              <span key={item} className="text-xs bg-gray-800 text-gray-400 px-2 py-0.5 rounded-md">{item}</span>
+              <span key={item} className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-md">{item}</span>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="bg-gray-900/60 rounded-2xl border border-gray-800 p-6">
-        <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+      <div className="bg-gray-50/60 rounded-2xl border border-gray-200 p-6">
+        <h3 className="text-gray-900 font-semibold mb-4 flex items-center gap-2">
           <Calculator className="w-4 h-4 text-purple-400" />
           VAT Return Breakdown
         </h3>
@@ -194,19 +194,19 @@ function VATCalculator() {
               ))}
             </div>
             <div className="mt-4 grid grid-cols-2 gap-3">
-              <div className="bg-gray-800/60 rounded-xl p-3 text-center">
+              <div className="bg-gray-100/60 rounded-xl p-3 text-center">
                 <div className="text-gray-500 text-xs">Net VAT Payable</div>
                 <div className={cn('font-bold text-xl mt-0.5', result.netVATPayable > 0 ? 'text-red-400' : 'text-ng-400')}>
                   {formatCurrencyFull(result.netVATPayable || result.vatCredit)}
                 </div>
               </div>
-              <div className="bg-gray-800/60 rounded-xl p-3 text-center">
+              <div className="bg-gray-100/60 rounded-xl p-3 text-center">
                 <div className="text-gray-500 text-xs">Return Due</div>
-                <div className="text-white font-bold text-sm mt-0.5">21st of next month</div>
+                <div className="text-gray-900 font-bold text-sm mt-0.5">21st of next month</div>
               </div>
             </div>
             {result.vatCredit > 0 && (
-              <div className="mt-3 bg-ng-950/40 border border-ng-900/50 rounded-xl p-3 text-xs text-ng-300">
+              <div className="mt-3 bg-ng-50 border border-ng-300/50 rounded-xl p-3 text-xs text-ng-300">
                 <strong>VAT Credit:</strong> You have excess input VAT of {formatCurrencyFull(result.vatCredit)} to carry forward to next month.
               </div>
             )}
@@ -239,28 +239,28 @@ function PAYECalculator() {
   return (
     <div className="grid md:grid-cols-2 gap-6">
       <div className="space-y-4">
-        <div className="bg-ng-950/30 border border-ng-900/50 rounded-xl p-4 text-sm text-ng-300">
+        <div className="bg-ng-950/30 border border-ng-300/50 rounded-xl p-4 text-sm text-ng-300">
           <strong>PAYE Due:</strong> 10th of the following month • Progressive rates: 7% → 24%
           <br /><span className="text-ng-400/70 text-xs mt-1 block">All allowances below are exempt from PAYE under PITA S.33.</span>
         </div>
         <InputField label="Gross Annual Salary (₦)" value={salary} onChange={setSalary} hint="Before any deductions or tax" />
-        <div className="space-y-3 bg-gray-900/50 border border-gray-800 rounded-xl p-4">
-          <div className="text-gray-400 text-xs font-semibold uppercase tracking-wide mb-2">Exempt Allowances & Deductions</div>
+        <div className="space-y-3 bg-gray-100/50 border border-gray-200 rounded-xl p-4">
+          <div className="text-gray-500 text-xs font-semibold uppercase tracking-wide mb-2">Exempt Allowances & Deductions</div>
           <Toggle label="Pension (8% employee contribution)" checked={pension} onChange={setPension} description="Pension Reform Act 2014 — exempt from PAYE" />
           <Toggle label="NHF Contribution (2.5%)" checked={nhf} onChange={setNhf} description="National Housing Fund — exempt from PAYE" />
           <Toggle label="NHIS Contribution (2.5%)" checked={nhis} onChange={setNhis} description="National Health Insurance Scheme — exempt" />
         </div>
         <InputField label="Life Assurance Premium (₦/yr)" value={lifeAssurance} onChange={setLifeAssurance} hint="Full premium is tax-exempt under PITA" />
         <div>
-          <label className="block text-sm text-gray-400 mb-1.5 font-medium">Dependent Relatives</label>
+          <label className="block text-sm text-gray-500 mb-1.5 font-medium">Dependent Relatives</label>
           <input type="number" min="0" max="5" value={dependents} onChange={e => setDependents(e.target.value)}
-            className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-ng-600" placeholder="0" />
+            className="w-full bg-gray-100 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 text-sm focus:outline-none focus:border-ng-600" placeholder="0" />
           <p className="text-gray-600 text-xs mt-1">₦2,000 relief per dependent (max ₦3,000)</p>
         </div>
       </div>
 
-      <div className="bg-gray-900/60 rounded-2xl border border-gray-800 p-6">
-        <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+      <div className="bg-gray-50/60 rounded-2xl border border-gray-200 p-6">
+        <h3 className="text-gray-900 font-semibold mb-4 flex items-center gap-2">
           <Calculator className="w-4 h-4 text-ng-400" />
           PAYE Breakdown
         </h3>
@@ -269,21 +269,21 @@ function PAYECalculator() {
             {result.breakdown.map((row, i) => (
               <ResultRow key={i} label={row.label} amount={row.amount} isDeduction={row.isDeduction} isTotal={row.label === 'Net Monthly Take-Home' || row.label === 'Annual PAYE Tax'} />
             ))}
-            <div className="mt-4 bg-gray-800/60 rounded-xl p-3">
-              <div className="text-gray-400 text-xs font-semibold mb-2">Progressive Tax Bands Applied</div>
+            <div className="mt-4 bg-gray-100/60 rounded-xl p-3">
+              <div className="text-gray-500 text-xs font-semibold mb-2">Progressive Tax Bands Applied</div>
               {result.taxBrackets.map((b, i) => (
-                <div key={i} className="flex justify-between text-xs py-1 border-b border-gray-700/50 last:border-0">
-                  <span className="text-gray-400">{b.label}</span>
-                  <span className="text-white font-medium">{formatCurrencyFull(b.taxAmount)}</span>
+                <div key={i} className="flex justify-between text-xs py-1 border-b border-gray-300/50 last:border-0">
+                  <span className="text-gray-500">{b.label}</span>
+                  <span className="text-gray-900 font-medium">{formatCurrencyFull(b.taxAmount)}</span>
                 </div>
               ))}
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2">
-              <div className="bg-red-950/40 border border-red-900/40 rounded-xl p-3 text-center">
+              <div className="bg-red-50 border border-red-300/40 rounded-xl p-3 text-center">
                 <div className="text-gray-500 text-xs">Effective Rate</div>
                 <div className="text-red-400 font-bold text-lg">{(result.effectiveRate * 100).toFixed(1)}%</div>
               </div>
-              <div className="bg-ng-950/40 border border-ng-900/40 rounded-xl p-3 text-center">
+              <div className="bg-ng-50 border border-ng-300/40 rounded-xl p-3 text-center">
                 <div className="text-gray-500 text-xs">Net Monthly Pay</div>
                 <div className="text-ng-400 font-bold text-sm">{formatCurrencyFull(result.netMonthlyIncome)}</div>
               </div>
@@ -312,17 +312,17 @@ function WHTCalculator() {
   return (
     <div className="grid md:grid-cols-2 gap-6">
       <div className="space-y-4">
-        <div className="bg-orange-950/30 border border-orange-900/50 rounded-xl p-4 text-sm text-orange-300">
+        <div className="bg-orange-950/30 border border-orange-300/50 rounded-xl p-4 text-sm text-orange-300">
           <strong>WHT Due:</strong> 21st of the following month • WHT certificate issued to payee
           <br /><span className="text-orange-400/70 text-xs mt-1 block">WHT is deducted at source and remitted to FIRS within 21 days.</span>
         </div>
 
         <div>
-          <label className="block text-sm text-gray-400 mb-1.5 font-medium">Transaction Type</label>
+          <label className="block text-sm text-gray-500 mb-1.5 font-medium">Transaction Type</label>
           <select
             value={txType}
             onChange={e => setTxType(e.target.value)}
-            className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-ng-600"
+            className="w-full bg-gray-100 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 text-sm focus:outline-none focus:border-ng-600"
           >
             {Object.entries(WHT_RATES).map(([key, val]) => (
               <option key={key} value={key}>{val.description} ({(val.rate * 100).toFixed(0)}%)</option>
@@ -335,8 +335,8 @@ function WHTCalculator() {
 
         <InputField label="Gross Payment Amount (₦)" value={amount} onChange={setAmount} hint="The full amount before WHT deduction" />
 
-        <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-4 text-xs text-gray-400 space-y-1.5">
-          <div className="font-semibold text-gray-300 mb-2">How WHT Works:</div>
+        <div className="bg-gray-100/50 border border-gray-200 rounded-xl p-4 text-xs text-gray-500 space-y-1.5">
+          <div className="font-semibold text-gray-700 mb-2">How WHT Works:</div>
           <div>1. You (the payer) deduct WHT from the payment</div>
           <div>2. You remit the WHT to FIRS by the 21st</div>
           <div>3. You issue a WHT credit note to the payee</div>
@@ -344,8 +344,8 @@ function WHTCalculator() {
         </div>
       </div>
 
-      <div className="bg-gray-900/60 rounded-2xl border border-gray-800 p-6">
-        <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+      <div className="bg-gray-50/60 rounded-2xl border border-gray-200 p-6">
+        <h3 className="text-gray-900 font-semibold mb-4 flex items-center gap-2">
           <Calculator className="w-4 h-4 text-orange-400" />
           WHT Calculation
         </h3>
@@ -355,15 +355,15 @@ function WHTCalculator() {
             <ResultRow label={`WHT @ ${(result.whtRate * 100).toFixed(0)}%`} amount={result.whtAmount} isDeduction />
             <ResultRow label="Net Amount to Payee"           amount={result.netAmount} isTotal />
             <div className="mt-4 space-y-3">
-              <div className="bg-gray-800/60 rounded-xl p-4">
-                <div className="text-gray-400 text-xs font-semibold mb-2">What you need to do:</div>
-                <div className="space-y-2 text-xs text-gray-300">
+              <div className="bg-gray-100/60 rounded-xl p-4">
+                <div className="text-gray-500 text-xs font-semibold mb-2">What you need to do:</div>
+                <div className="space-y-2 text-xs text-gray-700">
                   <div className="flex items-start gap-2"><CheckCircle className="w-3.5 h-3.5 text-ng-500 flex-shrink-0 mt-0.5" />Pay {formatCurrencyFull(result.netAmount)} to {result.transactionType.toLowerCase()}</div>
                   <div className="flex items-start gap-2"><CheckCircle className="w-3.5 h-3.5 text-ng-500 flex-shrink-0 mt-0.5" />Remit {formatCurrencyFull(result.whtAmount)} to FIRS by 21st</div>
                   <div className="flex items-start gap-2"><CheckCircle className="w-3.5 h-3.5 text-ng-500 flex-shrink-0 mt-0.5" />Issue WHT credit note/certificate to payee</div>
                 </div>
               </div>
-              <div className="bg-blue-950/40 border border-blue-900/40 rounded-xl p-3 text-xs text-blue-300">
+              <div className="bg-blue-50 border border-blue-300/40 rounded-xl p-3 text-xs text-blue-300">
                 The payee can offset this {formatCurrencyFull(result.whtAmount)} WHT against their annual tax liability or CIT/PIT assessment.
               </div>
             </div>
@@ -393,7 +393,7 @@ function CGTCalculator() {
   return (
     <div className="grid md:grid-cols-2 gap-6">
       <div className="space-y-4">
-        <div className="bg-red-950/30 border border-red-900/50 rounded-xl p-4 text-sm text-red-300">
+        <div className="bg-red-950/30 border border-red-300/50 rounded-xl p-4 text-sm text-red-300">
           <strong>CGT Rate: 10%</strong> of net chargeable gain • Due on disposal of chargeable assets
           <br /><span className="text-red-400/70 text-xs mt-1 block">CGT applies to land, buildings, stocks, bonds, crypto, business assets.</span>
         </div>
@@ -401,8 +401,8 @@ function CGTCalculator() {
         <InputField label="Original Cost of Acquisition (₦)" value={cost} onChange={setCost} hint="Purchase price + acquisition costs (legal fees, stamp duty)" />
         <InputField label="Incidental Disposal Costs (₦)" value={incidental} onChange={setIncidental} hint="Agent fees, legal costs, advertising costs of sale" />
         <InputField label="Improvement Costs (₦)" value={improvement} onChange={setImprovement} hint="Capital improvements added during ownership (not repairs)" />
-        <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-4 text-xs text-gray-400">
-          <strong className="text-gray-300">CGT Exemptions:</strong>
+        <div className="bg-gray-100/50 border border-gray-200 rounded-xl p-4 text-xs text-gray-500">
+          <strong className="text-gray-700">CGT Exemptions:</strong>
           <ul className="mt-1.5 space-y-1 list-disc list-inside">
             <li>Principal private residence (one per person)</li>
             <li>Gains below ₦10,000 (de minimis)</li>
@@ -413,8 +413,8 @@ function CGTCalculator() {
         </div>
       </div>
 
-      <div className="bg-gray-900/60 rounded-2xl border border-gray-800 p-6">
-        <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+      <div className="bg-gray-50/60 rounded-2xl border border-gray-200 p-6">
+        <h3 className="text-gray-900 font-semibold mb-4 flex items-center gap-2">
           <Calculator className="w-4 h-4 text-red-400" />
           CGT Calculation
         </h3>
@@ -427,13 +427,13 @@ function CGTCalculator() {
             <ResultRow label="Net Chargeable Gain"       amount={result.capitalGain}        isTotal />
             <ResultRow label="CGT @ 10%"                 amount={result.cgtAmount}          isTotal />
             <div className="mt-4 grid grid-cols-2 gap-3">
-              <div className="bg-gray-800/60 rounded-xl p-3 text-center">
+              <div className="bg-gray-100/60 rounded-xl p-3 text-center">
                 <div className="text-gray-500 text-xs">Effective Rate on Proceeds</div>
                 <div className="text-red-400 font-bold text-lg mt-0.5">{(result.effectiveRate * 100).toFixed(1)}%</div>
               </div>
-              <div className="bg-gray-800/60 rounded-xl p-3 text-center">
+              <div className="bg-gray-100/60 rounded-xl p-3 text-center">
                 <div className="text-gray-500 text-xs">CGT Payable</div>
-                <div className="text-white font-bold text-sm mt-0.5">{formatCurrencyFull(result.cgtAmount)}</div>
+                <div className="text-gray-900 font-bold text-sm mt-0.5">{formatCurrencyFull(result.cgtAmount)}</div>
               </div>
             </div>
           </div>
@@ -460,17 +460,17 @@ export default function CalculatorPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-950">
+    <div className="flex min-h-screen bg-white">
       <Sidebar />
       <main className="flex-1 ml-64 min-h-screen">
-        <header className="sticky top-0 z-30 bg-gray-950/90 backdrop-blur border-b border-gray-800 px-8 py-4">
-          <h1 className="text-xl font-bold text-white">Tax Calculator</h1>
+        <header className="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-gray-200 px-8 py-4">
+          <h1 className="text-xl font-bold text-gray-900">Tax Calculator</h1>
           <p className="text-gray-500 text-sm">Finance Act 2024 compliant • All Nigerian federal taxes</p>
         </header>
 
         <div className="p-8">
           {/* Tab navigation */}
-          <div className="flex items-center gap-1 bg-gray-900 rounded-xl p-1 border border-gray-800 mb-6 w-fit">
+          <div className="flex items-center gap-1 bg-gray-50 rounded-xl p-1 border border-gray-200 mb-6 w-fit">
             {TABS.map(tab => (
               <button
                 key={tab}
@@ -478,8 +478,8 @@ export default function CalculatorPage() {
                 className={cn(
                   'px-5 py-2.5 rounded-lg text-sm font-medium transition-all',
                   activeTab === tab
-                    ? 'bg-ng-600 text-white shadow-md shadow-ng-600/30'
-                    : 'text-gray-400 hover:text-white hover:bg-gray-800/60'
+                    ? 'bg-ng-600 text-gray-900 shadow-md shadow-ng-600/30'
+                    : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100/60'
                 )}
               >
                 {tab}
@@ -487,11 +487,11 @@ export default function CalculatorPage() {
             ))}
           </div>
 
-          <p className="text-gray-400 text-sm mb-6 bg-gray-900/40 border border-gray-800 rounded-xl px-4 py-3">
-            <strong className="text-white">{activeTab}</strong> — {tabDescriptions[activeTab]}
+          <p className="text-gray-500 text-sm mb-6 bg-gray-50/40 border border-gray-200 rounded-xl px-4 py-3">
+            <strong className="text-gray-900">{activeTab}</strong> — {tabDescriptions[activeTab]}
           </p>
 
-          <div className="bg-gray-900/20 rounded-2xl border border-gray-800 p-6">
+          <div className="bg-gray-50/20 rounded-2xl border border-gray-200 p-6">
             {activeTab === 'CIT'  && <CITCalculator />}
             {activeTab === 'VAT'  && <VATCalculator />}
             {activeTab === 'PAYE' && <PAYECalculator />}
@@ -500,7 +500,7 @@ export default function CalculatorPage() {
           </div>
 
           {/* Disclaimer */}
-          <div className="mt-6 flex items-start gap-3 bg-gray-900/50 border border-gray-800 rounded-xl px-5 py-4 text-xs text-gray-500">
+          <div className="mt-6 flex items-start gap-3 bg-gray-100/50 border border-gray-200 rounded-xl px-5 py-4 text-xs text-gray-500">
             <AlertTriangle className="w-4 h-4 text-yellow-600 flex-shrink-0 mt-0.5" />
             This calculator provides estimates based on current Nigerian tax law. Results are for guidance only. Always consult a qualified tax professional (CITN member) for complex situations and filing advice.
           </div>

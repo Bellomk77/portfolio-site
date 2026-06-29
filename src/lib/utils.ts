@@ -65,9 +65,9 @@ export function formatMonthYear(date: Date | string): string {
 
 export function urgencyColors(urgency: ReturnType<typeof getDeadlineUrgency>) {
   switch (urgency) {
-    case 'overdue': return { badge: 'bg-red-950/60 text-red-400 border-red-800',  dot: 'bg-red-500',    text: 'text-red-400' }
-    case 'urgent':  return { badge: 'bg-orange-950/60 text-orange-400 border-orange-800', dot: 'bg-orange-500', text: 'text-orange-400' }
-    case 'warning': return { badge: 'bg-yellow-950/60 text-yellow-400 border-yellow-800', dot: 'bg-yellow-500', text: 'text-yellow-400' }
+    case 'overdue': return { badge: 'bg-red-50 text-red-400 border-red-300',  dot: 'bg-red-500',    text: 'text-red-400' }
+    case 'urgent':  return { badge: 'bg-orange-50 text-orange-400 border-orange-300', dot: 'bg-orange-500', text: 'text-orange-400' }
+    case 'warning': return { badge: 'bg-yellow-50 text-yellow-400 border-yellow-300', dot: 'bg-yellow-500', text: 'text-yellow-400' }
     case 'ok':      return { badge: 'bg-green-950/60 text-green-400 border-green-800', dot: 'bg-green-500',  text: 'text-green-400' }
   }
 }
@@ -90,15 +90,15 @@ export function taxTypeLabel(type: string): string {
 
 export function taxTypeBadge(type: string): string {
   const colors: Record<string, string> = {
-    CIT:        'bg-blue-950/60 text-blue-400 border-blue-800',
-    VAT:        'bg-purple-950/60 text-purple-400 border-purple-800',
+    CIT:        'bg-blue-50 text-blue-400 border-blue-300',
+    VAT:        'bg-purple-50 text-purple-400 border-purple-300',
     PAYE:       'bg-green-950/60 text-green-400 border-green-800',
-    WHT:        'bg-orange-950/60 text-orange-400 border-orange-800',
-    CGT:        'bg-red-950/60 text-red-400 border-red-800',
-    EDUCATION:  'bg-yellow-950/60 text-yellow-400 border-yellow-800',
+    WHT:        'bg-orange-50 text-orange-400 border-orange-300',
+    CGT:        'bg-red-50 text-red-400 border-red-300',
+    EDUCATION:  'bg-yellow-50 text-yellow-400 border-yellow-300',
     WINDFALL:   'bg-rose-950/60 text-rose-400 border-rose-800',
   }
-  return colors[type] || 'bg-gray-900 text-gray-400 border-gray-700'
+  return colors[type] || 'bg-gray-50 text-gray-500 border-gray-300'
 }
 
 export function healthGradeColor(grade: string): string {
