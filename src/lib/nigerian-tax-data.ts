@@ -155,7 +155,7 @@ export const FINANCE_ACT_UPDATES: FinanceActUpdate[] = [
   {
     year: 2024,
     title: 'Tax Reform Bills 2024 – Major Restructuring Proposed',
-    description: 'President Tinubu's Tax Reform Bills propose creation of a Joint Revenue Board, new National Revenue Service (replacing FIRS), harmonised income tax law, and sweeping VAT reform with destination-based consumption principle.',
+    description: "President Tinubu's Tax Reform Bills propose creation of a Joint Revenue Board, new National Revenue Service (replacing FIRS), harmonised income tax law, and sweeping VAT reform with destination-based consumption principle.",
     applicableTo: ['All taxpayers in Nigeria'],
     effectiveDate: 'Pending National Assembly approval',
     legalBasis: 'Tax Reform Bills 2024 (4 Bills before NASS)',
@@ -224,7 +224,7 @@ export const QUICK_TAX_QUESTIONS = [
   'What exemptions exist under the Finance Act 2023?',
   'How does the windfall tax affect my bank?',
   'What are the penalties for late VAT filing?',
-  'Do I need to register for VAT? What's the threshold?',
+  "Do I need to register for VAT? What's the threshold?",
   'What documents do I need for a FIRS audit?',
 ]
 
