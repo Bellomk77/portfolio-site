@@ -157,7 +157,7 @@ const TESTIMONIALS = [
     name: 'Chidinma Okafor',
     role: 'CFO, Lagostech Innovations',
     avatar: 'CO',
-    quote: 'TaxPadi saved us ₦8.4M in missed capital allowances we didn't even know we could claim. The AI is frighteningly good at finding money.',
+    quote: "TaxPadi saved us ₦8.4M in missed capital allowances we didn't even know we could claim. The AI is frighteningly good at finding money.",
   },
   {
     name: 'Abdulrahman Musa',
