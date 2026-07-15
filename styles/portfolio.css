@@ -6,10 +6,10 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:        #05090f;
-  --bg-alt:    #080d16;
-  --card:      #0c1422;
-  --card-2:    #0f1a2e;
+  --bg:        #0d1b2e;
+  --bg-alt:    #111f33;
+  --card:      #162640;
+  --card-2:    #1a2d4a;
   --border:    rgba(0, 200, 255, 0.12);
   --border-2:  rgba(255,255,255,0.06);
 
@@ -568,7 +568,7 @@ ul   { list-style: none; }
 /* ══════════════════════════════════
    FOOTER
 ══════════════════════════════════ */
-.footer { background: #030609; border-top: 1px solid var(--border-2); padding: 4rem 0 0; }
+.footer { background: #0a1628; border-top: 1px solid var(--border-2); padding: 4rem 0 0; }
 .footer-top {
   display: flex; gap: 4rem; align-items: flex-start; justify-content: space-between;
   padding-bottom: 3rem; border-bottom: 1px solid var(--border-2); flex-wrap: wrap;
