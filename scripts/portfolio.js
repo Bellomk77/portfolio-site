@@ -116,19 +116,28 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 const form = document.getElementById('contactForm');
 const submitBtn = document.getElementById('submitBtn');
 if (form && submitBtn) {
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', async e => {
     e.preventDefault();
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
     submitBtn.disabled = true;
-    setTimeout(() => {
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form),
+      });
+      if (!res.ok) throw new Error('Send failed');
       submitBtn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
       submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
       form.reset();
-      setTimeout(() => {
-        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
-        submitBtn.style.background = '';
-        submitBtn.disabled = false;
-      }, 3500);
-    }, 1200);
+    } catch (err) {
+      submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Failed — try email instead';
+      submitBtn.style.background = 'linear-gradient(135deg, #ef4444, #b91c1c)';
+    }
+    setTimeout(() => {
+      submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+      submitBtn.style.background = '';
+      submitBtn.disabled = false;
+    }, 3500);
   });
 }
