@@ -621,10 +621,11 @@ ul   { list-style: none; }
     position: fixed; top: var(--nav-h); left: 0; right: 0;
     background: rgba(13,27,46,0.97); backdrop-filter: blur(20px);
     flex-direction: column; gap: 0; padding: 1rem 0 2rem;
-    transform: translateY(-110%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    transform: translateY(-110%); visibility: hidden;
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), visibility 0.4s;
     border-bottom: 1px solid var(--border-2);
   }
-  .nav-links.open { transform: translateY(0); }
+  .nav-links.open { transform: translateY(0); visibility: visible; }
   .nav-links a { padding: 0.85rem 2rem; border-radius: 0; font-size: 1rem; }
   .nav-toggle { display: flex; }
 
