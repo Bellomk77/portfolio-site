@@ -2,10 +2,10 @@
 
 /* ── Typing animation ── */
 const phrases = [
-  'Data Analytics Student',
+  'Data Analyst',
+  'Founder @ CalGrid AI',
+  'Cybersecurity Extern',
   'Python & ML Developer',
-  'BI & Visualization Expert',
-  'Cybersecurity Enthusiast',
 ];
 let phraseIdx = 0, charIdx = 0, deleting = false;
 
