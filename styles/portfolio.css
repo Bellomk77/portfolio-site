@@ -339,6 +339,7 @@ ul   { list-style: none; }
   padding: 2rem; transition: var(--transition);
 }
 .skill-cat:hover { border-color: var(--border); transform: translateY(-3px); box-shadow: var(--shadow); }
+.skill-cat.wide { grid-column: span 2; }
 
 .skill-cat-icon {
   width: 48px; height: 48px; border-radius: var(--radius-sm); margin-bottom: 1rem;
@@ -430,6 +431,7 @@ ul   { list-style: none; }
 .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 3.5rem; }
 
 .project-card { perspective: 1000px; }
+.project-card.flagship { grid-column: span 2; }
 .project-card-inner {
   background: var(--card); border: 1px solid var(--border-2); border-radius: var(--radius);
   padding: 2rem; height: 100%; display: flex; flex-direction: column; gap: 1.25rem;
@@ -632,7 +634,9 @@ ul   { list-style: none; }
   .hero-cta { flex-direction: column; align-items: center; }
 
   .skills-grid { grid-template-columns: 1fr; }
+  .skill-cat.wide { grid-column: span 1; }
   .projects-grid { grid-template-columns: 1fr; }
+  .project-card.flagship { grid-column: span 1; }
   .about-stats { grid-template-columns: repeat(4, 1fr); }
   .about-img-wrap { width: 200px; height: 200px; }
 
