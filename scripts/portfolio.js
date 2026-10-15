@@ -131,7 +131,7 @@ if (form && submitBtn) {
       submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
       form.reset();
     } catch (err) {
-      submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Failed — try email instead';
+      submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Failed - try email instead';
       submitBtn.style.background = 'linear-gradient(135deg, #ef4444, #b91c1c)';
     }
     setTimeout(() => {
