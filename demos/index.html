@@ -28,6 +28,20 @@
   .hub h2 { font-family: var(--font-head); font-size: 1.12rem; font-weight: 600; }
   .hub p { font-size: .9rem; color: var(--text-2); }
   .hub .try { margin-top: auto; padding-top: .4rem; font-size: .86rem; font-weight: 600; color: var(--cyan); }
+  .flag { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 1.75rem; align-items: center; margin-bottom: 1rem; padding: 1.6rem;
+    border-radius: var(--radius); background: linear-gradient(var(--card), var(--card)) padding-box, var(--grad) border-box; border: 1px solid transparent; transition: transform .2s; }
+  .flag:hover { transform: translateY(-2px); }
+  .flag .badge { display: inline-flex; align-items: center; gap: .45rem; font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: #6fdc8c; background: rgba(12,163,12,.16); padding: .3rem .75rem; border-radius: 50px; }
+  .flag .badge i { width: 7px; height: 7px; border-radius: 50%; background: #6fdc8c; display: inline-block; }
+  .flag h2 { font-family: var(--font-head); font-size: 1.6rem; font-weight: 700; margin: .8rem 0 .5rem; }
+  .flag p { font-size: .95rem; color: var(--text-2); }
+  .flag ul { list-style: none; margin: .9rem 0 0; display: grid; gap: .35rem; font-size: .88rem; color: var(--text-2); }
+  .flag ul li::before { content: "\2713"; color: var(--cyan); margin-right: .5rem; font-weight: 700; }
+  .flag .cta { display: inline-flex; align-items: center; gap: .5rem; margin-top: 1.1rem; padding: .6rem 1.15rem; border-radius: 50px; background: var(--grad); color: #fff; font-weight: 600; font-size: .9rem; }
+  .flag img { width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,.12); box-shadow: 0 18px 50px rgba(0,0,0,.45); display: block; }
+  .sub-head { font-family: var(--font-head); font-size: 1.15rem; font-weight: 600; margin: 2rem 0 .9rem; }
+  @media (max-width: 860px) { .flag { grid-template-columns: minmax(0, 1fr); } .flag .r { order: -1; } }
 </style>
 </head>
 <body>
@@ -42,6 +56,17 @@
     <h1>Try my projects <span class="grad">in your browser</span></h1>
     <p class="lead">Each demo runs on real output from the project's code, and the interactive ones use the same scoring logic as the Python version, checked against it. No sign-up, nothing to install.</p>
   </section>
+  <a class="flag" href="https://calgridai.com" target="_blank" rel="noopener">
+    <div class="l">
+      <span class="badge"><i></i>Live product</span>
+      <h2>CalGrid AI</h2>
+      <p>The AI analytics platform I founded and lead. Small businesses upload a spreadsheet and get plain-English insights, forecasts, and cited answers to their questions.</p>
+      <ul><li>Live in production at calgridai.com</li><li>"Ask your data" RAG feature: 13 of 13 test questions answered correctly</li><li>Your first full report is free, no card required</li></ul>
+      <span class="cta">Try CalGrid AI <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></span>
+    </div>
+    <div class="r"><img src="../images/calgrid-home.jpg" alt="CalGrid AI homepage showing a sample report" loading="lazy"></div>
+  </a>
+  <h2 class="sub-head">Project demos</h2>
   <div class="hub">
     <a href="retail.html"><span class="ic"><i class="fas fa-chart-line" aria-hidden="true"></i></span><h2>Retail KPI dashboard</h2><p>A dbt + DuckDB pipeline turns 59,089 messy rows into a tested star schema. Filter revenue by period and channel, explore cohort retention, and see the data-quality scorecard.</p><span class="try">Open dashboard <i class="fas fa-arrow-right" aria-hidden="true"></i></span></a>
     <a href="fraud.html"><span class="ic"><i class="fas fa-credit-card" aria-hidden="true"></i></span><h2>Fraud alert-budget simulator</h2><p>Rules vs. anomaly detection vs. gradient boosting at the same analyst workload. Drag the budget and watch the fraud dollars each one catches.</p><span class="try">Open simulator <i class="fas fa-arrow-right" aria-hidden="true"></i></span></a>

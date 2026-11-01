@@ -272,6 +272,7 @@
 
   /* Other demos strip */
   const DEMOS = [
+    { href: 'https://calgridai.com', icon: 'fa-rocket', label: 'CalGrid AI (live product)' },
     { href: 'retail.html', icon: 'fa-chart-line', label: 'Retail KPI dashboard' },
     { href: 'fraud.html', icon: 'fa-credit-card', label: 'Fraud alert-budget simulator' },
     { href: 'churn.html', icon: 'fa-user-clock', label: 'Churn risk scorer' },
@@ -281,7 +282,7 @@
   function moreDemos(container, current) {
     clear(container);
     container.append(el('h2', { class: 'section-title', text: 'More live demos' }),
-      el('div', { class: 'more-grid' }, DEMOS.map((d) => el('a', { href: d.href, 'aria-current': d.href === current ? 'page' : null },
+      el('div', { class: 'more-grid' }, DEMOS.map((d) => el('a', { href: d.href, 'aria-current': d.href === current ? 'page' : null, target: /^https?:/.test(d.href) ? '_blank' : null, rel: /^https?:/.test(d.href) ? 'noopener' : null },
         el('i', { class: 'fas ' + d.icon, 'aria-hidden': 'true' }), d.label))));
   }
 
