@@ -689,3 +689,4 @@ ul   { list-style: none; }
 .demos-cta { text-align: center; margin-top: 1rem; }
 .demos-cta a { display: inline-flex; align-items: center; gap: .5rem; font-size: .92rem; font-weight: 600; color: var(--cyan); padding: .45rem 1rem; border-radius: 50px; border: 1px solid rgba(0,212,255,0.25); background: var(--cyan-dim); transition: var(--transition); }
 .demos-cta a:hover { background: rgba(0,212,255,0.22); }
+.code-req { opacity: .85; }
