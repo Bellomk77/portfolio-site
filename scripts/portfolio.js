@@ -2,10 +2,10 @@
 
 /* ── Typing animation ── */
 const phrases = [
-  'Data Analyst',
+  'AI Engineering',
+  'Data Engineering & Analytics',
   'Founder @ CalGrid AI',
-  'Cybersecurity Extern',
-  'Python & ML Developer',
+  'Security & Governance',
 ];
 let phraseIdx = 0, charIdx = 0, deleting = false;
 
@@ -141,3 +141,16 @@ if (form && submitBtn) {
     }, 3500);
   });
 }
+
+/* ── Project filters ── */
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.project-card[data-cat]').forEach(card => {
+      const show = f === 'all' || card.dataset.cat.split(' ').includes(f);
+      card.classList.toggle('is-hidden', !show);
+      if (show) card.classList.add('visible');
+    });
+  });
+});

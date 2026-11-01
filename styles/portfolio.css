@@ -411,6 +411,7 @@ ul   { list-style: none; }
 .tl-bullets li::marker { color: var(--cyan); }
 
 .volunteer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 1.5rem; }
+.volunteer-grid + .sub-section-header { margin-top: 3.5rem; }
 .volunteer-card {
   background: var(--card); border: 1px solid var(--border-2); border-radius: var(--radius);
   padding: 1.75rem; transition: var(--transition);
@@ -484,6 +485,28 @@ ul   { list-style: none; }
 .project-btn:hover { background: rgba(0,212,255,0.25); }
 .bi-btn { color: #a78bfa; border-color: rgba(124,58,237,0.25); background: var(--purple-dim); }
 .bi-btn:hover { background: rgba(124,58,237,0.25); }
+
+/* Project categories + filters */
+.ai-color  { background: var(--purple-dim); color: #a78bfa; border: 1px solid rgba(124,58,237,0.25); }
+.sec-color { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(245,158,11,0.25); }
+.ai-badge  { background: var(--purple-dim); border-color: rgba(124,58,237,0.25); color: #a78bfa; }
+.sec-badge { background: var(--gold-dim); border-color: rgba(245,158,11,0.25); color: var(--gold); }
+.ai-btn  { color: #a78bfa; border-color: rgba(124,58,237,0.25); background: var(--purple-dim); }
+.ai-btn:hover { background: rgba(124,58,237,0.25); }
+.sec-btn { color: var(--gold); border-color: rgba(245,158,11,0.25); background: var(--gold-dim); }
+.sec-btn:hover { background: rgba(245,158,11,0.25); }
+.project-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+.project-filters { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin-top: 2.5rem; }
+.filter-btn {
+  font: inherit; font-size: 0.88rem; font-weight: 600; cursor: pointer;
+  padding: 0.55rem 1.2rem; border-radius: 50px; color: var(--text-2);
+  background: var(--card); border: 1px solid var(--border-2); transition: var(--transition);
+}
+.filter-btn:hover { color: var(--text); border-color: rgba(0,212,255,0.35); }
+.filter-btn.active { color: #fff; background: var(--grad); border-color: transparent; }
+.project-filters + .projects-grid { margin-top: 2rem; }
+.project-card.is-hidden { display: none; }
 
 /* ══════════════════════════════════
    EDUCATION
