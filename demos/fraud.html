@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fraud Alert-Budget Simulator · Live Demo · Mohammed Bello Ibrahim</title>
+<meta name="description" content="Compare rules, an anomaly detector and gradient boosting for card fraud at the same analyst alert budget, measured in dollars caught.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="demo.css">
+<style>
+  .budget { flex: 1 1 360px; min-width: 0; }
+  .budget-read { display: flex; flex-wrap: wrap; align-items: baseline; gap: .35rem .9rem; margin-bottom: .2rem; }
+  .budget-read .big { font-size: 1.6rem; font-weight: 700; }
+  .budget-read .meta { font-size: .86rem; color: var(--text-2); }
+  .ticks { display: flex; justify-content: space-between; font-size: .72rem; color: var(--text-3); margin-top: -.15rem; }
+  .model { position: relative; overflow: hidden; }
+  .model::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--mc); }
+  .model .mh { display: flex; justify-content: space-between; align-items: center; gap: .5rem; margin-bottom: .65rem; }
+  .model .mh b { font-size: .95rem; display: inline-flex; align-items: center; gap: .5rem; }
+  .model .mh b i.sw { width: 10px; height: 10px; border-radius: 3px; background: var(--mc); display: inline-block; }
+  .model .hero-v { font-size: 2.1rem; font-weight: 700; line-height: 1.1; }
+  .model .hero-k { font-size: .8rem; color: var(--text-2); margin-bottom: .75rem; }
+  .model dl { display: grid; grid-template-columns: 1fr auto; gap: .4rem .75rem; font-size: .85rem; border-top: 1px solid var(--border-2); padding-top: .75rem; }
+  .model dt { color: var(--text-3); }
+  .model dd { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .pattern + .pattern { margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px solid var(--border-2); }
+  .pattern h3 { font-size: .92rem; font-weight: 600; }
+  .pattern p { font-size: .8rem; color: var(--text-3); margin: .15rem 0 .6rem; }
+  .reasons { margin: 0; padding-left: 1rem; font-size: .8rem; color: var(--text-2); }
+  .reasons li + li { margin-top: .15rem; }
+  .why { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+  .why .card h3 { font-size: .92rem; font-weight: 600; margin-bottom: .3rem; display: flex; gap: .5rem; align-items: center; }
+  .why .card h3 i { color: var(--cyan); }
+  .why .card p { font-size: .84rem; color: var(--text-2); }
+  @media (max-width: 960px) { .why { grid-template-columns: minmax(0, 1fr); } }
+  .pattern .hbar { grid-template-columns: 8.6rem minmax(0, 1fr); }
+  .q-only { display: none; margin-top: .45rem; }
+  @media (max-width: 560px) { .q-hide { display: none; } .q-only { display: block; } }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="back" href="../#projects"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>Portfolio</span></a>
+  <a class="logo" href="../">MBI</a>
+  <a class="code-link" href="https://github.com/Bellomk77/fraud-detection" target="_blank" rel="noopener"><i class="fab fa-github" aria-hidden="true"></i><span>View code</span></a>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <span class="eyebrow"><span class="live"></span>Machine learning · Live demo</span>
+    <h1>Fraud Detection: <span class="grad">alert-budget simulator</span></h1>
+    <p class="lead">A fraud team can only review so many alerts a day. Give three approaches the same budget and compare how much fraud each one stops, in dollars. Drag the slider to change the budget.</p>
+    <p class="note"><i class="fas fa-circle-info" aria-hidden="true"></i><span id="data-note"></span></p>
+  </section>
+
+  <div class="controls" role="region" aria-label="Alert budget">
+    <div class="field budget">
+      <label for="budget">Alert budget (share of transactions the team can review)</label>
+      <div class="budget-read"><span class="big" id="b-pct"></span><span class="meta" id="b-meta"></span></div>
+      <input type="range" id="budget" min="1" max="30" step="1" value="5" aria-describedby="b-meta">
+      <div class="ticks" aria-hidden="true"><span>0.1%</span><span>1%</span><span>2%</span><span>3%</span></div>
+    </div>
+  </div>
+
+  <div class="grid cols-3" id="models" aria-live="polite"></div>
+
+  <div class="grid cols-2-1" style="margin-top:1rem">
+    <div class="card">
+      <h2>Fraud dollars caught at every budget</h2>
+      <p class="sub">Each model ranks transactions by risk; the team reviews the top of the list</p>
+      <div id="curve-legend"></div>
+      <div class="chart-box tall"><canvas id="curve" role="img" aria-label="Line chart of the share of fraud dollars caught by each approach as the alert budget grows"></canvas></div>
+      <div id="curve-table"></div>
+    </div>
+    <div class="card">
+      <h2>Which fraud patterns get caught</h2>
+      <p class="sub">True fraud in the test period, including fraud customers never reported, at the selected budget</p>
+      <div id="patterns"></div>
+    </div>
+  </div>
+
+  <h2 class="section-title">What analysts see: the alert queue</h2>
+  <p class="section-sub">Ten alerts sampled evenly from Gradient Boosting's top 132 (the 0.5% budget). Every alert carries plain-language reason codes, so an analyst knows where to look first.</p>
+  <div class="card">
+    <div class="tbl-wrap"><table id="queue"></table></div>
+  </div>
+
+  <h2 class="section-title">Why the evaluation is built this way</h2>
+  <div class="why">
+    <div class="card"><h3><i class="fas fa-clock-rotate-left" aria-hidden="true"></i>Train on the past, test on the future</h3><p>A random split lets a model peek at the future and inflates results. Here the models learn from earlier weeks and are scored on two weeks they never saw.</p></div>
+    <div class="card"><h3><i class="fas fa-user-shield" aria-hidden="true"></i>Point-in-time features</h3><p>Every feature uses only transactions before the current one. A test proves that adding future data never changes an earlier feature.</p></div>
+    <div class="card"><h3><i class="fas fa-scale-balanced" aria-hidden="true"></i>Budget and dollars, not accuracy</h3><p>With 0.29% fraud, a model that flags nothing is 99.7% accurate. What matters is how many fraud dollars sit in the alerts a team can actually review.</p></div>
+  </div>
+
+  <div class="more" id="more"></div>
+</main>
+
+<footer class="footer">Built by <a href="../">Mohammed Bello Ibrahim</a> · Python · scikit-learn · pandas · <a href="https://github.com/Bellomk77/fraud-detection" target="_blank" rel="noopener">Source on GitHub</a></footer>
+
+<script src="vendor/chart.umd.min.js"></script>
+<script src="data/fraud.js"></script>
+<script src="demo.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.DEMO_DATA;
+  const { C, el, $, clear, fmt, legend, tableView } = window.DEMO;
+  const REVIEW_COST = 10;
+  const DAYS = Math.round((Date.parse(D.test_to) - Date.parse(D.test_from)) / 864e5) + 1;
+  const MODELS = [
+    { key: 'Rules', label: 'Rules', blurb: 'Hand-written rules, where many banks start', color: C.s1 },
+    { key: 'Isolation Forest', label: 'Isolation Forest', blurb: 'Unsupervised: flags unusual transactions', color: C.s2 },
+    { key: 'Gradient Boosting', label: 'Gradient Boosting', blurb: 'Supervised: learns from labelled fraud', color: C.s3 },
+  ];
+  const PATTERNS = [
+    { key: 'card_testing', label: 'Card testing', desc: 'Several tiny online charges, then a large purchase' },
+    { key: 'account_takeover', label: 'Account takeover', desc: 'New device, often a new province or night-time, large amounts' },
+    { key: 'insider_device', label: 'Insider device', desc: "The customer's own phone and province, moderately larger amounts" },
+  ];
+  const BUDGETS = D.models.Rules.rows.map((r) => r.b);
+  const day = (iso) => new Date(iso + 'T12:00:00Z').toLocaleDateString('en-CA', { month: 'short', day: 'numeric', timeZone: 'UTC' }).replace('.', '');
+
+  $('#data-note').textContent = `Simulated card transactions: ${fmt.int(D.total_txns)} over three months with a ${fmt.pct(D.fraud_rate, 2)} fraud rate. ` +
+    `Results are for the last ${DAYS} days (${day(D.test_from)} to ${day(D.test_to)}, 2026: ${fmt.int(D.test_txns)} transactions, ${D.test_fraud} reported frauds worth ${fmt.money(D.fraud_dollars)}), which the models never saw in training.`;
+
+  const slider = $('#budget');
+  const rowAt = (model, i) => D.models[model].rows[i];
+
+  /* ---------- per-model cards ---------- */
+  function renderModels(i) {
+    const box = clear($('#models'));
+    const best = MODELS.reduce((a, m) => (rowAt(m.key, i).dollars > rowAt(a.key, i).dollars ? m : a), MODELS[0]);
+    MODELS.forEach((m) => {
+      const r = rowAt(m.key, i);
+      const net = r.dollars - r.k * REVIEW_COST;
+      box.append(el('div', { class: 'card model', style: { '--mc': m.color } },
+        el('div', { class: 'mh' }, el('b', null, el('i', { class: 'sw', 'aria-hidden': 'true' }), m.label),
+          m === best ? el('span', { class: 'pill info' }, el('i', { class: 'fas fa-trophy', 'aria-hidden': 'true' }), 'Most caught') : null),
+        el('div', { class: 'hero-v', text: fmt.pct(r.dollars / D.fraud_dollars) }),
+        el('div', { class: 'hero-k', text: `of fraud dollars caught (${fmt.money(r.dollars)} of ${fmt.money(D.fraud_dollars)})` }),
+        el('dl', null,
+          el('dt', { text: 'Fraud cases caught' }), el('dd', { text: `${r.caught} / ${D.test_fraud}` }),
+          el('dt', { text: 'Alerts that were real fraud' }), el('dd', { text: fmt.pct(r.caught / r.k) }),
+          el('dt', { text: `Net savings after $${REVIEW_COST}/alert review` }), el('dd', { text: fmt.money(net) }),
+          el('dt', { text: 'PR-AUC (whole ranking)' }), el('dd', { text: D.models[m.key].pr_auc.toFixed(2) })),
+        el('p', { class: 'muted small', style: { marginTop: '.7rem' }, text: m.blurb })));
+    });
+  }
+
+  /* ---------- curve ---------- */
+  legend($('#curve-legend'), MODELS.map((m) => ({ label: m.label, color: m.color })));
+  const curve = new Chart($('#curve'), {
+    type: 'line',
+    data: {
+      labels: BUDGETS.map((b) => fmt.pct(b, 1)),
+      datasets: MODELS.map((m) => ({
+        label: m.label, data: D.models[m.key].rows.map((r) => +(100 * r.dollars / D.fraud_dollars).toFixed(1)),
+        borderColor: m.color, backgroundColor: m.color, pointHoverBackgroundColor: m.color, tension: 0.2,
+      })),
+    },
+    options: {
+      layout: { padding: (ctx) => ({ right: ctx.chart.width >= 560 ? 118 : 6, top: 4 }) },
+      scales: {
+        x: { title: { display: true, text: 'Alert budget (share of transactions reviewed)', color: C.text3, font: { size: 11 } }, grid: { display: false },
+          border: { color: 'rgba(255,255,255,.16)' }, ticks: { color: C.text3, maxRotation: 0, autoSkip: false, callback: (v, idx) => ([0, 4, 9, 14, 19, 24, 29].includes(idx) ? fmt.pct(BUDGETS[idx], 1) : '') } },
+        y: { min: 0, max: 100, border: { display: false }, grid: { color: C.grid }, ticks: { color: C.text3, stepSize: 25, callback: (v) => v + '%' } },
+      },
+      plugins: {
+        endLabels: { enabled: true },
+        marker: { x: 4, label: '0.5%' },
+        tooltip: { callbacks: {
+          title: (items) => `Budget ${fmt.pct(BUDGETS[items[0].dataIndex], 1)} (${fmt.int(rowAt('Rules', items[0].dataIndex).k)} alerts)`,
+          label: (item) => `${item.parsed.y.toFixed(0)}%  ${item.dataset.label}`,
+        } },
+      },
+    },
+  });
+  tableView($('#curve-table'), ['Budget', 'Alerts'].concat(MODELS.map((m) => m.label)),
+    BUDGETS.map((b, i) => [fmt.pct(b, 1), fmt.int(rowAt('Rules', i).k)].concat(MODELS.map((m) => fmt.pct(rowAt(m.key, i).dollars / D.fraud_dollars)))));
+
+  /* ---------- patterns (small multiples of bars, length = share of the pattern caught) ---------- */
+  function renderPatterns(i) {
+    const box = clear($('#patterns'));
+    PATTERNS.forEach((p) => {
+      const total = D.pattern_totals[p.key];
+      const list = el('div');
+      box.append(el('div', { class: 'pattern' }, el('h3', { text: `${p.label} (${total} cases)` }), el('p', { text: p.desc }), list));
+      list.classList.add('hbars');
+      MODELS.forEach((m) => {
+        const caught = rowAt(m.key, i).pat[p.key];
+        const fill = el('span', { class: 'fill', style: { width: `calc(${(caught / total) * 100}% * 0.62)`, background: m.color } });
+        list.append(el('div', { class: 'hbar', title: `${m.label}: ${caught} of ${total} ${p.label.toLowerCase()} cases` },
+          el('span', { class: 'name', text: m.label }),
+          el('span', { class: 'track' }, fill, el('span', { class: 'val', text: `${caught} / ${total}` }))));
+      });
+    });
+  }
+
+  /* ---------- alert queue ---------- */
+  function renderQueue() {
+    const t = clear($('#queue'));
+    const hour = (h) => `${String(h).padStart(2, '0')}:00`;
+    const outcome = (q) => el('span', { class: 'pill ' + (q.fraud ? 'crit' : 'muted') }, el('i', { class: 'fas ' + (q.fraud ? 'fa-triangle-exclamation' : 'fa-check'), 'aria-hidden': 'true' }), q.fraud ? 'Confirmed fraud' : 'False alarm');
+    t.append(el('thead', null, el('tr', null,
+      el('th', { class: 'n', text: 'Rank' }), el('th', { class: 'n q-hide', text: 'Score' }), el('th', { class: 'n', text: 'Amount' }),
+      el('th', { class: 'q-hide', text: 'Merchant' }), el('th', { text: 'Why it was flagged' }), el('th', { class: 'q-hide', text: 'Outcome' }))));
+    t.append(el('tbody', null, D.queue.map((q) => el('tr', null,
+      el('td', { class: 'n', text: `#${q.rank}` }), el('td', { class: 'n q-hide', text: q.score.toFixed(3) }),
+      el('td', { class: 'n', text: fmt.money(q.amount, 2) }),
+      el('td', { class: 'q-hide' }, el('div', { text: q.category.replace(/^./, (c) => c.toUpperCase()) }), el('div', { class: 'muted small', text: `${q.province} · ${hour(q.hour)}` })),
+      el('td', null, el('ul', { class: 'reasons' }, q.reasons.map((r) => el('li', { text: r }))), el('div', { class: 'q-only' }, outcome(q))),
+      el('td', { class: 'q-hide' }, outcome(q))))));
+  }
+
+  function update() {
+    const i = +slider.value - 1;
+    const r = rowAt('Rules', i);
+    $('#b-pct').textContent = fmt.pct(BUDGETS[i], 1);
+    $('#b-meta').textContent = `${fmt.int(r.k)} alerts over ${DAYS} days, about ${Math.max(1, Math.round(r.k / DAYS))} a day`;
+    slider.setAttribute('aria-valuetext', `${fmt.pct(BUDGETS[i], 1)}, ${r.k} alerts`);
+    renderModels(i);
+    renderPatterns(i);
+    curve.options.plugins.marker = { x: i, label: fmt.pct(BUDGETS[i], 1) };
+    curve.update('none');
+  }
+  slider.addEventListener('input', update);
+  update();
+  renderQueue();
+  window.DEMO.moreDemos($('#more'), 'fraud.html');
+})();
+</script>
+</body>
+</html>

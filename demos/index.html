@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Project Demos · Mohammed Bello Ibrahim</title>
+<meta name="description" content="Interactive demos of data engineering, machine learning, AI security and GRC projects by Mohammed Bello Ibrahim.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="demo.css">
+<style>
+  .hub { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; }
+  .hub a { display: flex; flex-direction: column; gap: .6rem; background: var(--card); border: 1px solid var(--border-2); border-radius: var(--radius); padding: 1.35rem; transition: border-color .2s, transform .2s; }
+  .hub a:hover { border-color: rgba(0, 212, 255, .35); transform: translateY(-2px); }
+  .hub .ic { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-size: 1.1rem; background: var(--cyan-dim); color: var(--cyan); }
+  .hub .ic.ai { background: var(--purple-dim); color: var(--purple-soft); }
+  .hub .ic.sec { background: var(--gold-dim); color: var(--gold); }
+  .hub h2 { font-family: var(--font-head); font-size: 1.12rem; font-weight: 600; }
+  .hub p { font-size: .9rem; color: var(--text-2); }
+  .hub .try { margin-top: auto; padding-top: .4rem; font-size: .86rem; font-weight: 600; color: var(--cyan); }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="back" href="../#projects"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>Portfolio</span></a>
+  <a class="logo" href="../">MBI</a>
+  <a class="code-link" href="https://github.com/Bellomk77" target="_blank" rel="noopener"><i class="fab fa-github" aria-hidden="true"></i><span>GitHub</span></a>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <span class="eyebrow"><span class="live"></span>Live demos</span>
+    <h1>Try my projects <span class="grad">in your browser</span></h1>
+    <p class="lead">Each demo runs on real output from the project's code, and the interactive ones use the same scoring logic as the Python version, checked against it. No sign-up, nothing to install.</p>
+  </section>
+  <div class="hub">
+    <a href="retail.html"><span class="ic"><i class="fas fa-chart-line" aria-hidden="true"></i></span><h2>Retail KPI dashboard</h2><p>A dbt + DuckDB pipeline turns 59,089 messy rows into a tested star schema. Filter revenue by period and channel, explore cohort retention, and see the data-quality scorecard.</p><span class="try">Open dashboard <i class="fas fa-arrow-right" aria-hidden="true"></i></span></a>
+    <a href="fraud.html"><span class="ic"><i class="fas fa-credit-card" aria-hidden="true"></i></span><h2>Fraud alert-budget simulator</h2><p>Rules vs. anomaly detection vs. gradient boosting at the same analyst workload. Drag the budget and watch the fraud dollars each one catches.</p><span class="try">Open simulator <i class="fas fa-arrow-right" aria-hidden="true"></i></span></a>
+    <a href="churn.html"><span class="ic"><i class="fas fa-user-clock" aria-hidden="true"></i></span><h2>Churn risk scorer</h2><p>The model behind the Churn Model API. Change a customer's contract, tenure and services and get the churn risk, the reasons, and the best retention levers.</p><span class="try">Score a customer <i class="fas fa-arrow-right" aria-hidden="true"></i></span></a>
+    <a href="grc.html"><span class="ic sec"><i class="fas fa-shield-halved" aria-hidden="true"></i></span><h2>GRC what-if risk report</h2><p>A NIST CSF 2.0 assessment of a fictional credit union. Implement controls and watch the heat map, risk register and remediation roadmap recalculate.</p><span class="try">Run a what-if <i class="fas fa-arrow-right" aria-hidden="true"></i></span></a>
+    <a href="security.html"><span class="ic ai"><i class="fas fa-user-secret" aria-hidden="true"></i></span><h2>LLM security scan report</h2><p>20 OWASP LLM Top 10 attacks against a vulnerable and a hardened chatbot. See every prompt, every reply, and why the CI gate blocks or passes the release.</p><span class="try">View the report <i class="fas fa-arrow-right" aria-hidden="true"></i></span></a>
+  </div>
+</main>
+<footer class="footer">Built by <a href="../">Mohammed Bello Ibrahim</a> · <a href="../#projects">All projects</a></footer>
+</body>
+</html>

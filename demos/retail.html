@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retail KPI Dashboard · Live Demo · Mohammed Bello Ibrahim</title>
+<meta name="description" content="Interactive KPI dashboard built on a tested dbt + DuckDB pipeline: revenue trend, channel mix, cohort retention and a data-quality scorecard.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="demo.css">
+<style>
+  .pipeline { display: flex; align-items: stretch; gap: .5rem; flex-wrap: wrap; margin-top: 1.25rem; }
+  .pipeline .stage { flex: 1 1 150px; background: var(--card); border: 1px solid var(--border-2); border-radius: var(--radius-sm); padding: .7rem .85rem; min-width: 0; }
+  .pipeline .stage b { display: block; font-size: .82rem; color: var(--text); }
+  .pipeline .stage span { font-size: .76rem; color: var(--text-3); }
+  .pipeline .arrow { align-self: center; color: var(--text-3); font-size: .8rem; }
+  .cohort td, .cohort th { padding: .42rem .35rem; text-align: center; font-variant-numeric: tabular-nums; }
+  .cohort th:first-child, .cohort td:first-child { text-align: left; white-space: nowrap; }
+  .cohort td.cell { border-bottom: 2px solid var(--card); border-right: 2px solid var(--card); font-size: .78rem; font-weight: 600; min-width: 46px; }
+  .cohort td.size { color: var(--text-3); font-size: .78rem; }
+  .cohort tr.avg td { border-top: 1px solid rgba(255,255,255,.18); font-weight: 700; }
+  .scale { display: flex; align-items: center; gap: .5rem; font-size: .76rem; color: var(--text-3); margin-top: .8rem; }
+  .scale .ramp { height: 8px; width: 140px; border-radius: 4px; }
+  tr.dim td { opacity: .45; }
+  .compact th, .compact td { padding: .5rem .4rem; font-size: .82rem; }
+  .compact td:first-child { white-space: nowrap; }
+  .cohort .sm { display: none; }
+  @media (max-width: 560px) {
+    .pipeline { display: grid; grid-template-columns: 1fr 1fr; }
+    .pipeline .arrow { display: none; }
+    .pipeline .stage:last-child { grid-column: span 2; }
+    .cohort .lg, .cohort .size { display: none; }
+    .cohort .sm { display: inline; }
+    .cohort td.cell { min-width: 40px; font-size: .74rem; }
+  }
+  .key { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: .45rem; vertical-align: -1px; }
+  .headline { font-size: .92rem; color: var(--text-2); margin: .2rem 0 1rem; }
+  .headline b { color: var(--text); }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="back" href="../#projects"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>Portfolio</span></a>
+  <a class="logo" href="../">MBI</a>
+  <a class="code-link" href="https://github.com/Bellomk77/retail-data-pipeline" target="_blank" rel="noopener"><i class="fab fa-github" aria-hidden="true"></i><span>View code</span></a>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <span class="eyebrow"><span class="live"></span>Data engineering · Live demo</span>
+    <h1>Retail Data Pipeline: <span class="grad">KPI dashboard</span></h1>
+    <p class="lead">Every number on this page comes from the pipeline's output: 59,089 messy raw rows, cleaned and modelled by dbt into a tested star schema in DuckDB. Filter by period and channel, and every chart below the filters updates together.</p>
+    <p class="note"><i class="fas fa-circle-info" aria-hidden="true"></i><span>The store is fictional and the data is synthetic (fixed seed), generated with known data problems injected on purpose so the pipeline can be scored on whether it catches them. See the scorecard at the bottom.</span></p>
+    <div class="pipeline" aria-label="Pipeline stages">
+      <div class="stage"><b>Raw</b><span>4 tables, 59,089 rows, all loaded as text</span></div><span class="arrow" aria-hidden="true"><i class="fas fa-chevron-right"></i></span>
+      <div class="stage"><b>Staging</b><span>types, dedup, casing, returns split out</span></div><span class="arrow" aria-hidden="true"><i class="fas fa-chevron-right"></i></span>
+      <div class="stage"><b>Marts</b><span>fct_orders (incremental), dims, cohorts</span></div><span class="arrow" aria-hidden="true"><i class="fas fa-chevron-right"></i></span>
+      <div class="stage"><b>25 dbt tests</b><span>incl. revenue reconciliation</span></div><span class="arrow" aria-hidden="true"><i class="fas fa-chevron-right"></i></span>
+      <div class="stage"><b>This dashboard</b><span>exported from the marts</span></div>
+    </div>
+  </section>
+
+  <h2 class="section-title">Sales performance</h2>
+  <div class="controls" role="region" aria-label="Filters">
+    <div class="ctrl"><span class="label" id="lbl-period">Period</span><div class="seg" id="f-period"></div></div>
+    <div class="ctrl"><span class="label" id="lbl-channel">Channel</span><div class="seg" id="f-channel"></div></div>
+  </div>
+
+  <div class="grid kpis" id="kpis" aria-live="polite"></div>
+
+  <div class="grid cols-2-1">
+    <div class="card">
+      <h2>Net revenue by month</h2>
+      <p class="sub" id="trend-sub">Gross sales minus returns, cancelled orders excluded</p>
+      <div id="trend-legend"></div>
+      <div class="chart-box"><canvas id="trend" role="img" aria-label="Line chart of monthly net revenue"></canvas></div>
+      <div id="trend-table"></div>
+    </div>
+    <div class="card">
+      <h2>Channel mix</h2>
+      <p class="sub">Share of net revenue in the selected period</p>
+      <div id="mix"></div>
+      <div id="mix-legend" style="margin-top:.75rem"></div>
+      <div class="tbl-wrap"><table id="mix-table" class="compact"></table></div>
+    </div>
+  </div>
+
+  <div class="grid cols-2" style="margin-top:1rem">
+    <div class="card">
+      <h2>Net revenue by category</h2>
+      <p class="sub">Line-level sales minus returns</p>
+      <div id="cats"></div>
+    </div>
+    <div class="card">
+      <h2>Net revenue by province</h2>
+      <p class="sub">Customer's home province; guest checkouts have no customer record</p>
+      <div id="provs"></div>
+    </div>
+  </div>
+
+  <h2 class="section-title">Customers</h2>
+  <p class="section-sub">Customer-level views across both years and all channels, so the filters above don't apply here.</p>
+  <div class="grid cols-2-1">
+    <div class="card">
+      <h2>Cohort retention</h2>
+      <p class="sub">Of the customers whose first order was in a given month, the share who ordered again 1 to 6 months later</p>
+      <div class="tbl-wrap"><table class="cohort" id="cohort"></table></div>
+      <div class="scale" id="cohort-scale"></div>
+    </div>
+    <div class="card">
+      <h2>Customer segments</h2>
+      <p class="headline" id="seg-headline"></p>
+      <div class="segbar-row"><span>Customers</span><div id="seg-n"></div></div>
+      <div class="segbar-row"><span>Lifetime revenue</span><div id="seg-ltv"></div></div>
+      <div id="seg-legend" style="margin-top:.85rem"></div>
+      <div class="tbl-wrap"><table id="seg-table" class="compact"></table></div>
+      <p class="muted small" style="margin-top:.75rem">VIP = top 5% by lifetime revenue · Repeat = 2+ orders · Prospect = signed up, never ordered. Repeat-customer rate: 36.5%.</p>
+    </div>
+  </div>
+
+  <h2 class="section-title">Data quality scorecard</h2>
+  <p class="section-sub">Each problem below was injected into the raw data on purpose, with an exact count. The pipeline passes only if it detects and handles every one.</p>
+  <div class="grid kpis" id="dq-kpis"></div>
+  <div class="card">
+    <div class="tbl-wrap"><table id="scorecard"></table></div>
+  </div>
+
+  <div class="more" id="more"></div>
+</main>
+
+<footer class="footer">Built by <a href="../">Mohammed Bello Ibrahim</a> · dbt · DuckDB · Airflow · SQL · <a href="https://github.com/Bellomk77/retail-data-pipeline" target="_blank" rel="noopener">Source on GitHub</a></footer>
+
+<script src="vendor/chart.umd.min.js"></script>
+<script src="data/retail.js"></script>
+<script src="demo.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.DEMO_DATA;
+  const { C, el, $, clear, fmt, segmented, hbars, segbar, legend, tableView } = window.DEMO;
+
+  const CH = [
+    { key: 'web', label: 'Web', color: C.s1 },
+    { key: 'mobile_app', label: 'Mobile app', color: C.s2 },
+    { key: 'marketplace', label: 'Marketplace', color: C.s3 },
+  ];
+  const CH_BY = Object.fromEntries(CH.map((c) => [c.key, c]));
+  const PROV = { ON: 'Ontario', QC: 'Quebec', BC: 'British Columbia', AB: 'Alberta', MB: 'Manitoba', NS: 'Nova Scotia', Guest: 'Guest checkout' };
+  const CAT = { Unknown: 'Not in catalogue' };
+  const MONTHS = [...new Set(D.monthly.map((r) => r.m))].sort();
+  const mLabel = (m, short) => {
+    const [y, mo] = m.split('-');
+    const name = new Date(Date.UTC(+y, +mo - 1, 1)).toLocaleString('en-CA', { month: 'short', timeZone: 'UTC' }).replace('.', '');
+    return short ? `${name} ${y.slice(2)}` : `${name} ${y}`;
+  };
+
+  const state = { period: 'all', channel: 'all' };
+  const inPeriod = (m, p) => p === 'all' || m.startsWith(p);
+  const inChannel = (ch, c) => c === 'all' || ch === c;
+  const pick = (rows, p, c) => rows.filter((r) => inPeriod(r.m, p) && inChannel(r.ch, c));
+  const agg = (rows) => rows.reduce((a, r) => ({ net: a.net + r.net, gross: a.gross + r.gross, ret: a.ret + r.ret, orders: a.orders + r.orders }),
+    { net: 0, gross: 0, ret: 0, orders: 0 });
+
+  /* ---------- filters ---------- */
+  segmented($('#f-period'), [
+    { value: 'all', label: 'All 24 months' }, { value: '2025', label: '2025' }, { value: '2024', label: '2024' },
+  ], state.period, (val) => { state.period = val; render(); }, 'Period');
+  segmented($('#f-channel'), [{ value: 'all', label: 'All channels' }].concat(CH.map((c) => ({ value: c.key, label: c.label }))),
+    state.channel, (val) => { state.channel = val; render(); }, 'Channel');
+
+  /* ---------- KPI tiles ---------- */
+  function kpiTile(label, value, detail) {
+    return el('div', { class: 'card kpi' }, el('div', { class: 'k', text: label }), el('div', { class: 'v', text: value }), detail);
+  }
+  function deltaNode(cur, prev, { goodWhenUp = true, pp = false, prefix = '' } = {}) {
+    if (!prev) return null;
+    const diff = pp ? (cur - prev) : (cur - prev) / prev;
+    const up = diff >= 0;
+    const good = up === goodWhenUp;
+    const text = pp ? `${up ? '+' : ''}${(diff * 100).toFixed(1)} pts` : fmt.signedPct(diff);
+    return el('div', { class: 'd' }, prefix, el('span', { class: good ? 'delta-up' : 'delta-down', text }), ' vs 2024');
+  }
+  function renderKpis() {
+    const box = clear($('#kpis'));
+    const cur = agg(pick(D.monthly, state.period, state.channel));
+    const y24 = agg(pick(D.monthly, '2024', state.channel));
+    const y25 = agg(pick(D.monthly, '2025', state.channel));
+    const aov = (a) => a.net / a.orders;
+    const rr = (a) => a.ret / a.gross;
+    let a = cur, b = null, prefix = '';
+    if (state.period === '2025') { a = y25; b = y24; }
+    if (state.period === 'all') { a = y25; b = y24; prefix = '2025: '; }
+    const note = (t) => el('div', { class: 'd', text: t });
+    const first = state.period === '2024';
+    box.append(
+      kpiTile('Net revenue', fmt.moneyShort(cur.net), first ? note('First year of data') : deltaNode(a.net, b.net, { prefix })),
+      kpiTile('Orders', fmt.int(cur.orders), first ? note('Completed orders') : deltaNode(a.orders, b.orders, { prefix })),
+      kpiTile('Average order value', fmt.money(aov(cur), 2), first ? note('Net revenue per order') : deltaNode(aov(a), aov(b), { prefix })),
+      kpiTile('Return rate', fmt.pct(rr(cur), 1), first ? note('Returns as a share of gross sales') : deltaNode(rr(a), rr(b), { goodWhenUp: false, pp: true, prefix })),
+    );
+  }
+
+  /* ---------- trend chart ---------- */
+  let trendChart = null;
+  function renderTrend() {
+    const months = MONTHS.filter((m) => inPeriod(m, state.period));
+    const chans = state.channel === 'all' ? CH : [CH_BY[state.channel]];
+    const series = chans.map((c) => ({
+      c, data: months.map((m) => { const r = D.monthly.find((x) => x.m === m && x.ch === c.key); return r ? Math.round(r.net) : 0; }),
+    }));
+    legend($('#trend-legend'), chans.map((c) => ({ label: c.label, color: c.color })));
+    const cfg = {
+      type: 'line',
+      data: {
+        labels: months.map((m) => mLabel(m, true)),
+        datasets: series.map((s) => ({
+          label: s.c.label, data: s.data, borderColor: s.c.color, backgroundColor: s.c.color,
+          pointHoverBackgroundColor: s.c.color, tension: 0.25,
+          fill: chans.length === 1 ? { target: 'origin', above: s.c.color + '1a' } : false,
+        })),
+      },
+      options: {
+        layout: { padding: (ctx) => ({ right: ctx.chart.width >= 560 ? 92 : 6, top: 6 }) },
+        scales: {
+          x: { grid: { display: false }, border: { color: 'rgba(255,255,255,.16)' }, ticks: { maxRotation: 0, autoSkipPadding: 14, color: C.text3 } },
+          y: { beginAtZero: true, border: { display: false }, grid: { color: C.grid }, ticks: { color: C.text3, maxTicksLimit: 6, callback: (val) => fmt.moneyShort(val) } },
+        },
+        plugins: {
+          endLabels: { enabled: true },
+          tooltip: { callbacks: {
+            title: (items) => mLabel(months[items[0].dataIndex]),
+            label: (item) => `${fmt.money(item.parsed.y)}  ${item.dataset.label}`,
+            footer: (items) => items.length > 1 ? `${fmt.money(items.reduce((s, i) => s + i.parsed.y, 0))}  Total` : '',
+          }, footerColor: C.text2, footerFont: { weight: '600' } },
+        },
+      },
+    };
+    if (trendChart) trendChart.destroy();
+    trendChart = new Chart($('#trend'), cfg);
+    tableView($('#trend-table'), ['Month'].concat(chans.map((c) => c.label), chans.length > 1 ? ['Total'] : []),
+      months.map((m, i) => [mLabel(m)].concat(series.map((s) => fmt.money(s.data[i])),
+        chans.length > 1 ? [fmt.money(series.reduce((t, s) => t + s.data[i], 0))] : [])));
+  }
+
+  /* ---------- channel mix ---------- */
+  function renderMix() {
+    const rows = CH.map((c) => ({ c, a: agg(pick(D.monthly, state.period, c.key)) }));
+    segbar($('#mix'), rows.map((r) => ({ name: r.c.label, value: r.a.net, color: r.c.color })), { format: (x) => fmt.money(x) });
+    // dim the channels outside the filter (color still follows the channel)
+    requestAnimationFrame(() => {
+      [...$('#mix').children].forEach((n, i) => { n.style.opacity = state.channel === 'all' || CH[i].key === state.channel ? '1' : '.3'; });
+    });
+    legend($('#mix-legend'), CH.map((c) => ({ label: c.label, color: c.color, kind: 'rect' })));
+    const t = clear($('#mix-table'));
+    t.append(el('thead', null, el('tr', null, el('th', { text: 'Channel' }), el('th', { class: 'n', text: 'Net revenue' }), el('th', { class: 'n', text: 'Orders' }), el('th', { class: 'n', text: 'AOV' }))));
+    t.append(el('tbody', null, rows.map((r) => el('tr', { class: state.channel === 'all' || r.c.key === state.channel ? null : 'dim' },
+      el('td', null, el('span', { class: 'key', style: { background: r.c.color } }), r.c.label),
+      el('td', { class: 'n', text: fmt.moneyShort(r.a.net) }), el('td', { class: 'n', text: fmt.int(r.a.orders) }),
+      el('td', { class: 'n', text: fmt.money(r.a.net / r.a.orders, 0) })))));
+  }
+
+  /* ---------- category + province bars ---------- */
+  function groupSum(rows, key) {
+    const out = {};
+    rows.forEach((r) => { out[r[key]] = (out[r[key]] || 0) + r.net; });
+    return Object.entries(out).map(([k, val]) => ({ k, value: val })).sort((x, y) => y.value - x.value);
+  }
+  function renderBars() {
+    const cats = groupSum(pick(D.categories, state.period, state.channel), 'cat');
+    hbars($('#cats'), cats.map((r) => ({ name: CAT[r.k] || r.k, value: r.value })), { format: fmt.moneyShort });
+    const provs = groupSum(pick(D.provinces, state.period, state.channel), 'p');
+    hbars($('#provs'), provs.map((r) => ({ name: PROV[r.k] || r.k, value: r.value })), { format: fmt.moneyShort });
+  }
+
+  /* ---------- cohort heat table (sequential: one hue, brighter = higher) ---------- */
+  function renderCohort() {
+    const lo = [29, 52, 86], hi = [134, 182, 239]; // dark blue near the surface -> light blue
+    const MAXR = 0.25;
+    const color = (r) => {
+      const t = Math.max(0, Math.min(1, r / MAXR));
+      const c = lo.map((x, i) => Math.round(x + (hi[i] - x) * t));
+      return { bg: `rgb(${c.join(',')})`, ink: t > 0.55 ? '#0b1a2e' : '#f1f5f9' };
+    };
+    const cohorts = [...new Set(D.cohort.map((r) => r.c))].sort();
+    const ks = [1, 2, 3, 4, 5, 6];
+    const t = clear($('#cohort'));
+    t.append(el('thead', null, el('tr', null, el('th', { text: 'First order' }), el('th', { class: 'size', text: 'Customers' }), ks.map((k) => el('th', { text: `M${k}` })))));
+    const body = el('tbody');
+    const cell = (r, label) => {
+      const c = color(r);
+      return el('td', { class: 'cell', style: { background: c.bg, color: c.ink }, title: `${label}: ${fmt.pct(r, 1)}`, text: fmt.pct(r) });
+    };
+    cohorts.forEach((co) => {
+      const rows = D.cohort.filter((r) => r.c === co);
+      const size = rows[0].n;
+      body.append(el('tr', null, el('td', null, el('span', { class: 'lg', text: mLabel(co) }), el('span', { class: 'sm', text: mLabel(co, true) })), el('td', { class: 'size', text: fmt.int(size) }),
+        ks.map((k) => cell(rows.find((r) => r.k === k).r, `${mLabel(co)} cohort, month ${k}`))));
+    });
+    const avg = ks.map((k) => {
+      const rows = D.cohort.filter((r) => r.k === k);
+      return rows.reduce((s, r) => s + r.r * r.n, 0) / rows.reduce((s, r) => s + r.n, 0);
+    });
+    const total = cohorts.reduce((s, co) => s + D.cohort.find((r) => r.c === co).n, 0);
+    body.append(el('tr', { class: 'avg' }, el('td', { text: 'Weighted avg' }), el('td', { class: 'size', text: fmt.int(total) }), avg.map((r, i) => cell(r, `Average, month ${i + 1}`))));
+    t.append(body);
+    clear($('#cohort-scale')).append('0%', el('span', { class: 'ramp', style: { background: `linear-gradient(90deg, rgb(${lo.join(',')}), rgb(${hi.join(',')}))` } }), '25%+', el('span', { style: { marginLeft: '.5rem' }, text: 'M1 = one month after the first order' }));
+  }
+
+  /* ---------- segments ---------- */
+  function renderSegments() {
+    const order = ['VIP', 'Repeat', 'One-time', 'Prospect'];
+    const colors = { VIP: C.s1, Repeat: C.s2, 'One-time': C.s3, Prospect: C.s4 };
+    const segs = order.map((s) => D.segments.find((x) => x.s === s));
+    const n = segs.reduce((s, x) => s + x.n, 0), ltv = segs.reduce((s, x) => s + x.ltv, 0);
+    const vip = segs[0];
+    const h = clear($('#seg-headline'));
+    h.append('VIP customers are ', el('b', { text: fmt.pct(vip.n / n) }), ' of customers but bring in ', el('b', { text: fmt.pct(vip.ltv / ltv) }), ' of lifetime revenue.');
+    segbar($('#seg-n'), segs.map((x) => ({ name: x.s, value: x.n, color: colors[x.s] })), { format: fmt.int });
+    segbar($('#seg-ltv'), segs.map((x) => ({ name: x.s, value: x.ltv, color: colors[x.s] })), { format: fmt.money });
+    legend($('#seg-legend'), segs.map((x) => ({ label: x.s, color: colors[x.s], kind: 'rect' })));
+    const t = clear($('#seg-table'));
+    t.append(el('thead', null, el('tr', null, el('th', { text: 'Segment' }), el('th', { class: 'n', text: 'Customers' }), el('th', { class: 'n', text: 'Revenue' }), el('th', { class: 'n', text: 'Per customer' }))));
+    t.append(el('tbody', null, segs.map((x) => el('tr', null,
+      el('td', null, el('span', { class: 'key', style: { background: colors[x.s] } }), x.s),
+      el('td', { class: 'n', text: fmt.int(x.n) }), el('td', { class: 'n', text: fmt.moneyShort(x.ltv) }),
+      el('td', { class: 'n', text: fmt.money(x.ltv / x.n) })))));
+  }
+
+  /* ---------- data quality ---------- */
+  function renderQuality() {
+    const sc = D.scorecard;
+    const caught = sc.filter((r) => r.match).length;
+    const box = clear($('#dq-kpis'));
+    const tile = (k, val, d) => el('div', { class: 'card kpi' }, el('div', { class: 'k', text: k }), el('div', { class: 'v', text: val }), el('div', { class: 'd', text: d }));
+    box.append(
+      tile('Raw rows processed', fmt.int(D.rows_raw), 'Customers, products, orders, order lines'),
+      tile('Injected issues caught', `${caught} / ${sc.length}`, `${fmt.int(sc.reduce((s, r) => s + r.detected, 0))} problem rows, all accounted for`),
+      tile('dbt tests passing', String(D.dbt_tests), 'Schema, relationship and business-rule tests'),
+      tile('Revenue reconciliation', '$0.00 gap', 'Order totals match line items to the cent'),
+    );
+    const t = clear($('#scorecard'));
+    t.append(el('thead', null, el('tr', null, el('th', { text: 'Injected problem' }), el('th', { class: 'n', text: 'Injected' }), el('th', { class: 'n', text: 'Detected' }), el('th', { text: 'Result' }))));
+    t.append(el('tbody', null, sc.map((r) => el('tr', null,
+      el('td', null, el('div', { text: r.issue }), el('div', { class: 'muted small', text: r.handled })), el('td', { class: 'n', text: fmt.int(r.injected) }), el('td', { class: 'n', text: fmt.int(r.detected) }),
+      el('td', null, el('span', { class: 'pill ' + (r.match ? 'good' : 'crit') }, el('i', { class: 'fas ' + (r.match ? 'fa-check' : 'fa-xmark'), 'aria-hidden': 'true' }), r.match ? 'Exact match' : 'Mismatch'))))));
+  }
+
+  function render() {
+    renderKpis();
+    renderTrend();
+    renderMix();
+    renderBars();
+    const sub = $('#trend-sub');
+    sub.textContent = 'Gross sales minus returns, cancelled orders excluded' + (state.channel === 'all' ? ', by channel' : `, ${CH_BY[state.channel].label} only`);
+  }
+
+  render();
+  renderCohort();
+  renderSegments();
+  renderQuality();
+  window.DEMO.moreDemos($('#more'), 'retail.html');
+})();
+</script>
+</body>
+</html>

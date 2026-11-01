@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Churn Risk Scorer · Live Demo · Mohammed Bello Ibrahim</title>
+<meta name="description" content="Score a telecom customer's churn risk with the same logistic regression the Churn Model API serves, with the reasons behind each score.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="demo.css">
+<style>
+  .scorer { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 1rem; align-items: start; }
+  .result { position: sticky; top: 76px; }
+  .presets { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin-bottom: 1.1rem; }
+  .presets .label { font-size: .8rem; color: var(--text-2); font-weight: 600; margin-right: .2rem; }
+  .fgroup + .fgroup { margin-top: 1.2rem; padding-top: 1.1rem; border-top: 1px solid var(--border-2); }
+  .fgroup h3 { font-size: .74rem; text-transform: uppercase; letter-spacing: .09em; color: var(--text-3); font-weight: 700; margin-bottom: .75rem; }
+  .fgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem 1rem; }
+  .fgrid .wide { grid-column: 1 / -1; }
+  .seg.small button { font-size: .8rem; padding: .32rem .75rem; min-height: 32px; }
+  .seg button:disabled { opacity: .4; cursor: not-allowed; }
+  .derived { font-size: .8rem; color: var(--text-3); }
+  .derived b { color: var(--text-2); font-weight: 600; }
+  .risk-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .risk-num { font-size: 3.4rem; font-weight: 700; line-height: 1; letter-spacing: -.02em; }
+  .risk-lbl { font-size: .84rem; color: var(--text-2); margin-top: .3rem; }
+  .meter { position: relative; margin: 1.3rem 0 .4rem; }
+  .meter .track { display: flex; gap: 2px; height: 10px; }
+  .meter .zone { height: 100%; border-radius: 3px; }
+  .meter .pin { position: absolute; top: -6px; width: 3px; height: 22px; border-radius: 2px; background: #fff; box-shadow: 0 0 0 2px var(--card); transform: translateX(-50%); transition: left .35s ease; }
+  .meter-labels { position: relative; height: 1.1rem; font-size: .72rem; color: var(--text-3); }
+  .meter-labels span { position: absolute; top: 0; white-space: nowrap; }
+  .rlist { list-style: none; display: flex; flex-direction: column; gap: .55rem; }
+  .rlist li { display: grid; grid-template-columns: minmax(0, 1fr) 110px; gap: .75rem; align-items: center; font-size: .86rem; }
+  .rlist .rb { height: 8px; border-radius: 0 4px 4px 0; background: #e66767; }
+  .rlist .rv { color: var(--text-3); font-size: .74rem; font-variant-numeric: tabular-nums; }
+  .rlist b { font-weight: 600; }
+  .sub-h { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--text-3); font-weight: 700; margin: 1.2rem 0 .6rem; }
+  .levers { list-style: none; display: flex; flex-direction: column; gap: .45rem; font-size: .86rem; }
+  .levers li { display: flex; justify-content: space-between; gap: .75rem; padding: .5rem .65rem; border-radius: 8px; background: var(--bg-alt); border: 1px solid var(--border-2); }
+  .levers .to { font-weight: 700; color: var(--good-ink); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  pre.api { background: #0a1626; border: 1px solid var(--border-2); border-radius: var(--radius-sm); padding: .85rem 1rem; font-size: .76rem; line-height: 1.6; color: #c9d6e8; overflow-x: auto; margin-top: .5rem; }
+  .mobile-risk { display: none; }
+  @media (max-width: 960px) {
+    .scorer { grid-template-columns: minmax(0, 1fr); }
+    .result { position: static; }
+    .mobile-risk { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; justify-content: space-between; align-items: center; gap: 1rem;
+      padding: .7rem 1rem calc(.7rem + env(safe-area-inset-bottom)); background: rgba(9, 19, 34, .96); border-top: 1px solid rgba(0, 212, 255, .25); backdrop-filter: blur(10px); }
+    .mobile-risk b { font-size: 1.3rem; }
+    .mobile-risk a { font-size: .82rem; font-weight: 600; color: var(--cyan); }
+    body { padding-bottom: 64px; }
+  }
+  @media (max-width: 560px) { .fgrid { gap: .85rem .75rem; } .risk-num { font-size: 2.9rem; } }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="back" href="../#projects"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>Portfolio</span></a>
+  <a class="logo" href="../">MBI</a>
+  <a class="code-link" href="https://github.com/Bellomk77/churn-model-api" target="_blank" rel="noopener"><i class="fab fa-github" aria-hidden="true"></i><span>View code</span></a>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <span class="eyebrow"><span class="live"></span>Machine learning · Live demo</span>
+    <h1>Churn Model API: <span class="grad">score a customer</span></h1>
+    <p class="lead">This is the logistic regression the API serves, running in your browser. Change a customer's details and the churn risk, the reasons behind it, and the API response update instantly.</p>
+    <p class="note"><i class="fas fa-circle-info" aria-hidden="true"></i><span>Trained on the public IBM Telco Customer Churn dataset (7,043 customers). Checked against the Python model on 40 holdout customers: the probabilities match to 15 decimal places and the top reasons match the API's <span class="mono">/predict</span> output exactly.</span></p>
+  </section>
+
+  <div class="scorer">
+    <div class="card" id="form-card">
+      <div class="presets"><span class="label">Load an example</span><div class="seg small" id="presets"></div></div>
+      <div id="form"></div>
+    </div>
+    <div class="card result" id="result" aria-live="polite">
+      <div class="risk-top">
+        <div><div class="risk-num" id="r-num"></div><div class="risk-lbl">probability this customer churns</div></div>
+        <span class="pill" id="r-band"></span>
+      </div>
+      <div class="meter" aria-hidden="true"><div class="track" id="r-track"></div><div class="pin" id="r-pin"></div></div>
+      <div class="meter-labels" id="r-mlabels"></div>
+      <div class="sub-h">Top reasons for this score</div>
+      <ul class="rlist" id="r-reasons"></ul>
+      <p class="muted small" id="r-none" style="display:none">Nothing in this profile pushes the risk up.</p>
+      <div class="sub-h">Biggest single changes that would lower it</div>
+      <ul class="levers" id="r-levers"></ul>
+      <div class="sub-h">API response (POST /predict)</div>
+      <pre class="api" id="r-api"></pre>
+      <p class="muted small" style="margin-top:.75rem">Tenure and total charges move together, so a linear model splits their effect between them. Read those two as a pair.</p>
+    </div>
+  </div>
+
+  <h2 class="section-title">How good is the model?</h2>
+  <p class="section-sub">Scored on 1,409 customers held out from training (20%). Three model types were compared with 5-fold cross-validation; logistic regression scored highest and every score it makes can be explained.</p>
+  <div class="grid kpis" id="card-kpis"></div>
+  <div class="grid cols-2-1">
+    <div class="card">
+      <h2>Who to call first: cumulative gains</h2>
+      <p class="sub">Contact customers from riskiest to safest. How many of the real churners have you reached?</p>
+      <div id="gains-legend"></div>
+      <div class="chart-box"><canvas id="gains" role="img" aria-label="Cumulative gains chart: share of churners reached against share of customers contacted"></canvas></div>
+      <div id="gains-table"></div>
+    </div>
+    <div class="card">
+      <h2>Model comparison</h2>
+      <p class="sub">ROC-AUC, 5-fold cross-validation on the training set</p>
+      <div class="tbl-wrap"><table id="cv"></table></div>
+      <p class="muted small" style="margin-top:1rem">The three are within noise of each other, so the explainable model wins: the API can say <em>why</em> a customer is at risk, which is what a retention team needs. Risk bands: high is the riskiest 20% of training customers, medium the next 30%.</p>
+    </div>
+  </div>
+
+  <div class="more" id="more"></div>
+</main>
+
+<div class="mobile-risk" aria-hidden="true"><span>Churn risk <b id="m-num"></b> <span class="pill" id="m-band"></span></span><a href="#result">See why <i class="fas fa-arrow-up"></i></a></div>
+
+<footer class="footer">Built by <a href="../">Mohammed Bello Ibrahim</a> · FastAPI · scikit-learn · Docker · <a href="https://github.com/Bellomk77/churn-model-api" target="_blank" rel="noopener">Source on GitHub</a></footer>
+
+<script src="vendor/chart.umd.min.js"></script>
+<script src="data/churn.js"></script>
+<script src="demo.js"></script>
+<script src="churn-model.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.DEMO_DATA;
+  const { C, el, $, clear, fmt, legend, tableView } = window.DEMO;
+  const model = window.ChurnModel.create(D.model);
+  const MODEL_VERSION = '2026.11.01';
+
+  const LABEL = {
+    tenure: 'Tenure', MonthlyCharges: 'Monthly charges', TotalCharges: 'Total charges', SeniorCitizen: 'Senior citizen', gender: 'Gender',
+    Partner: 'Has a partner', Dependents: 'Has dependents', PhoneService: 'Phone service', MultipleLines: 'Multiple lines', InternetService: 'Internet',
+    OnlineSecurity: 'Online security', OnlineBackup: 'Online backup', DeviceProtection: 'Device protection', TechSupport: 'Tech support',
+    StreamingTV: 'Streaming TV', StreamingMovies: 'Streaming movies', Contract: 'Contract', PaperlessBilling: 'Paperless billing', PaymentMethod: 'Payment method',
+  };
+  const show = (col, v) => {
+    if (col === 'tenure') return `${v} month${v === 1 ? '' : 's'}`;
+    if (col === 'MonthlyCharges' || col === 'TotalCharges') return fmt.money(v, v % 1 ? 2 : 0);
+    if (col === 'SeniorCitizen') return v ? 'Yes' : 'No';
+    return String(v);
+  };
+  const pyNum = (v) => (Number.isInteger(v) ? v.toFixed(1) : String(v)); // Python prints floats like 95.0
+
+  const PRESETS = {
+    high: { label: 'New, month-to-month', x: { tenure: 2, MonthlyCharges: 95, SeniorCitizen: 0, gender: 'Female', Partner: 'No', Dependents: 'No', PhoneService: 'Yes', MultipleLines: 'No', InternetService: 'Fiber optic', OnlineSecurity: 'No', OnlineBackup: 'No', DeviceProtection: 'No', TechSupport: 'No', StreamingTV: 'Yes', StreamingMovies: 'Yes', Contract: 'Month-to-month', PaperlessBilling: 'Yes', PaymentMethod: 'Electronic check' } },
+    medium: { label: 'Mid-tenure', x: { tenure: 14, MonthlyCharges: 75, SeniorCitizen: 0, gender: 'Female', Partner: 'Yes', Dependents: 'No', PhoneService: 'Yes', MultipleLines: 'No', InternetService: 'DSL', OnlineSecurity: 'No', OnlineBackup: 'No', DeviceProtection: 'No', TechSupport: 'No', StreamingTV: 'No', StreamingMovies: 'Yes', Contract: 'Month-to-month', PaperlessBilling: 'Yes', PaymentMethod: 'Credit card (automatic)' } },
+    low: { label: 'Loyal, two-year', x: { tenure: 60, MonthlyCharges: 65, SeniorCitizen: 0, gender: 'Female', Partner: 'Yes', Dependents: 'Yes', PhoneService: 'Yes', MultipleLines: 'Yes', InternetService: 'DSL', OnlineSecurity: 'Yes', OnlineBackup: 'Yes', DeviceProtection: 'Yes', TechSupport: 'Yes', StreamingTV: 'No', StreamingMovies: 'No', Contract: 'Two year', PaperlessBilling: 'No', PaymentMethod: 'Bank transfer (automatic)' } },
+  };
+  let x = Object.assign({}, PRESETS.high.x);
+
+  const INTERNET_ADDONS = ['OnlineSecurity', 'TechSupport', 'OnlineBackup', 'DeviceProtection', 'StreamingTV', 'StreamingMovies'];
+  const GROUPS = [
+    { title: 'Account', items: [
+      { key: 'tenure', type: 'range', min: 0, max: 72, step: 1, wide: true },
+      { key: 'MonthlyCharges', type: 'range', min: 18, max: 119, step: 0.5, wide: true },
+      { key: 'Contract', type: 'seg', options: ['Month-to-month', 'One year', 'Two year'], wide: true },
+      { key: 'PaymentMethod', type: 'select', options: ['Electronic check', 'Mailed check', 'Bank transfer (automatic)', 'Credit card (automatic)'], wide: true },
+      { key: 'PaperlessBilling', type: 'seg', options: ['Yes', 'No'] },
+    ] },
+    { title: 'Services', items: [
+      { key: 'InternetService', type: 'seg', options: ['Fiber optic', 'DSL', 'No'], names: { No: 'None' }, wide: true },
+    ].concat(INTERNET_ADDONS.map((k) => ({ key: k, type: 'seg', options: ['Yes', 'No'], off: () => x.InternetService === 'No', offValue: 'No internet service' })), [
+      { key: 'PhoneService', type: 'seg', options: ['Yes', 'No'] },
+      { key: 'MultipleLines', type: 'seg', options: ['Yes', 'No'], off: () => x.PhoneService === 'No', offValue: 'No phone service' },
+    ]) },
+    { title: 'Customer', items: [
+      { key: 'SeniorCitizen', type: 'seg', options: [1, 0], names: { 1: 'Yes', 0: 'No' } },
+      { key: 'Partner', type: 'seg', options: ['Yes', 'No'] },
+      { key: 'Dependents', type: 'seg', options: ['Yes', 'No'] },
+      { key: 'gender', type: 'seg', options: ['Female', 'Male'] },
+    ] },
+  ];
+
+  /* ---------- form ---------- */
+  const controls = {};
+  function buildForm() {
+    const form = clear($('#form'));
+    GROUPS.forEach((g) => {
+      const grid = el('div', { class: 'fgrid' });
+      form.append(el('div', { class: 'fgroup' }, el('h3', { text: g.title }), grid));
+      g.items.forEach((f) => {
+        const id = 'f-' + f.key;
+        let field;
+        if (f.type === 'range') {
+          const out = el('output', { for: id });
+          const input = el('input', { type: 'range', id, min: f.min, max: f.max, step: f.step });
+          input.addEventListener('input', () => { x[f.key] = Number(input.value); update(); });
+          field = el('div', { class: 'field' + (f.wide ? ' wide' : '') }, el('label', { for: id }, LABEL[f.key], out), input);
+          controls[f.key] = { sync: () => { input.value = x[f.key]; out.textContent = show(f.key, x[f.key]); } };
+          if (f.key === 'MonthlyCharges') {
+            const derived = el('div', { class: 'derived' });
+            field.append(derived);
+            controls.TotalCharges = { sync: () => { clear(derived).append('Total charges to date: ', el('b', { text: fmt.money(x.TotalCharges, 2) }), ' (tenure × monthly)'); } };
+          }
+        } else if (f.type === 'select') {
+          const sel = el('select', { id }, f.options.map((o) => el('option', { value: o, text: o })));
+          sel.addEventListener('change', () => { x[f.key] = sel.value; update(); });
+          field = el('div', { class: 'field' + (f.wide ? ' wide' : '') }, el('label', { for: id, text: LABEL[f.key] }), sel);
+          controls[f.key] = { sync: () => { sel.value = x[f.key]; } };
+        } else {
+          const seg = el('div', { class: 'seg small', role: 'group', 'aria-labelledby': id });
+          const buttons = f.options.map((o) => {
+            const b = el('button', { type: 'button', text: (f.names && f.names[o]) || String(o) });
+            b.addEventListener('click', () => { x[f.key] = o; normalize(); update(); });
+            seg.append(b);
+            return b;
+          });
+          field = el('div', { class: 'field' + (f.wide ? ' wide' : '') }, el('span', { class: 'flabel', id, text: LABEL[f.key] }), seg);
+          controls[f.key] = { sync: () => {
+            const off = f.off && f.off();
+            buttons.forEach((b, i) => { b.disabled = !!off; b.setAttribute('aria-pressed', String(!off && f.options[i] === x[f.key])); });
+            if (off) buttons.forEach((b) => b.setAttribute('title', f.offValue));
+          } };
+        }
+        grid.append(field);
+      });
+    });
+  }
+  function normalize() {
+    INTERNET_ADDONS.forEach((k) => {
+      if (x.InternetService === 'No') x[k] = 'No internet service';
+      else if (x[k] === 'No internet service') x[k] = 'No';
+    });
+    if (x.PhoneService === 'No') x.MultipleLines = 'No phone service';
+    else if (x.MultipleLines === 'No phone service') x.MultipleLines = 'No';
+    x.TotalCharges = Math.round(x.tenure * x.MonthlyCharges * 100) / 100;
+  }
+
+  /* ---------- result ---------- */
+  const BANDS = D.model.bands;
+  const BAND_META = { high: ['crit', 'High risk', C.crit], medium: ['warn', 'Medium risk', C.warn], low: ['good', 'Low risk', C.good] };
+  function buildMeter() {
+    const track = clear($('#r-track'));
+    [[BANDS.medium, C.good], [BANDS.high - BANDS.medium, C.warn], [1 - BANDS.high, C.crit]].forEach(([w, c]) =>
+      track.append(el('span', { class: 'zone', style: { flex: `${w} 1 0`, background: c, opacity: '.55' } })));
+    const ml = clear($('#r-mlabels'));
+    ml.append(el('span', { style: { left: '0' }, text: 'Low' }), el('span', { style: { left: `${BANDS.medium * 100}%` }, text: `Medium ${fmt.pct(BANDS.medium)}+` }),
+      el('span', { style: { left: `${BANDS.high * 100}%` }, text: `High ${fmt.pct(BANDS.high)}+` }));
+  }
+
+  const LEVERS = [
+    { key: 'Contract', values: ['One year', 'Two year'], text: (v) => `Move to a ${v.toLowerCase().replace(" ", "-")} contract` },
+    { key: 'PaymentMethod', values: ['Bank transfer (automatic)', 'Credit card (automatic)'], text: (v) => `Set up auto-pay by ${v.replace(' (automatic)', '').toLowerCase()}` },
+    { key: 'OnlineSecurity', values: ['Yes'], text: () => 'Add online security' },
+    { key: 'TechSupport', values: ['Yes'], text: () => 'Add tech support' },
+    { key: 'OnlineBackup', values: ['Yes'], text: () => 'Add online backup' },
+    { key: 'DeviceProtection', values: ['Yes'], text: () => 'Add device protection' },
+  ];
+  function levers(p) {
+    const best = {};
+    LEVERS.forEach((l) => {
+      if (INTERNET_ADDONS.includes(l.key) && x.InternetService === 'No') return;
+      l.values.forEach((v) => {
+        if (x[l.key] === v) return;
+        const p2 = model.score(Object.assign({}, x, { [l.key]: v })).p;
+        if (p2 < p - 0.005 && (!best[l.key] || p2 < best[l.key].p2)) best[l.key] = { text: l.text(v), p2 };
+      });
+    });
+    return Object.values(best).sort((a, b) => a.p2 - b.p2).slice(0, 3);
+  }
+
+  function update() {
+    normalize();
+    Object.values(controls).forEach((c) => c.sync());
+    const s = model.score(x);
+    const [cls, bandText] = BAND_META[s.band];
+    $('#r-num').textContent = fmt.pct(s.p);
+    const band = clear($('#r-band')); band.className = 'pill ' + cls; band.append(bandText);
+    $('#r-pin').style.left = `${s.p * 100}%`;
+    $('#m-num').textContent = fmt.pct(s.p);
+    const mb = $('#m-band'); mb.className = 'pill ' + cls; mb.textContent = bandText;
+
+    const list = clear($('#r-reasons'));
+    const max = Math.max(...s.reasons.map((r) => r.c), 0.01);
+    s.reasons.forEach((r) => {
+      list.append(el('li', null,
+        el('div', null, el('b', { text: LABEL[r.col] + ': ' }), show(r.col, r.value)),
+        el('div', null, el('div', { class: 'rb', style: { width: `${Math.max(6, (r.c / max) * 100)}%` }, title: `Adds ${r.c.toFixed(2)} to the log-odds of churning` }),
+          el('div', { class: 'rv', text: `+${r.c.toFixed(2)} log-odds` }))));
+    });
+    $('#r-none').style.display = s.reasons.length ? 'none' : 'block';
+
+    const lv = clear($('#r-levers'));
+    const ls = levers(s.p);
+    if (!ls.length) lv.append(el('li', null, el('span', { class: 'muted', text: 'No single account or service change lowers this risk further.' })));
+    ls.forEach((l) => lv.append(el('li', null, el('span', { text: l.text }), el('span', { class: 'to', text: `${fmt.pct(s.p)} → ${fmt.pct(l.p2)}` }))));
+
+    const apiReasons = s.reasons.map((r) => `${r.col} = ${r.col === 'MonthlyCharges' || r.col === 'TotalCharges' ? pyNum(r.value) : r.value}`);
+    $('#r-api').textContent = JSON.stringify({ churn_probability: Number(s.p.toFixed(4)), risk_band: s.band, top_reasons: apiReasons, model_version: MODEL_VERSION }, null, 2);
+  }
+
+  /* ---------- presets ---------- */
+  const presetSeg = window.DEMO.segmented($('#presets'), Object.entries(PRESETS).map(([k, pr]) => ({ value: k, label: pr.label })), 'high', (k) => {
+    x = Object.assign({}, PRESETS[k].x);
+    update();
+  }, 'Example customers');
+
+  buildForm();
+  buildMeter();
+  update();
+  // a manual change means no preset is selected any more
+  $('#form').addEventListener('input', () => presetSeg.set(null));
+  $('#form').addEventListener('click', (e) => { if (e.target.closest('button')) presetSeg.set(null); });
+
+  /* ---------- model card ---------- */
+  const h = D.card.holdout;
+  const tiles = clear($('#card-kpis'));
+  const tile = (k, v, d) => el('div', { class: 'card kpi' }, el('div', { class: 'k', text: k }), el('div', { class: 'v', text: v }), el('div', { class: 'd', text: d }));
+  tiles.append(
+    tile('ROC-AUC (holdout)', h.roc_auc.toFixed(3), 'Ranks a churner above a stayer 84% of the time'),
+    tile('PR-AUC (holdout)', h.pr_auc.toFixed(3), `vs ${h.baseline_pr_auc.toFixed(3)} for random guessing`),
+    tile('Churners in the riskiest 20%', fmt.pct(h.recall_at_top_20pct), `${(h.recall_at_top_20pct / 0.2).toFixed(1)}× what random calling reaches`),
+    tile('Precision in the riskiest 20%', fmt.pct(h.precision_at_top_20pct), 'of flagged customers actually left'),
+  );
+
+  const xs = D.gains.map((_, i) => i * 2);
+  const gains = D.gains.map((g, i) => (i === 0 ? 0 : +(g * 100).toFixed(1)));
+  legend($('#gains-legend'), [{ label: 'Model', color: C.s1 }, { label: 'Random order', color: C.text3 }]);
+  new Chart($('#gains'), {
+    type: 'line',
+    data: {
+      labels: xs.map((v) => v + '%'),
+      datasets: [
+        { label: 'Model', data: gains, borderColor: C.s1, backgroundColor: C.s1, pointHoverBackgroundColor: C.s1, fill: { target: 1, above: 'rgba(57,135,229,.12)' }, tension: 0.15 },
+        { label: 'Random order', endLabel: 'Random', data: xs, borderColor: C.text3, backgroundColor: C.text3, borderWidth: 1.5, pointHoverBackgroundColor: C.text3 },
+      ],
+    },
+    options: {
+      layout: { padding: (ctx) => ({ right: ctx.chart.width >= 560 ? 70 : 6, top: 4 }) },
+      scales: {
+        x: { title: { display: true, text: 'Customers contacted, riskiest first', color: C.text3, font: { size: 11 } }, grid: { display: false }, border: { color: 'rgba(255,255,255,.16)' },
+          ticks: { color: C.text3, maxRotation: 0, autoSkip: false, callback: (v, i) => (i % 10 === 0 ? xs[i] + '%' : '') } },
+        y: { min: 0, max: 100, border: { display: false }, grid: { color: C.grid }, ticks: { color: C.text3, stepSize: 25, callback: (v) => v + '%' },
+          title: { display: true, text: 'Churners reached', color: C.text3, font: { size: 11 } } },
+      },
+      plugins: {
+        endLabels: { enabled: false },
+        marker: { x: 10, label: `Top 20% reaches ${fmt.pct(h.recall_at_top_20pct)}` },
+        tooltip: { callbacks: {
+          title: (items) => `Contact the riskiest ${xs[items[0].dataIndex]}%`,
+          label: (item) => `${item.parsed.y.toFixed(0)}% of churners  ${item.dataset.label}`,
+        } },
+      },
+    },
+  });
+  tableView($('#gains-table'), ['Contacted', 'Churners reached (model)', 'Random'], xs.filter((v) => v % 10 === 0).map((v) => [v + '%', gains[v / 2].toFixed(0) + '%', v + '%']));
+
+  const names = { logistic_regression: 'Logistic regression', random_forest: 'Random forest', hist_gradient_boosting: 'Gradient boosting (hist)' };
+  const cv = clear($('#cv'));
+  cv.append(el('thead', null, el('tr', null, el('th', { text: 'Model' }), el('th', { class: 'n', text: 'ROC-AUC' }), el('th', { class: 'n', text: '± sd' }))));
+  cv.append(el('tbody', null, Object.entries(D.card.cv).sort((a, b) => b[1].mean - a[1].mean).map(([k, v]) => el('tr', null,
+    el('td', null, names[k] || k, k === D.card.chosen ? el('span', { class: 'pill info', style: { marginLeft: '.5rem' }, text: 'Chosen' }) : null),
+    el('td', { class: 'n', text: v.mean.toFixed(4) }), el('td', { class: 'n muted', text: v.std.toFixed(4) })))));
+
+  window.DEMO.moreDemos($('#more'), 'churn.html');
+})();
+</script>
+</body>
+</html>

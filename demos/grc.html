@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC What-If Risk Report · Live Demo · Mohammed Bello Ibrahim</title>
+<meta name="description" content="Interactive NIST CSF 2.0 cyber risk assessment: change control statuses and watch residual risk, the heat map, the risk register and the remediation roadmap update.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="demo.css">
+<style>
+  .org { display: flex; flex-wrap: wrap; gap: .5rem 1.4rem; font-size: .84rem; color: var(--text-2); margin-top: 1.1rem; }
+  .org span { display: inline-flex; gap: .45rem; align-items: center; }
+  .org i { color: var(--gold); }
+  .summary { font-size: .95rem; color: var(--text-2); background: var(--bg-alt); border: 1px solid var(--border-2); border-left: 3px solid var(--gold); border-radius: var(--radius-sm); padding: .85rem 1rem; margin-bottom: 1rem; }
+  .summary b { color: var(--text); }
+  .state-tag { font-size: .8rem; color: var(--text-3); }
+  .heat-wrap { display: grid; grid-template-columns: 22px minmax(0, 1fr); grid-template-rows: auto 22px; gap: 4px; max-width: 470px; margin: 0 auto; }
+  .heat-y { grid-row: 1; display: flex; align-items: center; justify-content: center; }
+  .heat-y span { transform: rotate(-90deg); white-space: nowrap; font-size: .74rem; color: var(--text-3); font-weight: 600; }
+  .heat-x { grid-column: 2; text-align: center; font-size: .74rem; color: var(--text-3); font-weight: 600; }
+  .heat { position: relative; aspect-ratio: 1 / 1; display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(5, 1fr); gap: 3px; }
+  .heat .cell { border-radius: 6px; position: relative; }
+  .heat .cell small { position: absolute; left: 5px; bottom: 3px; font-size: .62rem; color: rgba(255,255,255,.3); }
+  .heat .mk { position: absolute; width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%; display: grid; place-items: center;
+    font-size: .66rem; font-weight: 700; color: var(--text); background: #0f2038; border: 2.5px solid; transition: left .5s ease, top .5s ease, border-color .3s;
+    cursor: default; z-index: 2; box-shadow: 0 0 0 2px var(--card); }
+  .heat .mk:hover, .heat .mk:focus-visible { transform: scale(1.12); z-index: 3; }
+  .heat-legend { display: flex; flex-wrap: wrap; gap: .4rem 1rem; justify-content: center; font-size: .78rem; color: var(--text-2); margin-top: .9rem; }
+  .heat-legend span { display: inline-flex; gap: .4rem; align-items: center; }
+  .heat-legend i { width: 12px; height: 12px; border-radius: 50%; border: 2.5px solid; display: inline-block; }
+  .risk-name { font-weight: 500; }
+  .risk-sub { font-size: .76rem; color: var(--text-3); margin-top: .1rem; }
+  .was { color: var(--text-3); text-decoration: line-through; margin-right: .35rem; font-weight: 400; }
+  td.score { font-weight: 700; }
+  tr.changed td.score { color: var(--good-ink); }
+  .fn-head td { background: var(--bg-alt); font-weight: 700; font-size: .8rem; color: var(--text); padding-top: .55rem; padding-bottom: .55rem; }
+  .fn-head .mat { font-weight: 500; color: var(--text-3); margin-left: .5rem; }
+  .fn-bar { display: inline-block; vertical-align: middle; width: 70px; height: 6px; border-radius: 3px; background: rgba(255,255,255,.08); margin-left: .5rem; overflow: hidden; }
+  .fn-bar span { display: block; height: 100%; background: var(--s1); border-radius: 3px; transition: width .4s ease; }
+  .ctl-sel { min-width: 150px; font-size: .82rem; padding: .4rem .5rem; min-height: 34px; }
+  .ctl-sel.s-implemented { border-color: rgba(12,163,12,.55); }
+  .ctl-sel.s-partial { border-color: rgba(250,178,25,.45); }
+  .ctl-sel.s-not_implemented { border-color: rgba(208,59,59,.5); }
+  .effort { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 6px; font-size: .74rem; font-weight: 700; background: rgba(255,255,255,.07); color: var(--text-2); }
+  .impl-btn { font-size: .78rem; padding: .32rem .7rem; min-height: 32px; white-space: nowrap; }
+  .ev { font-size: .76rem; color: var(--text-3); margin-top: .15rem; }
+  .cid { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .78rem; color: var(--gold); white-space: nowrap; }
+  @media (max-width: 560px) {
+    .heat .mk { width: 27px; height: 27px; margin: -13.5px 0 0 -13.5px; font-size: .56rem; border-width: 2px; }
+    .m-hide { display: none; }
+    .ctl-sel { min-width: 120px; }
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="back" href="../#projects"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>Portfolio</span></a>
+  <a class="logo" href="../">MBI</a>
+  <a class="code-link" href="https://github.com/Bellomk77/grc-risk-toolkit" target="_blank" rel="noopener"><i class="fab fa-github" aria-hidden="true"></i><span>View code</span></a>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <span class="eyebrow sec"><span class="live"></span>Security &amp; GRC · Live demo</span>
+    <h1>GRC Risk Toolkit: <span class="grad">what-if risk report</span></h1>
+    <p class="lead">A NIST CSF 2.0 cyber risk assessment, scored in your browser by the same engine as the Python toolkit. Change any control's status, or apply the remediation roadmap, and watch residual risk, the heat map and the risk register update.</p>
+    <p class="note"><i class="fas fa-circle-info" aria-hidden="true"></i><span>Maplewood Credit Union is fictional and all data is made up for demonstration. The browser engine was checked against the Python toolkit on 300 random combinations of control statuses: every score, rating and roadmap matched.</span></p>
+    <div class="org" id="org"></div>
+  </section>
+
+  <div class="controls" role="region" aria-label="Scenarios">
+    <div class="ctrl"><span class="label">Try it</span>
+      <button class="btn primary" type="button" id="apply5"><i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i>Apply the top 5 roadmap actions</button>
+      <button class="btn ghost" type="button" id="reset"><i class="fas fa-rotate-left" aria-hidden="true"></i>Reset to today</button>
+    </div>
+    <span class="state-tag" id="state-tag"></span>
+  </div>
+
+  <p class="summary" id="summary" aria-live="polite"></p>
+  <div class="grid kpis" id="kpis"></div>
+
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="card-head">
+        <div><h2>Risk heat map</h2><p class="sub">Each circle is a risk scenario, placed by likelihood and impact</p></div>
+        <div class="seg small" id="heat-mode"></div>
+      </div>
+      <div class="heat-wrap">
+        <div class="heat-y"><span>Likelihood</span></div>
+        <div class="heat" id="heat" role="img" aria-label="Five by five risk heat map"></div>
+        <div class="heat-x">Impact</div>
+      </div>
+      <div class="heat-legend" id="heat-legend"></div>
+      <h2 style="margin-top:1.6rem">NIST CSF 2.0 maturity by function</h2>
+      <p class="sub">Share of each function's controls in place (partial counts as half)</p>
+      <div id="maturity"></div>
+    </div>
+    <div class="card">
+      <h2>Risk register</h2>
+      <p class="sub">Sorted by residual risk (likelihood × impact after controls, out of 25)</p>
+      <div class="tbl-wrap"><table id="register"></table></div>
+      <p class="muted small" id="reg-note" style="margin-top:.75rem"></p>
+    </div>
+  </div>
+
+  <h2 class="section-title">Remediation roadmap</h2>
+  <p class="section-sub">Every open control gap is simulated as implemented and ranked by the residual risk it removes per unit of effort (S = 1, M = 2, L = 4). The ranking recalculates as you change controls.</p>
+  <div class="card">
+    <div class="tbl-wrap"><table id="roadmap"></table></div>
+  </div>
+
+  <h2 class="section-title">Control assessment</h2>
+  <p class="section-sub">22 NIST CSF 2.0 subcategories with the evidence behind each status. Preventive controls (Govern, Identify, Protect, Detect) cut likelihood by up to 60%; response and recovery controls and backups cut impact by up to 40%.</p>
+  <div class="card">
+    <div class="tbl-wrap"><table id="controls"></table></div>
+  </div>
+
+  <div class="more" id="more"></div>
+</main>
+
+<footer class="footer">Built by <a href="../">Mohammed Bello Ibrahim</a> · Python · NIST CSF 2.0 · <a href="https://github.com/Bellomk77/grc-risk-toolkit" target="_blank" rel="noopener">Source on GitHub</a></footer>
+
+<script src="data/grc.js"></script>
+<script src="demo.js"></script>
+<script src="grc-engine.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.DEMO_DATA;
+  const { C, el, $, clear, fmt, segmented } = window.DEMO;
+  const E = window.GrcEngine.create(D);
+  const RATING = {
+    Critical: { cls: 'crit', color: C.crit, tint: 'rgba(208,59,59,.42)' },
+    High: { cls: 'serious', color: C.serious, tint: 'rgba(236,131,90,.30)' },
+    Medium: { cls: 'warn', color: C.warn, tint: 'rgba(250,178,25,.27)' },
+    Low: { cls: 'good', color: C.good, tint: 'rgba(12,163,12,.24)' },
+  };
+  const STATUS_LABEL = { implemented: 'Implemented', partial: 'Partial', not_implemented: 'Not implemented' };
+  const CTRL = Object.fromEntries(D.controls.map((c) => [c.id, c]));
+  const SCEN = Object.fromEntries(D.scenarios.map((s) => [s.id, s]));
+  const f1 = (x) => x.toFixed(1);
+
+  const today = Object.assign({}, E.baseline);
+  const todayReg = E.register(today);
+  const todayById = Object.fromEntries(todayReg.map((r) => [r.id, r]));
+  const todayTotal = E.total(todayReg);
+  const top5 = E.roadmap(today).slice(0, 5).map((x) => x.control);
+  let st = Object.assign({}, today);
+  let heatMode = 'residual';
+
+  /* ---------- org strip ---------- */
+  const o = D.org;
+  $('#org').append(
+    el('span', null, el('i', { class: 'fas fa-building-columns', 'aria-hidden': 'true' }), 'Ontario credit union'),
+    el('span', null, el('i', { class: 'fas fa-users', 'aria-hidden': 'true' }), `${fmt.int(o.employees)} staff · ${fmt.int(o.members)} members`),
+    el('span', null, el('i', { class: 'fas fa-scale-balanced', 'aria-hidden': 'true' }), o.regulations.map((r) => r.replace(/ \(.*\)/, '')).join(', ')),
+    el('span', null, el('i', { class: 'fas fa-bullseye', 'aria-hidden': 'true' }), 'Risk appetite: low for member data and core banking'));
+
+  const highCount = (reg) => reg.filter((r) => r.residual_rating === 'High' || r.residual_rating === 'Critical').length;
+  const sameAs = (a, b) => Object.keys(a).every((k) => a[k] === b[k]);
+
+  /* ---------- summary + KPIs ---------- */
+  function renderSummary(reg, total) {
+    const s = clear($('#summary'));
+    const top = reg[0];
+    const hi = highCount(reg);
+    if (sameAs(st, today)) {
+      const after = E.register(Object.assign({}, today, Object.fromEntries(top5.map((c) => [c, 'implemented']))));
+      const eff = top5.map((c) => CTRL[c].effort);
+      s.append('Today ', el('b', { text: `${hi} of ${reg.length} risks are high or critical` }), `. The biggest is ${top.id}, ${top.scenario.toLowerCase()} (${f1(top.residual_score)}). `,
+        'Fixing the top 5 roadmap gaps (', `${eff.filter((e) => e === 'S').length} small, ${eff.filter((e) => e === 'M').length} medium`, ') would cut total residual risk by ',
+        el('b', { text: fmt.pct((todayTotal - E.total(after)) / todayTotal) }), ' and leave ', el('b', { text: String(highCount(after)) }), ' high risk.');
+    } else {
+      const changed = Object.keys(st).filter((k) => st[k] !== today[k]);
+      s.append(`With ${changed.length} control${changed.length === 1 ? '' : 's'} changed: `, el('b', { text: `${hi} high or critical risk${hi === 1 ? '' : 's'}` }),
+        ` (today ${highCount(todayReg)}), total residual risk `, el('b', { text: f1(total) }), ` (today ${f1(todayTotal)}, `,
+        el('span', { class: total <= todayTotal ? 'delta-up' : 'delta-down', text: fmt.signedPct((total - todayTotal) / todayTotal) }), '). ',
+        `Top remaining risk: ${reg[0].id} (${f1(reg[0].residual_score)}, ${reg[0].residual_rating}).`);
+    }
+  }
+  function renderKpis(reg, total) {
+    const box = clear($('#kpis'));
+    const mat = Object.values(D.controls).reduce((a, c) => a + E.STATUS_WEIGHT[st[c.id]], 0) / D.controls.length;
+    const todayMat = D.controls.reduce((a, c) => a + E.STATUS_WEIGHT[today[c.id]], 0) / D.controls.length;
+    const impl = D.controls.filter((c) => st[c.id] === 'implemented').length;
+    const d = (cur, prev, text, goodDown) => {
+      if (cur === prev) return el('div', { class: 'd', text });
+      const down = cur < prev;
+      return el('div', { class: 'd' }, el('span', { class: down === goodDown ? 'delta-up' : 'delta-down', text: (cur > prev ? '+' : '') + text }), ' vs today');
+    };
+    const tile = (k, v, det) => el('div', { class: 'card kpi' }, el('div', { class: 'k', text: k }), el('div', { class: 'v', text: v }), det);
+    const hi = highCount(reg), hiToday = highCount(todayReg);
+    box.append(
+      tile('Total residual risk', f1(total), total === todayTotal ? el('div', { class: 'd', text: '10 scenarios, sum of residual scores' }) : d(total, todayTotal, fmt.pct((total - todayTotal) / todayTotal), true)),
+      tile('High or critical risks', `${hi} / ${reg.length}`, hi === hiToday ? el('div', { class: 'd', text: 'Above the credit union\'s low appetite' }) : d(hi, hiToday, String(hi - hiToday), true)),
+      tile('Controls implemented', `${impl} / ${D.controls.length}`, el('div', { class: 'd', text: `${D.controls.filter((c) => st[c.id] === 'partial').length} partial, ${D.controls.filter((c) => st[c.id] === 'not_implemented').length} missing` })),
+      tile('CSF maturity', fmt.pct(mat), mat === todayMat ? el('div', { class: 'd', text: 'Partial controls count as half' }) : d(Math.round(mat * 100), Math.round(todayMat * 100), `${Math.round(mat * 100) - Math.round(todayMat * 100)} pts`, false)),
+    );
+  }
+
+  /* ---------- heat map ---------- */
+  const markers = {};
+  function buildHeat() {
+    const heat = clear($('#heat'));
+    for (let l = 5; l >= 1; l--) {
+      for (let i = 1; i <= 5; i++) {
+        const r = E.rating(l * i);
+        heat.append(el('div', { class: 'cell', style: { background: RATING[r].tint }, title: `Likelihood ${l} × impact ${i} = ${l * i} (${r})` }, el('small', { text: String(l * i) })));
+      }
+    }
+    D.scenarios.forEach((s) => {
+      const m = el('div', { class: 'mk', tabindex: '0', role: 'img', text: s.id });
+      heat.append(m);
+      markers[s.id] = m;
+    });
+    const lg = clear($('#heat-legend'));
+    ['Critical', 'High', 'Medium', 'Low'].forEach((k) => lg.append(el('span', null, el('i', { style: { borderColor: RATING[k].color } }), `${k} ${k === 'Critical' ? '15+' : k === 'High' ? '10 to 14.9' : k === 'Medium' ? '5 to 9.9' : 'under 5'}`)));
+  }
+  function renderHeat(reg) {
+    const kind = heatMode;
+    const placed = [];
+    const offsets = [[0, 0], [0.42, 0], [-0.42, 0], [0, 0.42], [0, -0.42], [0.42, 0.42], [-0.42, -0.42], [0.42, -0.42], [-0.42, 0.42], [0.84, 0], [-0.84, 0]];
+    reg.slice().sort((a, b) => (a.id < b.id ? -1 : 1)).forEach((r) => {
+      const bx = r[`${kind}_impact`], by = r[`${kind}_likelihood`];
+      const spot = offsets.map(([dx, dy]) => [bx + dx, by + dy]).find(([x, y]) => x >= 0.62 && x <= 5.38 && y >= 0.62 && y <= 5.38
+        && placed.every(([px, py]) => Math.hypot(x - px, y - py) >= 0.4)) || [bx, by];
+      placed.push(spot);
+      const m = markers[r.id];
+      const rating = r[`${kind}_rating`];
+      const score = kind === 'inherent' ? r.inherent_score : r.residual_score;
+      m.style.left = `${((spot[0] - 0.5) / 5) * 100}%`;
+      m.style.top = `${(1 - (spot[1] - 0.5) / 5) * 100}%`;
+      m.style.borderColor = RATING[rating].color;
+      const label = `${r.id}: ${r.scenario}. ${kind === 'inherent' ? 'Inherent' : 'Residual'} likelihood ${r[`${kind}_likelihood`]}, impact ${r[`${kind}_impact`]}, score ${score} (${rating})`;
+      m.setAttribute('title', label);
+      m.setAttribute('aria-label', label);
+    });
+  }
+
+  /* ---------- register ---------- */
+  function renderRegister(reg) {
+    const t = clear($('#register'));
+    t.append(el('thead', null, el('tr', null, el('th', { text: 'Risk' }), el('th', { class: 'n m-hide', text: 'Inherent' }), el('th', { class: 'n', text: 'Residual' }), el('th', { text: 'Rating' }))));
+    t.append(el('tbody', null, reg.map((r) => {
+      const was = todayById[r.id].residual_score;
+      const changed = r.residual_score !== was;
+      return el('tr', { class: changed ? 'changed' : null },
+        el('td', null, el('div', { class: 'risk-name' }, el('span', { class: 'cid', text: r.id }), ' ', r.scenario), el('div', { class: 'risk-sub', text: r.source })),
+        el('td', { class: 'n m-hide muted', text: String(r.inherent_score) }),
+        el('td', { class: 'n score' }, changed ? el('span', { class: 'was', text: f1(was) }) : null, f1(r.residual_score)),
+        el('td', null, el('span', { class: 'pill ' + RATING[r.residual_rating].cls, text: r.residual_rating })));
+    })));
+  }
+
+  function renderNote(reg) {
+    const odd = reg.filter((r) => E.rating(r.residual_score) !== r.residual_rating);
+    $('#reg-note').textContent = odd.length
+      ? `Ratings use the exact score before rounding: ${odd.map((r) => `${r.id} is ${r.residual_raw.toFixed(2)}, shown as ${f1(r.residual_score)}`).join('; ')}, so it rates ${odd[0].residual_rating}.`
+      : '';
+  }
+  function renderMaturity() {
+    const m = E.maturity(st);
+    window.DEMO.hbars($('#maturity'), E.FUNCTIONS.map((fn) => ({ name: fn, value: m[fn] })), { max: 1, share: false, format: (v) => fmt.pct(v) });
+  }
+
+  /* ---------- roadmap ---------- */
+  function renderRoadmap() {
+    const items = E.roadmap(st);
+    const t = clear($('#roadmap'));
+    t.append(el('thead', null, el('tr', null, el('th', { class: 'n', text: '#' }), el('th', { text: 'Control gap' }), el('th', { text: 'Effort' }),
+      el('th', { class: 'n', text: 'Risk removed' }), el('th', { class: 'm-hide', text: 'Risks addressed' }), el('th', { text: '' }))));
+    const body = el('tbody');
+    if (!items.length) body.append(el('tr', null, el('td', { colspan: '6', class: 'muted', text: 'No open gaps left that reduce risk. Every linked control is implemented.' })));
+    items.slice(0, 8).forEach((it, i) => {
+      const btn = el('button', { type: 'button', class: 'btn impl-btn', 'aria-label': `Implement ${it.control}` }, el('i', { class: 'fas fa-check', 'aria-hidden': 'true' }), 'Implement');
+      btn.addEventListener('click', () => { st[it.control] = 'implemented'; render(); });
+      body.append(el('tr', null,
+        el('td', { class: 'n muted', text: String(i + 1) }),
+        el('td', null, el('div', null, el('span', { class: 'cid', text: it.control }), ' ', it.title), el('div', { class: 'ev', text: `${STATUS_LABEL[it.status]} today · owner: ${it.owner}` })),
+        el('td', null, el('span', { class: 'effort', title: { S: 'Small', M: 'Medium', L: 'Large' }[it.effort], text: it.effort })),
+        el('td', { class: 'n', text: `-${it.risk_reduction.toFixed(1)}` }),
+        el('td', { class: 'm-hide small muted', text: it.risks_addressed.join(', ') }),
+        el('td', null, btn)));
+    });
+    if (items.length > 8) body.append(el('tr', null, el('td', { colspan: '6', class: 'muted small', text: `+ ${items.length - 8} more gaps with smaller payoffs (change them in the control assessment below).` })));
+    t.append(body);
+  }
+
+  /* ---------- controls ---------- */
+  const selects = {};
+  const fnBars = {};
+  function buildControls() {
+    const t = clear($('#controls'));
+    t.append(el('thead', null, el('tr', null, el('th', { text: 'Control' }), el('th', { class: 'm-hide', text: 'Owner' }), el('th', { text: 'Effort' }), el('th', { text: 'Status' }))));
+    const body = el('tbody');
+    E.FUNCTIONS.forEach((fn) => {
+      const bar = el('span');
+      const mat = el('span', { class: 'mat' });
+      fnBars[fn] = { bar, mat };
+      body.append(el('tr', { class: 'fn-head' }, el('td', { colspan: '4' }, fn, mat, el('span', { class: 'fn-bar', 'aria-hidden': 'true' }, bar))));
+      D.controls.filter((c) => c.function === fn).forEach((c) => {
+        const sel = el('select', { class: 'ctl-sel', 'aria-label': `Status of ${c.id}` },
+          Object.entries(STATUS_LABEL).map(([v, l]) => el('option', { value: v, text: l })));
+        sel.addEventListener('change', () => { st[c.id] = sel.value; render(); });
+        selects[c.id] = sel;
+        const linked = D.scenarios.filter((s) => s.controls.includes(c.id)).map((s) => s.id);
+        body.append(el('tr', null,
+          el('td', null, el('div', null, el('span', { class: 'cid', text: c.id }), ' ', c.title,
+            E.impactReducing(c.id) ? el('span', { class: 'pill muted', style: { marginLeft: '.4rem' }, text: 'reduces impact' }) : null),
+            el('div', { class: 'ev', text: `Evidence: ${c.evidence}` }),
+            el('div', { class: 'ev', text: linked.length ? `Linked risks: ${linked.join(', ')}` : 'Not linked to a scenario yet' })),
+          el('td', { class: 'm-hide small muted', text: c.owner }),
+          el('td', null, el('span', { class: 'effort', text: c.effort })),
+          el('td', null, sel)));
+      });
+    });
+    t.append(body);
+  }
+  function syncControls() {
+    const m = E.maturity(st);
+    Object.entries(selects).forEach(([id, sel]) => { sel.value = st[id]; sel.className = 'ctl-sel s-' + st[id]; });
+    E.FUNCTIONS.forEach((fn) => { fnBars[fn].bar.style.width = `${m[fn] * 100}%`; fnBars[fn].mat.textContent = `${Math.round(m[fn] * 100)}% mature`; });
+  }
+
+  function render() {
+    const reg = E.register(st);
+    const total = E.total(reg);
+    renderSummary(reg, total);
+    renderKpis(reg, total);
+    renderHeat(reg);
+    renderRegister(reg);
+    renderNote(reg);
+    renderMaturity();
+    renderRoadmap();
+    syncControls();
+    const tag = $('#state-tag');
+    const isTop5 = sameAs(st, Object.assign({}, today, Object.fromEntries(top5.map((c) => [c, 'implemented']))));
+    tag.textContent = sameAs(st, today) ? 'Showing: today\'s assessment' : isTop5 ? 'Showing: after the top 5 roadmap actions' : 'Showing: your what-if scenario';
+  }
+
+  $('#apply5').addEventListener('click', () => { st = Object.assign({}, today); top5.forEach((c) => { st[c] = 'implemented'; }); render(); });
+  $('#reset').addEventListener('click', () => { st = Object.assign({}, today); render(); });
+  segmented($('#heat-mode'), [{ value: 'inherent', label: 'Inherent' }, { value: 'residual', label: 'Residual' }], heatMode, (v) => { heatMode = v; renderHeat(E.register(st)); }, 'Heat map view');
+
+  buildHeat();
+  buildControls();
+  render();
+  window.DEMO.moreDemos($('#more'), 'grc.html');
+})();
+</script>
+</body>
+</html>

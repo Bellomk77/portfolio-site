@@ -682,3 +682,10 @@ ul   { list-style: none; }
   .hero-socials { gap: 0.75rem; }
   .project-metrics { flex-direction: column; gap: 0.5rem; }
 }
+
+/* Live demo links */
+.demo-btn { color: #fff; background: var(--grad); border-color: transparent; }
+.demo-btn:hover { background: var(--grad); filter: brightness(1.1); }
+.demos-cta { text-align: center; margin-top: 1rem; }
+.demos-cta a { display: inline-flex; align-items: center; gap: .5rem; font-size: .92rem; font-weight: 600; color: var(--cyan); padding: .45rem 1rem; border-radius: 50px; border: 1px solid rgba(0,212,255,0.25); background: var(--cyan-dim); transition: var(--transition); }
+.demos-cta a:hover { background: rgba(0,212,255,0.22); }
