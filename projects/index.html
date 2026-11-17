@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects | Mohammed Bello Ibrahim</title>
+<meta name="description" content="Data and AI projects by Mohammed Bello Ibrahim: CalGrid AI, a retail data pipeline, a churn model API, Tableau dashboards and more.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mohammed-bello-ibrahim.vercel.app/projects/">
+<meta property="og:title" content="Projects | Mohammed Bello Ibrahim">
+<meta property="og:description" content="Data and AI projects by Mohammed Bello Ibrahim.">
+<meta property="og:image" content="https://mohammed-bello-ibrahim.vercel.app/images/og-portfolio.png">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="/styles/portfolio.css">
+<style>
+  .proj-bar { position: sticky; top: 0; z-index: 10; background: rgba(13,27,46,0.95); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-2); }
+  .proj-bar .inner { max-width: 1200px; margin: 0 auto; padding: .9rem 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .proj-bar a.back { color: var(--text-2); font-weight: 500; display: inline-flex; align-items: center; gap: .5rem; }
+  .proj-bar a.back:hover { color: var(--cyan); }
+  .proj-bar .logo { font-family: var(--font-head); font-weight: 700; font-size: 1.25rem; color: var(--cyan); }
+  .proj-page { padding: 3rem 0 4rem; }
+  .proj-page .section-title { margin-top: .4rem; }
+  .proj-intro { color: var(--text-2); max-width: 640px; }
+  .projects-grid.stacked { margin-top: 2.25rem; }
+  @media (max-width: 768px) {
+    .proj-bar .inner { padding: .8rem 1.25rem; }
+    .projects-grid.stacked { display: grid; grid-template-columns: 1fr; overflow: visible; margin: 1.75rem 0 0; padding: 0; gap: 1.25rem; }
+    .projects-grid.stacked .project-card { flex: none; }
+    .projects-grid.stacked .project-tags { display: flex; }
+    .projects-grid.stacked .project-desc { -webkit-line-clamp: unset; display: block; }
+  }
+</style>
+</head>
+<body>
+<header class="proj-bar">
+  <div class="inner">
+    <a class="back" href="/"><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to portfolio</a>
+    <a class="logo" href="/">MBI</a>
+  </div>
+</header>
+<main class="proj-page">
+  <div class="container">
+    <span class="section-label">Featured Work</span>
+    <h2 class="section-title">My <span class="gradient-text">Projects</span></h2>
+    <p class="proj-intro">Things I've built with data and AI, from a live product to dashboards and team builds.</p>
+    <div class="projects-grid stacked">
+
+                <div class="project-card flagship">
+                    <div class="project-card-inner">
+                        <div class="project-thumb"><img src="/images/calgrid-home.jpg" alt="CalGrid AI homepage" loading="lazy" onerror="this.parentElement.remove()"></div>
+                        <div class="project-top">
+                            <div class="project-icon-wrap ml-color">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-type-badge">Live Product</span>
+                                <span class="project-date">Apr 2026 - Present</span>
+                            </div>
+                        </div>
+                        <h3 class="project-title">CalGrid AI</h3>
+                        <p class="project-desc">An AI data analyst for small businesses: upload a spreadsheet and get plain-English insights, forecasts, and shareable reports. Its newest feature, <strong>"Ask your data"</strong>, uses retrieval-augmented generation to answer questions across every saved report with cited figures, measured by an evaluation set that includes unanswerable questions and a prompt-injection attack, and traced in production for latency and cost.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-val">13/13</span>
+                                <span class="metric-label">Eval Accuracy</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">100%</span>
+                                <span class="metric-label">Grounded Answers</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">Live</span>
+                                <span class="metric-label">In Production</span>
+                            </div>
+                        </div>
+                        <div class="project-tags">
+                            <span>RAG</span>
+                            <span>pgvector</span>
+                            <span>LLM Evaluation</span>
+                            <span>Langfuse</span>
+                            <span>Next.js</span>
+                            <span>PostgreSQL</span>
+                            <span>Supabase</span>
+                            <span>Stripe</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="https://calgridai.com" target="_blank" rel="noopener" class="project-btn">
+                                <i class="fas fa-external-link-alt"></i> Visit CalGrid AI
+                            </a>
+                            <a href="https://github.com/Bellomk77/calgrid-ai" target="_blank" rel="noopener" class="project-btn bi-btn">
+                                <i class="fab fa-github"></i> How It Works
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card-inner">
+                        <div class="project-thumb"><img src="/images/retail-demo.jpg" alt="Retail KPI dashboard demo" loading="lazy" onerror="this.parentElement.remove()"></div>
+                        <div class="project-top">
+                            <div class="project-icon-wrap ml-color">
+                                <i class="fas fa-diagram-project"></i>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-type-badge ">Data &amp; ML</span>
+                                <span class="project-date">Oct 2026</span>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Retail Data Pipeline</h3>
+                        <p class="project-desc">An end-to-end ELT pipeline: 59,000 rows of deliberately messy exports land in a DuckDB warehouse, get cleaned and modelled with dbt into a star schema, and publish KPIs and cohort retention. Every injected data issue is detected, and revenue reconciles to the cent.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-val">59K+</span>
+                                <span class="metric-label">Raw Rows</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">6/6</span>
+                                <span class="metric-label">Issues Caught</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">25</span>
+                                <span class="metric-label">dbt Tests</span>
+                            </div>
+                        </div>
+                        <div class="project-tags">
+                            <span>dbt</span>
+                            <span>DuckDB</span>
+                            <span>Airflow</span>
+                            <span>SQL</span>
+                            <span>Data Quality</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="/demos/retail.html" class="project-btn demo-btn">
+                                <i class="fas fa-play" aria-hidden="true"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Bellomk77/retail-data-pipeline" target="_blank" rel="noopener" class="project-btn ">
+                                <i class="fab fa-github"></i> View Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card-inner">
+                        <div class="project-thumb"><img src="/images/churn-demo.jpg" alt="Churn risk scorer demo" loading="lazy" onerror="this.parentElement.remove()"></div>
+                        <div class="project-top">
+                            <div class="project-icon-wrap ml-color">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-type-badge ">Data &amp; ML</span>
+                                <span class="project-date">Oct 2026</span>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Churn Model API</h3>
+                        <p class="project-desc">My churn model as a production service: a validated FastAPI endpoint that scores customers, explains each score, logs every prediction, and flags data drift. Calling the riskiest 20% of customers reaches 50% of those who would leave.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-val">0.84</span>
+                                <span class="metric-label">ROC-AUC</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">2.5x</span>
+                                <span class="metric-label">vs Random Outreach</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">PSI</span>
+                                <span class="metric-label">Drift Alerts</span>
+                            </div>
+                        </div>
+                        <div class="project-tags">
+                            <span>FastAPI</span>
+                            <span>scikit-learn</span>
+                            <span>Docker</span>
+                            <span>MLOps</span>
+                            <span>Model Card</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="/demos/churn.html" class="project-btn demo-btn">
+                                <i class="fas fa-play" aria-hidden="true"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Bellomk77/churn-model-api" target="_blank" rel="noopener" class="project-btn ">
+                                <i class="fab fa-github"></i> View Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card-inner">
+                        <div class="project-thumb"><img src="https://public.tableau.com/static/images/Sa/SalesPerformanceDashboardSuperstore2025/SalesPerformanceDashboard/1.png" alt="Sales Performance Dashboard in Tableau" loading="lazy" onerror="this.parentElement.remove()"></div>
+                        <div class="project-top">
+                            <div class="project-icon-wrap bi-color">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-type-badge bi-badge">Business Intelligence</span>
+                                <span class="project-date">Nov - Dec 2025</span>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Sales Performance Dashboard</h3>
+                        <p class="project-desc">Cleaned and aggregated 10,000+ retail sales records, then built an interactive Tableau dashboard tracking sales, profit margin, and category KPIs by region. Identified Technology as the top-performing segment.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-val">$2.29M</span>
+                                <span class="metric-label">Total Sales</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">$286K</span>
+                                <span class="metric-label">Total Profit</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">10K+</span>
+                                <span class="metric-label">Records</span>
+                            </div>
+                        </div>
+                        <div class="project-tags">
+                            <span>Tableau</span>
+                            <span>Data Visualization</span>
+                            <span>KPI Reporting</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="https://public.tableau.com/app/profile/mohammed.bello.ibrahim/viz/SalesPerformanceDashboardSuperstore2025/SalesPerformanceDashboard" target="_blank" rel="noopener" class="project-btn bi-btn">
+                                <i class="fas fa-external-link-alt"></i> View Dashboard
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card-inner">
+                        <div class="project-thumb"><img src="/images/churn-prediction.jpg" alt="Churn model accuracy comparison" loading="lazy" onerror="this.parentElement.remove()"></div>
+                        <div class="project-top">
+                            <div class="project-icon-wrap ml-color">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-type-badge ">Data &amp; ML</span>
+                                <span class="project-date">Jan - Feb 2026</span>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Customer Churn Prediction</h3>
+                        <p class="project-desc">Exploratory analysis and feature engineering on 7,000+ telecom customer records to find what drives churn, comparing three models and turning feature importance into retention recommendations.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-val">7K+</span>
+                                <span class="metric-label">Records</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">80.7%</span>
+                                <span class="metric-label">Best Accuracy</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">3</span>
+                                <span class="metric-label">Models Compared</span>
+                            </div>
+                        </div>
+                        <div class="project-tags">
+                            <span>Python</span>
+                            <span>Pandas</span>
+                            <span>Scikit-learn</span>
+                            <span>XGBoost</span>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card-inner">
+                        <div class="project-thumb"><img src="/images/greener-space.jpg" alt="Greener Space Planner app" loading="lazy" onerror="this.parentElement.remove()"></div>
+                        <div class="project-top">
+                            <div class="project-icon-wrap bi-color">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-type-badge bi-badge">Innovation Bootcamp</span>
+                                <span class="project-date">Oct - Nov 2026</span>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Greener Space Planner</h3>
+                        <p class="project-desc">A web app that helps community organizations plan a greenhouse. It compares three options against a site's budget, power and water, then builds a layout, harvest calendar and costed shopping list. I built the software prototype and demo for our team's pitch.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-val">3</span>
+                                <span class="metric-label">Options Compared</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">4</span>
+                                <span class="metric-label">Step Workflow</span>
+                            </div>
+                        </div>
+                        <div class="project-tags">
+                            <span>JavaScript</span>
+                            <span>HTML / CSS</span>
+                            <span>Prototype</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="https://bellomk77.github.io/greener-space-planner/" target="_blank" rel="noopener" class="project-btn ">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Bellomk77/greener-space-planner" target="_blank" rel="noopener" class="project-btn bi-btn">
+                                <i class="fab fa-github"></i> View Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card-inner">
+                        <div class="project-thumb"><img src="https://metercheck.ca/opengraph-image.png?opengraph-image.01t75zk1hrck6.png" alt="Meter Check website preview" loading="lazy" onerror="this.parentElement.remove()"></div>
+                        <div class="project-top">
+                            <div class="project-icon-wrap ml-color">
+                                <i class="fas fa-square-parking"></i>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-type-badge ">HackTrent 2026</span>
+                                <span class="project-date">Nov 2026</span>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Meter Check</h3>
+                        <p class="project-desc">A website that helps drivers check whether a parking payment code is real before they pay. Built with my team at HackTrent 2026, where I presented the coding side of the platform.</p>
+                        <div class="project-tags">
+                            <span>Web App</span>
+                            <span>Team Build</span>
+                            <span>Hackathon</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="https://metercheck.ca" target="_blank" rel="noopener" class="project-btn ">
+                                <i class="fas fa-external-link-alt"></i> Visit Site
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card-inner">
+                        <div class="project-thumb"><img src="https://blitz-speed-dating.com/og-image.png" alt="Blitz Speed Dating preview" loading="lazy" onerror="this.parentElement.remove()"></div>
+                        <div class="project-top">
+                            <div class="project-icon-wrap ml-color">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-type-badge ">Live App</span>
+                                <span class="project-date">2026</span>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Blitz Speed Dating</h3>
+                        <p class="project-desc">A real-time speed-dating app. I contribute to development alongside the founding team.</p>
+                        <div class="project-tags">
+                            <span>Web App</span>
+                            <span>Real-Time</span>
+                            <span>Team Build</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="https://blitz-speed-dating.com" target="_blank" rel="noopener" class="project-btn ">
+                                <i class="fas fa-external-link-alt"></i> Visit App
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+  </div>
+</main>
+<footer class="proj-bar" style="position:static;border-top:1px solid var(--border-2);border-bottom:none">
+  <div class="inner"><a class="back" href="/"><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to portfolio</a><span style="color:var(--text-3,#8b9bb4);font-size:.88rem">Mohammed Bello Ibrahim</span></div>
+</footer>
+</body>
+</html>
