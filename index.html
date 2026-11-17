@@ -1,155 +1,739 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mohammed Bello Ibrahim | Data Analyst</title>
-<meta name="description" content="Mohammed Bello Ibrahim: final-year Computer Science (Data Analytics) student at Trent University and founder of CalGrid AI. Open to 2027 new grad data roles.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohammed Bello Ibrahim | Data &amp; AI Builder</title>
 <meta property="og:type" content="website">
-<meta property="og:title" content="Mohammed Bello Ibrahim | Data Analyst">
-<meta property="og:description" content="Final-year CS (Data Analytics) student at Trent University and founder of CalGrid AI. Open to 2027 new grad data roles.">
-<meta property="og:image" content="images/og-portfolio.png">
-<link rel="stylesheet" href="style.css">
+<meta property="og:url" content="https://mohammed-bello-ibrahim.vercel.app/">
+<meta property="og:title" content="Mohammed Bello Ibrahim | Data &amp; AI Builder">
+<meta property="og:description" content="Final-year Honours CS student at Trent University (Data Analytics), founder and lead engineer of CalGrid AI. Data analytics, dashboards and AI products. Open to 2027 new grad data roles.">
+<meta property="og:image" content="https://mohammed-bello-ibrahim.vercel.app/images/og-portfolio.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+<meta name="twitter:card" content="summary_large_image">
+    <meta name="description" content="Final-year Honours CS student at Trent University (Data Analytics), founder and lead engineer of CalGrid AI. Data analytics, dashboards and AI products. Open to 2027 new grad data roles.">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/portfolio.css">
 </head>
 <body>
 
-<header class="nav">
-  <div class="wrap nav-inner">
-    <a href="#top" class="name">Mohammed Bello Ibrahim</a>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
+    <!-- ═══ NAVBAR ═══ -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">MBI</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
     </nav>
-  </div>
-</header>
 
-<main id="top">
+    <!-- ═══ HERO ═══ -->
+    <section id="home" class="hero">
+        <div class="hero-bg">
+            <div class="hero-grid-overlay"></div>
+            <div class="hero-particles" id="particles"></div>
+            <div class="hero-glow glow-1"></div>
+            <div class="hero-glow glow-2"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-pulse"></span>
+                Open to New Grad Roles &middot; May 2027
+            </div>
+            <h1 class="hero-name">
+                Mohammed<br>
+                <span class="name-highlight">Bello Ibrahim</span>
+            </h1>
+            <div class="hero-typed-wrap">
+                <span class="typed-text" id="typedText"></span><span class="typed-cursor">|</span>
+            </div>
+            <p class="hero-desc">Final-year Honours CS student at Trent University and founder of <strong>CalGrid AI</strong>. I turn data into clear decisions, and I build products that make data useful. Always learning, always building.</p>
+            <div class="hero-cta">
+                <a href="#projects" class="btn-primary">View My Work <i class="fas fa-arrow-right"></i></a>
+                <a href="#contact" class="btn-outline">Get In Touch</a>
+            </div>
+            <div class="hero-socials">
+                <a href="https://www.linkedin.com/in/mohammed-bello-ibrahim-7521b62a2" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="mailto:mohammedibrahim@trentu.ca" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/Bellomk77" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://calgridai.com" target="_blank" rel="noopener" aria-label="CalGrid AI"><i class="fas fa-globe"></i></a>
+            </div>
+        </div>
+        <div class="hero-scroll-hint">
+            <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+            <span>Scroll to explore</span>
+        </div>
+    </section>
 
-  <section class="hero wrap">
-    <p class="label">Data Analyst</p>
-    <h1>I build things with data, and I'm always learning how to do it better.</h1>
-    <p class="lead">Final-year Computer Science student at Trent University, specializing in Data Analytics. I work in Python, SQL and Tableau, and I founded CalGrid AI, a live analytics platform for small businesses.</p>
-    <div class="buttons">
-      <a class="btn primary" href="#projects">View projects</a>
-      <a class="btn" href="Mohammed_Ibrahim_Resume.pdf" download>Download resume</a>
-      <a class="btn" href="https://github.com/Bellomk77" target="_blank" rel="noopener">GitHub</a>
-    </div>
-  </section>
+    <!-- ═══ ABOUT ═══ -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="section-label-wrap reveal">
+                <span class="section-label">About Me</span>
+            </div>
+            <h2 class="section-title reveal">Driven by Data,<br><span class="gradient-text">Guided by Curiosity</span></h2>
 
-  <section id="about" class="wrap">
-    <h2>About</h2>
-    <p>I'm completing an Honours BSc in Computer Science with a Data Analytics specialization at Trent University (GPA 3.7, Dean's Honour Roll 2024, 2025 and 2026), graduating in April 2027. I'm looking for 2027 new grad roles in data and business analytics.</p>
-    <p>I'm the founder and lead engineer of <a href="https://calgridai.com" target="_blank" rel="noopener">CalGrid AI</a>, where small businesses upload a spreadsheet and get plain-English insights and forecasts. I've also completed a data analytics externship analyzing Beats by Dre customer reviews, and I'm starting a SQL &amp; Database Architecture externship in late November 2026.</p>
-    <p>Alongside school, I work two part-time jobs with Trent Student Housing, where I was named Team Player of the Year. Right now I'm studying for Microsoft's Azure Fundamentals (AZ-900) and Power BI (PL-300) certifications.</p>
-  </section>
+            <div class="about-grid">
+                <div class="about-visual reveal">
+                    <div class="about-img-wrap">
+                        <img src="images/profile.jpg" alt="Mohammed Bello Ibrahim" class="about-img">
+                        <div class="img-ring ring-a"></div>
+                        <div class="img-ring ring-b"></div>
+                        <div class="img-badge">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>3x Dean's Honour Roll</span>
+                        </div>
+                    </div>
+                    <div class="about-stats">
+                        <div class="stat-card">
+                            <span class="stat-num">3.7</span>
+                            <span class="stat-label">GPA / 4.0</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-num">3x</span>
+                            <span class="stat-label">Dean's List</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-num">6</span>
+                            <span class="stat-label">Projects</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-num">2</span>
+                            <span class="stat-label">Externships</span>
+                        </div>
+                    </div>
+                </div>
 
-  <section id="skills" class="wrap">
-    <h2>Skills</h2>
-    <div class="skills">
-      <div><h3>Languages</h3><p>Python, SQL, JavaScript</p></div>
-      <div><h3>Analysis</h3><p>pandas, NumPy, scikit-learn</p></div>
-      <div><h3>Visualization</h3><p>Tableau, Excel, Power BI (learning)</p></div>
-      <div><h3>Databases &amp; Tools</h3><p>PostgreSQL, Supabase, Git/GitHub, Google Colab</p></div>
-      <div><h3>AI</h3><p>LLM APIs, retrieval-augmented generation (RAG)</p></div>
-    </div>
-  </section>
+                <div class="about-text-col reveal">
+                    <p class="about-p">Final-year <strong>Honours Computer Science student</strong> at Trent University specializing in <strong>Data Analytics</strong>, graduating April 2027. I love working with data and building real products with it, and I'm always learning something new to do it better.</p>
+                    <p class="about-p">I'm the founder and lead engineer of <strong>CalGrid AI</strong>, a live platform that turns small-business spreadsheets into plain-language insights. My latest feature, <strong>"Ask your data"</strong>, answers owners' questions with cited figures from their own reports and scored 13 out of 13 on an evaluation set that includes unanswerable questions and a prompt-injection attack.</p>
+                    <p class="about-p">I completed a data analytics externship for <strong>Beats by Dre</strong> and an IoT externship with Hydroficient, and I'm currently studying for Microsoft's <strong>Power BI (PL-300)</strong> and <strong>Azure Fundamentals (AZ-900)</strong> certifications.</p>
 
-  <section id="projects" class="wrap">
-    <h2>Projects</h2>
+                    <div class="about-highlights">
+                        <div class="highlight-row">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Trent University · B.Sc. Honours CS, Data Analytics · April 2027</span>
+                        </div>
+                        <div class="highlight-row">
+                            <i class="fas fa-rocket"></i>
+                            <span>Founder &amp; Lead Engineer, CalGrid AI</span>
+                        </div>
+                        <div class="highlight-row">
+                            <i class="fas fa-headphones"></i>
+                            <span>Data Analyst Extern, Beats by Dre</span>
+                        </div>
+                        <div class="highlight-row">
+                            <i class="fas fa-trophy"></i>
+                            <span>Dean's Honour Roll 2024, 2025, 2026</span>
+                        </div>
+                    </div>
+                    <div class="about-actions">
+                        <a href="#contact" class="btn-primary">Let's Connect <i class="fas fa-arrow-right"></i></a>
+                        <a href="Mohammed_Ibrahim_Resume.pdf" download class="btn-ghost"><i class="fas fa-download"></i> Download CV</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <article class="project featured">
-      <img src="images/calgrid-home.jpg" alt="CalGrid AI homepage" loading="lazy">
-      <div>
-        <span class="tag live">Live product · Founder</span>
-        <h3>CalGrid AI</h3>
-        <p class="stack">Next.js · PostgreSQL · Supabase · LLMs · RAG</p>
-        <p>An analytics platform for small businesses without a data analyst. Upload a spreadsheet and get plain-English insights, forecasts and answers to questions about your data.</p>
-        <ul>
-          <li>Live in production at calgridai.com</li>
-          <li>"Ask your data" feature answered 13 of 13 test questions correctly</li>
-        </ul>
-        <p class="links"><a href="https://calgridai.com" target="_blank" rel="noopener">Visit site</a><a href="https://github.com/Bellomk77/calgrid-ai" target="_blank" rel="noopener">Repo</a></p>
-      </div>
-    </article>
+    <!-- ═══ SKILLS ═══ -->
+    <section id="skills" class="section section-alt">
+        <div class="container">
+            <div class="section-label-wrap centered reveal">
+                <span class="section-label">Technical Arsenal</span>
+            </div>
+            <h2 class="section-title centered reveal">Skills &amp; <span class="gradient-text">Tools</span></h2>
 
-    <div class="grid">
-      <article class="project">
-        <span class="tag">Externship · Extern</span>
-        <h3>Beats by Dre Review Analysis</h3>
-        <p class="stack">Python · pandas · NumPy · Google Colab</p>
-        <p>Compared Beats Studio Buds against four competing earbuds using customer reviews, and presented recommendations to a CEO and marketing audience.</p>
-        <ul>
-          <li>Cleaned 513 reviews across 5 products</li>
-          <li>Beats rated 4.43 stars, 3rd behind two cheaper products</li>
-          <li>Fit appeared in 43% of negative reviews vs 18% of positive ones</li>
-        </ul>
-      </article>
+            <div class="skills-grid">
+                <div class="skill-cat reveal">
+                    <div class="skill-cat-icon teal"><i class="fas fa-database"></i></div>
+                    <h3>Data &amp; Analytics</h3>
+                    <div class="skill-tags">
+                        <span class="tag teal-tag">SQL</span>
+                        <span class="tag teal-tag">Python</span>
+                        <span class="tag teal-tag">Pandas</span>
+                        <span class="tag teal-tag">NumPy</span>
+                        <span class="tag">Scikit-learn</span>
+                        <span class="tag">PostgreSQL</span>
+                        <span class="tag">Tableau</span>
+                        <span class="tag">Excel</span>
+                    </div>
+                </div>
+                <div class="skill-cat reveal">
+                    <div class="skill-cat-icon purple"><i class="fas fa-brain"></i></div>
+                    <h3>AI</h3>
+                    <div class="skill-tags">
+                        <span class="tag purple-tag">LLM APIs</span>
+                        <span class="tag purple-tag">RAG</span>
+                        <span class="tag">Prompt Engineering</span>
+                    </div>
+                </div>
+                <div class="skill-cat reveal">
+                    <div class="skill-cat-icon gold"><i class="fas fa-code"></i></div>
+                    <h3>Building</h3>
+                    <div class="skill-tags">
+                        <span class="tag gold-tag">JavaScript</span>
+                        <span class="tag gold-tag">Next.js</span>
+                        <span class="tag">React</span>
+                        <span class="tag">Supabase</span>
+                        <span class="tag">HTML / CSS</span>
+                        <span class="tag">Git &amp; GitHub</span>
+                    </div>
+                </div>
+                <div class="skill-cat wide reveal">
+                    <div class="skill-cat-icon"><i class="fas fa-seedling"></i></div>
+                    <h3>Currently Learning</h3>
+                    <div class="skill-tags">
+                        <span class="tag">Power BI (PL-300)</span>
+                        <span class="tag">Microsoft Azure Fundamentals (AZ-900)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      <article class="project">
-        <span class="tag">Tableau Public</span>
-        <h3>Sales Performance Dashboard</h3>
-        <p class="stack">Tableau · Data Visualization</p>
-        <p>Cleaned 10,000+ retail sales records and built an interactive dashboard tracking sales, profit margin and category KPIs by region.</p>
-        <ul>
-          <li>$2.29M sales and $286K profit tracked</li>
-          <li>Technology identified as the top-performing segment</li>
-        </ul>
-        <p class="links"><a href="https://public.tableau.com/app/profile/mohammed.bello.ibrahim/viz/SalesPerformanceDashboardSuperstore2025/SalesPerformanceDashboard" target="_blank" rel="noopener">Live dashboard</a></p>
-      </article>
+    <!-- ═══ EXPERIENCE ═══ -->
+    <section id="experience" class="section">
+        <div class="container">
+            <div class="section-label-wrap reveal">
+                <span class="section-label">Career Journey</span>
+            </div>
+            <h2 class="section-title reveal">Work <span class="gradient-text">Experience</span></h2>
 
-      <article class="project">
-        <span class="tag">Python · Machine learning</span>
-        <h3>Customer Churn Prediction</h3>
-        <p class="stack">Python · pandas · scikit-learn · XGBoost</p>
-        <p>Explored 7,000+ telecom customer records to find what drives churn, then compared three models and turned the results into retention recommendations.</p>
-        <ul>
-          <li>Best model: logistic regression at 80.7% accuracy</li>
-          <li>3 models compared</li>
-        </ul>
-      </article>
+            <div class="timeline">
 
-      <article class="project">
-        <span class="tag">Innovation Bootcamp 2026</span>
-        <h3>Greener Space Planner</h3>
-        <p class="stack">JavaScript · HTML · CSS</p>
-        <p>A web app that helps community organizations plan a greenhouse. It compares three options against a site's budget, power and water, then builds a layout, harvest calendar and costed shopping list. I built the software prototype for our team's pitch.</p>
-        <p class="links"><a href="https://bellomk77.github.io/greener-space-planner/" target="_blank" rel="noopener">Live demo</a><a href="https://github.com/Bellomk77/greener-space-planner" target="_blank" rel="noopener">Repo</a></p>
-      </article>
+                <div class="tl-item reveal">
+                    <div class="tl-connector">
+                        <div class="tl-dot current"></div>
+                        <div class="tl-line"></div>
+                    </div>
+                    <div class="tl-card">
+                        <div class="tl-card-top">
+                            <div class="tl-company-wrap">
+                                <div class="tl-company-icon"><i class="fas fa-rocket"></i></div>
+                                <div>
+                                    <h3 class="tl-role">Founder &amp; Lead Engineer, CalGrid AI</h3>
+                                    <span class="tl-company"><a href="https://calgridai.com" target="_blank" rel="noopener">calgridai.com</a> &middot; Peterborough, ON</span>
+                                </div>
+                            </div>
+                            <span class="tl-badge-current">Current</span>
+                        </div>
+                        <div class="tl-meta">
+                            <span class="tl-date"><i class="fas fa-calendar-alt"></i> Apr 2026 - Present</span>
+                            <span class="tl-type">AI Analytics Platform</span>
+                        </div>
+                        <ul class="tl-bullets">
+                            <li>Built the data pipeline behind a live analytics platform: client spreadsheets and Google Sheets come in through API connectors, are validated, and load into PostgreSQL for reporting</li>
+                            <li>Shipped an "Ask your data" RAG feature (pgvector, embeddings, cited answers) that scored 13 out of 13 on an evaluation set including unanswerable and prompt-injection questions, monitored in Langfuse</li>
+                            <li>Ran discovery interviews with small-business owners and lead engineering with a contributor, setting review standards so every change is checked before it goes live</li>
+                        </ul>
+                    </div>
+                </div>
 
-      <article class="project">
-        <span class="tag">HackTrent 2026 · Team</span>
-        <h3>Meter Check</h3>
-        <p class="stack">Web app</p>
-        <p>A website that helps drivers check whether a parking payment code is real before they pay. Built with my team at HackTrent 2026, where I presented the coding side of the platform.</p>
-        <p class="links"><a href="https://metercheck.ca" target="_blank" rel="noopener">Visit site</a></p>
-      </article>
+                <div class="tl-item reveal">
+                    <div class="tl-connector">
+                        <div class="tl-dot"></div>
+                        <div class="tl-line"></div>
+                    </div>
+                    <div class="tl-card">
+                        <div class="tl-card-top">
+                            <div class="tl-company-wrap">
+                                <div class="tl-company-icon"><i class="fas fa-shield-halved"></i></div>
+                                <div>
+                                    <h3 class="tl-role">IoT Extern, Hydroficient</h3>
+                                    <span class="tl-company">Hydroficient &middot; Extern &middot; Remote</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tl-meta">
+                            <span class="tl-date"><i class="fas fa-calendar-alt"></i> Aug 2026 - Oct 2026</span>
+                            <span class="tl-type">Real-Time Sensor Data</span>
+                        </div>
+                        <ul class="tl-bullets">
+                            <li>Processed real-time sensor telemetry in Python and built a live monitoring dashboard that handled 100 messages per second with zero errors</li>
+                        </ul>
+                    </div>
+                </div>
 
-      <article class="project">
-        <span class="tag">Live app · Contributor</span>
-        <h3>Blitz Speed Dating</h3>
-        <p class="stack">Web app</p>
-        <p>A real-time speed-dating app. I contribute to development alongside the founding team.</p>
-        <p class="links"><a href="https://blitz-speed-dating.com" target="_blank" rel="noopener">Visit app</a></p>
-      </article>
-    </div>
-  </section>
+                <div class="tl-item reveal">
+                    <div class="tl-connector">
+                        <div class="tl-dot"></div>
+                    </div>
+                    <div class="tl-card">
+                        <div class="tl-card-top">
+                            <div class="tl-company-wrap">
+                                <div class="tl-company-icon"><i class="fas fa-headphones"></i></div>
+                                <div>
+                                    <h3 class="tl-role">Data Analyst Extern, Beats by Dre</h3>
+                                    <span class="tl-company">Extern &middot; Remote</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tl-meta">
+                            <span class="tl-date"><i class="fas fa-calendar-alt"></i> May 2026 - Aug 2026</span>
+                            <span class="tl-type">Qualitative &amp; Quantitative Insights</span>
+                        </div>
+                        <ul class="tl-bullets">
+                            <li>Cleaned and validated a 4,990-row customer review dataset in Python (Pandas, NumPy), producing the analysis-ready dataset behind a five-product competitive study</li>
+                            <li>Benchmarked Beats against four competitors, surfacing product fit as the key driver of negative sentiment and reframing it as a conversion gap, not a quality gap</li>
+                            <li>Delivered a dashboard and executive presentation with three prioritized recommendations for marketing stakeholders</li>
+                        </ul>
+                    </div>
+                </div>
 
-  <section id="contact" class="wrap">
-    <h2>Contact</h2>
-    <p>Open to 2027 new grad roles in data analytics, business analytics and AI, starting May 2027. Email is the best way to reach me.</p>
-    <p class="links big">
-      <a href="mailto:mohammedibrahim@trentu.ca">Email</a>
-      <a href="https://www.linkedin.com/in/mohammed-bello-ibrahim-7521b62a2" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://github.com/Bellomk77" target="_blank" rel="noopener">GitHub</a>
-      <a href="Mohammed_Ibrahim_Resume.pdf" download>Resume</a>
-    </p>
-  </section>
+            </div>
 
-</main>
+            <!-- Work History -->
+            <div class="sub-section-header reveal">
+                <span class="section-label">Earlier Roles</span>
+                <h3 class="sub-section-title">Work <span class="gradient-text">History</span></h3>
+            </div>
+            <div class="volunteer-grid">
+                <div class="volunteer-card reveal">
+                    <div class="vol-icon"><i class="fas fa-building"></i></div>
+                    <h4>Facilities Assistant</h4>
+                    <span class="vol-org">Student Housing, Trent University &middot; Apr 2025 - Present</span>
+                </div>
+                <div class="volunteer-card reveal">
+                    <div class="vol-icon"><i class="fas fa-headset"></i></div>
+                    <h4>Service Centre Assistant</h4>
+                    <span class="vol-org">Student Housing, Trent University &middot; Oct 2024 - Present</span>
+                    <p>First point of contact for residents, managing service requests in a work-order system from intake to closure. Named 2026 Team Player of the Year.</p>
+                </div>
+            </div>
 
-<footer class="wrap footer">Built and maintained by Mohammed Bello Ibrahim · Peterborough, ON</footer>
+                </div>
+    </section>
 
+    <!-- ═══ PROJECTS ═══ -->
+    <section id="projects" class="section section-alt">
+        <div class="container">
+            <div class="section-label-wrap centered reveal">
+                <span class="section-label">Featured Work</span>
+            </div>
+            <h2 class="section-title centered reveal">My <span class="gradient-text">Projects</span></h2>
+
+            <div class="projects-grid">
+
+                <div class="project-card flagship reveal">
+                    <div class="project-card-inner">
+                        <div class="project-top">
+                            <div class="project-icon-wrap ml-color">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-type-badge">Live Product</span>
+                                <span class="project-date">Apr 2026 - Present</span>
+                            </div>
+                        </div>
+                        <h3 class="project-title">CalGrid AI</h3>
+                        <p class="project-desc">An AI data analyst for small businesses: upload a spreadsheet and get plain-English insights, forecasts, and shareable reports. Its newest feature, <strong>"Ask your data"</strong>, uses retrieval-augmented generation to answer questions across every saved report with cited figures, measured by an evaluation set that includes unanswerable questions and a prompt-injection attack, and traced in production for latency and cost.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-val">13/13</span>
+                                <span class="metric-label">Eval Accuracy</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">100%</span>
+                                <span class="metric-label">Grounded Answers</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">Live</span>
+                                <span class="metric-label">In Production</span>
+                            </div>
+                        </div>
+                        <div class="project-tags">
+                            <span>RAG</span>
+                            <span>pgvector</span>
+                            <span>LLM Evaluation</span>
+                            <span>Langfuse</span>
+                            <span>Next.js</span>
+                            <span>PostgreSQL</span>
+                            <span>Supabase</span>
+                            <span>Stripe</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="https://calgridai.com" target="_blank" rel="noopener" class="project-btn">
+                                <i class="fas fa-external-link-alt"></i> Visit CalGrid AI
+                            </a>
+                            <a href="https://github.com/Bellomk77/calgrid-ai" target="_blank" rel="noopener" class="project-btn bi-btn">
+                                <i class="fab fa-github"></i> How It Works
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-card-inner">
+                        <div class="project-top">
+                            <div class="project-icon-wrap bi-color">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-type-badge bi-badge">Business Intelligence</span>
+                                <span class="project-date">Nov - Dec 2025</span>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Sales Performance Dashboard</h3>
+                        <p class="project-desc">Cleaned and aggregated 10,000+ retail sales records, then built an interactive Tableau dashboard tracking sales, profit margin, and category KPIs by region. Identified Technology as the top-performing segment.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-val">$2.29M</span>
+                                <span class="metric-label">Total Sales</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">$286K</span>
+                                <span class="metric-label">Total Profit</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">10K+</span>
+                                <span class="metric-label">Records</span>
+                            </div>
+                        </div>
+                        <div class="project-tags">
+                            <span>Tableau</span>
+                            <span>Data Visualization</span>
+                            <span>KPI Reporting</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="https://public.tableau.com/app/profile/mohammed.bello.ibrahim/viz/SalesPerformanceDashboardSuperstore2025/SalesPerformanceDashboard" target="_blank" rel="noopener" class="project-btn bi-btn">
+                                <i class="fas fa-external-link-alt"></i> View Dashboard
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-card-inner">
+                        <div class="project-top">
+                            <div class="project-icon-wrap ml-color">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-type-badge ">Data &amp; ML</span>
+                                <span class="project-date">Jan - Feb 2026</span>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Customer Churn Prediction</h3>
+                        <p class="project-desc">Exploratory analysis and feature engineering on 7,000+ telecom customer records to find what drives churn, comparing three models and turning feature importance into retention recommendations.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-val">7K+</span>
+                                <span class="metric-label">Records</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">80.7%</span>
+                                <span class="metric-label">Best Accuracy</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">3</span>
+                                <span class="metric-label">Models Compared</span>
+                            </div>
+                        </div>
+                        <div class="project-tags">
+                            <span>Python</span>
+                            <span>Pandas</span>
+                            <span>Scikit-learn</span>
+                            <span>XGBoost</span>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-card-inner">
+                        <div class="project-top">
+                            <div class="project-icon-wrap bi-color">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-type-badge bi-badge">Innovation Bootcamp</span>
+                                <span class="project-date">Oct - Nov 2026</span>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Greener Space Planner</h3>
+                        <p class="project-desc">A web app that helps community organizations plan a greenhouse. It compares three options against a site's budget, power and water, then builds a layout, harvest calendar and costed shopping list. I built the software prototype and demo for our team's pitch.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-val">3</span>
+                                <span class="metric-label">Options Compared</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-val">4</span>
+                                <span class="metric-label">Step Workflow</span>
+                            </div>
+                        </div>
+                        <div class="project-tags">
+                            <span>JavaScript</span>
+                            <span>HTML / CSS</span>
+                            <span>Prototype</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="https://bellomk77.github.io/greener-space-planner/" target="_blank" rel="noopener" class="project-btn ">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Bellomk77/greener-space-planner" target="_blank" rel="noopener" class="project-btn bi-btn">
+                                <i class="fab fa-github"></i> View Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-card-inner">
+                        <div class="project-top">
+                            <div class="project-icon-wrap ml-color">
+                                <i class="fas fa-square-parking"></i>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-type-badge ">HackTrent 2026</span>
+                                <span class="project-date">Nov 2026</span>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Meter Check</h3>
+                        <p class="project-desc">A website that helps drivers check whether a parking payment code is real before they pay. Built with my team at HackTrent 2026, where I presented the coding side of the platform.</p>
+                        <div class="project-tags">
+                            <span>Web App</span>
+                            <span>Team Build</span>
+                            <span>Hackathon</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="https://metercheck.ca" target="_blank" rel="noopener" class="project-btn ">
+                                <i class="fas fa-external-link-alt"></i> Visit Site
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-card-inner">
+                        <div class="project-top">
+                            <div class="project-icon-wrap ml-color">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-type-badge ">Live App</span>
+                                <span class="project-date">2026</span>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Blitz Speed Dating</h3>
+                        <p class="project-desc">A real-time speed-dating app. I contribute to development alongside the founding team.</p>
+                        <div class="project-tags">
+                            <span>Web App</span>
+                            <span>Real-Time</span>
+                            <span>Team Build</span>
+                        </div>
+                        <div class="project-actions">
+                            <a href="https://blitz-speed-dating.com" target="_blank" rel="noopener" class="project-btn ">
+                                <i class="fas fa-external-link-alt"></i> Visit App
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ EDUCATION ═══ -->
+    <section id="education" class="section">
+        <div class="container">
+            <div class="section-label-wrap reveal">
+                <span class="section-label">Academic Background</span>
+            </div>
+            <h2 class="section-title reveal"><span class="gradient-text">Education</span> &amp; Awards</h2>
+
+            <div class="edu-grid">
+                <div class="edu-card featured reveal">
+                    <div class="edu-icon-wrap"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="edu-body">
+                        <h3>Bachelor of Science (Honours)</h3>
+                        <p class="edu-major">Computer Science, Data Analytics Specialization</p>
+                        <p class="edu-school"><i class="fas fa-university"></i> Trent University &middot; Peterborough, ON</p>
+                        <p class="edu-dates">Completing April 2027</p>
+                        <div class="edu-chips">
+                            <span class="edu-chip"><i class="fas fa-star"></i> GPA: 3.7 / 4.0</span>
+                            <span class="edu-chip"><i class="fas fa-award"></i> Dean's Honour Roll 2024, 2025, 2026</span>
+                        </div>
+                        <p class="edu-dates" style="margin-top: 1rem;"><strong style="color: var(--text-2);">Relevant Courses:</strong> Data Mining · Database Management Systems · Data Structures &amp; Algorithms · Artificial Intelligence</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="awards-wrap">
+                <div class="sub-section-header reveal" style="margin-top: 3.5rem;">
+                    <span class="section-label">In Progress</span>
+                    <h3 class="sub-section-title">Certi<span class="gradient-text">fications</span></h3>
+                </div>
+                <div class="awards-grid">
+                    <div class="award-card reveal">
+                        <div class="award-icon"><i class="fab fa-microsoft"></i></div>
+                        <h4>Microsoft Azure Fundamentals (AZ-900)</h4>
+                        <span class="award-source">In progress &middot; Exam December 2026</span>
+                    </div>
+                    <div class="award-card reveal">
+                        <div class="award-icon"><i class="fas fa-chart-bar"></i></div>
+                        <h4>Microsoft Power BI Data Analyst (PL-300)</h4>
+                        <span class="award-source">In progress &middot; Exam January 2027</span>
+                    </div>
+                </div>
+
+                <div class="sub-section-header reveal" style="margin-top: 3.5rem;">
+                    <span class="section-label">Recognition</span>
+                    <h3 class="sub-section-title">Honors <span class="gradient-text">&amp; Awards</span></h3>
+                </div>
+                <div class="awards-grid">
+                    <div class="award-card reveal">
+                        <div class="award-icon"><i class="fas fa-trophy"></i></div>
+                        <h4>Dean's Honour Roll 2024, 2025 &amp; 2026</h4>
+                        <span class="award-source">Trent University</span>
+                        <p>Recognized three years in a row for academic achievement.</p>
+                    </div>
+                    <div class="award-card reveal">
+                        <div class="award-icon"><i class="fas fa-users"></i></div>
+                        <h4>Team Player of the Year 2026</h4>
+                        <span class="award-source">Trent University Student Housing &middot; Apr 2026</span>
+                        <p>Recognized for exemplifying teamwork, support, and commitment to team development, going above and beyond to advocate for and support fellow teammates.</p>
+                    </div>
+</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ CONTACT ═══ -->
+    <section id="contact" class="section section-alt">
+        <div class="container">
+            <div class="section-label-wrap centered reveal">
+                <span class="section-label">Get In Touch</span>
+            </div>
+            <h2 class="section-title centered reveal">Let's Work <span class="gradient-text">Together</span></h2>
+            <p class="section-subtitle centered reveal">Graduating April 2027 and open to new grad roles in data analytics, business analytics and AI, starting May 2027. I'd love to hear from you.</p>
+
+            <div class="contact-grid">
+                <div class="contact-info reveal">
+                    <div class="contact-item">
+                        <div class="contact-icon-wrap"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <span class="contact-label">Email</span>
+                            <a href="mailto:mohammedibrahim@trentu.ca">mohammedibrahim@trentu.ca</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon-wrap"><i class="fas fa-phone"></i></div>
+                        <div>
+                            <span class="contact-label">Phone</span>
+                            <a href="tel:+13658339551">(365) 833-9551</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon-wrap linkedin"><i class="fab fa-linkedin-in"></i></div>
+                        <div>
+                            <span class="contact-label">LinkedIn</span>
+                            <a href="https://www.linkedin.com/in/mohammed-bello-ibrahim-7521b62a2" target="_blank" rel="noopener">Mohammed Bello Ibrahim</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon-wrap github"><i class="fab fa-github"></i></div>
+                        <div>
+                            <span class="contact-label">GitHub</span>
+                            <a href="https://github.com/Bellomk77" target="_blank" rel="noopener">Bellomk77</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon-wrap"><i class="fas fa-globe"></i></div>
+                        <div>
+                            <span class="contact-label">CalGrid AI</span>
+                            <a href="https://calgridai.com" target="_blank" rel="noopener">calgridai.com</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon-wrap location"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <span class="contact-label">Location</span>
+                            <span>Peterborough, ON &middot; relocating to Toronto, May 2027</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon-wrap status"><i class="fas fa-briefcase"></i></div>
+                        <div>
+                            <span class="contact-label">Status</span>
+                            <span class="status-pill"><span class="status-dot"></span>Open to New Grad Roles &middot; May 2027</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="contact-form reveal" id="contactForm" action="https://formsubmit.co/ajax/mohammedibrahim@trentu.ca" method="POST">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cname">Full Name</label>
+                            <input type="text" id="cname" name="name" placeholder="Your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cemail">Email</label>
+                            <input type="email" id="cemail" name="email" placeholder="your@email.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="csubject">Subject</label>
+                        <input type="text" id="csubject" name="_subject" placeholder="New grad role, collaboration...">
+                    </div>
+                    <div class="form-group">
+                        <label for="cmessage">Message</label>
+                        <textarea id="cmessage" name="message" rows="5" placeholder="Tell me about the opportunity or how I can help..." required></textarea>
+                    </div>
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+                    <button type="submit" class="btn-primary full-w" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <span class="footer-logo">MBI</span>
+                    <p class="footer-name">Mohammed Bello Ibrahim</p>
+                    <p class="footer-tagline">Data Analytics &middot; Business Analytics &middot; AI</p>
+                </div>
+                <nav class="footer-nav">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#experience">Experience</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+                <div class="footer-socials">
+                    <a href="https://www.linkedin.com/in/mohammed-bello-ibrahim-7521b62a2" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="mailto:mohammedibrahim@trentu.ca"><i class="fas fa-envelope"></i></a>
+                    <a href="https://github.com/Bellomk77" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+                    <a href="https://calgridai.com" target="_blank" rel="noopener"><i class="fas fa-globe"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Mohammed Bello Ibrahim. All Rights Reserved.</p>
+                <a href="#home" class="back-to-top"><i class="fas fa-chevron-up"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/portfolio.js"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
